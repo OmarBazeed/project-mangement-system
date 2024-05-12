@@ -14,67 +14,67 @@ import TaskList from "./Modules/TasksModule/components/TaskList/TaskList";
 import UsersList from "./Modules/UsersModule/components/UsersList/UsersList";
 
 function App() {
-  const routes = createBrowserRouter([
-    {
-      path: "/",
-      element: <AuthLayout />,
-      errorElement: <Notfound />,
-      children: [
-        {
-          index: true,
-          element: <Login />,
-        },
-        {
-          path: "login",
-          element: <Login />,
-        },
-        {
-          path: "forget-pass",
-          element: <ForgetPass />,
-        },
-        {
-          path: "reset-pass",
-          element: <ResetPass />,
-        },
-        {
-          path: "register",
-          element: <Register />,
-        },
-        {
-          path: "verify-account",
-          element: <VerifyAccount />,
-        },
-      ],
-    },
-    {
-      path: "dashboard",
-      element: <MasterLayout />,
-      errorElement: <Notfound />,
-      children: [
-        {
-          index: true,
-          element: <Dashboard />,
-        },
-        {
-          path: "projects",
-          element: <ProjectList />,
-        },
-        {
-          path: "tasks",
-          element: <TaskList />,
-        },
-        {
-          path: "users",
-          element: <UsersList />,
-        },
-      ],
-    },
-  ]);
-  return (
-    <>
-      <RouterProvider router={routes} />
-    </>
-  );
+	const routes = createBrowserRouter([
+		{
+			path: "/",
+			element: <AuthLayout />,
+			errorElement: <Notfound />,
+			children: [
+				{
+					index: true,
+					element: <Login />,
+				},
+				{
+					path: "login",
+					element: <Login />,
+				},
+				{
+					path: "forget-pass",
+					element: <ForgetPass />,
+				},
+				{
+					path: "reset-pass",
+					element: <ResetPass />,
+				},
+				{
+					path: "register",
+					element: <Register />,
+				},
+				{
+					path: "verify-account",
+					element: <VerifyAccount />,
+				},
+			],
+		},
+		{
+			path: "dashboard",
+			element: <MasterLayout />,
+			errorElement: <Notfound />,
+			children: [
+				{
+					index: true,
+					element: <Dashboard />,
+				},
+				{
+					path: "projects",
+					element: <ProjectList />,
+				},
+				{
+					path: "tasks",
+					element: <TaskList />,
+				},
+				{
+					path: "users",
+					element: <UsersList />,
+				},
+			],
+		},
+	]);
+	return (
+		<>
+			<RouterProvider router={routes} />
+		</>
+	);
 }
 
 export default App;

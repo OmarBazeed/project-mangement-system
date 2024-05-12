@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function NavBar() {
-  return <>NavBar</>;
+  return <>i am a navbar created by Omar Bazeed</>;
 }

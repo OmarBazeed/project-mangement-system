@@ -3,8 +3,20 @@
 .bg-reg {
   background-image: url("/src/assets/images/bg-register.svg");
 }
-.bg-login{
+.bg-login {
   background-image: url("/src/assets/images/bg-login.svg");
+}
+.bg-forget {
+  background-image: url("/src/assets/images/bg-forget.svg");
+}
+.bg-change {
+  background-image: url("/src/assets/images/bg-change.svg");
+}
+.bg-reset {
+  background-image: url("/src/assets/images/bg-reset.svg");
+}
+.bg-verify {
+  background-image: url("/src/assets/images/bg-verify.svg");
 }
 .form {
   background-color: rgba(49, 89, 81, 0.9);

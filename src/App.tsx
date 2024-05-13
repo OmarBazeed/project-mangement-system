@@ -74,9 +74,9 @@ function App() {
   ]);
   return (
     <>
-         <BaceUrlContext>
-             <RouterProvider router={routes} />
-        </BaceUrlContext>
+      <BaceUrlContext>
+        <RouterProvider router={routes} />
+      </BaceUrlContext>
     </>
   );
 }

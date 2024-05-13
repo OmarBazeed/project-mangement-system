@@ -12,6 +12,8 @@ import Dashboard from "./Modules/DashboardModule/components/Dashboard/Dashboard"
 import ProjectList from "./Modules/ProjectModule/components/ProjectList/ProjectList";
 import TaskList from "./Modules/TasksModule/components/TaskList/TaskList";
 import UsersList from "./Modules/UsersModule/components/UsersList/UsersList";
+import BaceUrlContext from "./Context/BaceUrlContext";
+import ProtectedRoute from "./Modules/SharedModule/components/ProtectedRoute/ProtectedRoute";
 
 function App() {
   const routes = createBrowserRouter([
@@ -72,7 +74,9 @@ function App() {
   ]);
   return (
     <>
-      <RouterProvider router={routes} />
+         <BaceUrlContext>
+             <RouterProvider router={routes} />
+        </BaceUrlContext>
     </>
   );
 }

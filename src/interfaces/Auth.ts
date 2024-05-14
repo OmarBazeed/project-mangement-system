@@ -3,7 +3,7 @@ export interface FormData {
 	password: string;
 	message?: string;
 	confirmPassword?: string;
-	seed?: string;
+	code?: string;
 }
 export interface ToastContextType {
 	showToast: (message: string) => void;

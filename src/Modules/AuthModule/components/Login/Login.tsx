@@ -6,6 +6,10 @@ import axios from "axios";
 import { FormData } from "../../../../interfaces/Auth";
 import { useUser } from "../../../../Context/AuthContext";
 import { useToast } from "../../../../Context/ToastContext";
+import {
+	emailValidation,
+	passwordValidation,
+} from "../../../../utils/InputsValidation";
 export default function Login() {
 	// All states here on the top
 	const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -71,13 +75,7 @@ export default function Login() {
 							id="exampleFormControlInput1"
 							type="email"
 							className="form-control px-2"
-							{...register("email", {
-								required: "Email Is Required",
-								pattern: {
-									value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-									message: "email is not valid ",
-								},
-							})}
+							{...register("email", emailValidation)}
 							placeholder="Enter Your Email"
 						/>
 						<div className="border_bottom"></div>
@@ -94,14 +92,7 @@ export default function Login() {
 							type={showPassword ? "text" : "password"}
 							className="form-control px-2"
 							placeholder="Enter Your Password"
-							{...register("password", {
-								required: "Password Is Required ",
-								pattern: {
-									value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/,
-									message:
-										"Password must contain at least 6 characters, including upper and lowercase letters, and numbers",
-								},
-							})}
+							{...register("password", passwordValidation)}
 						/>
 						<button
 							className="btn btn-outline-secondary for-visibilty-password-button"

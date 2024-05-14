@@ -5,6 +5,10 @@ import { useState } from "react";
 import axios from "axios";
 import { useToast } from "../../../../Context/ToastContext";
 import { FormData } from "../../../../interfaces/Auth";
+import {
+	OTPValidation,
+	emailValidation,
+} from "../../../../utils/InputsValidation";
 export default function VerifyAccount() {
 	const [spinner, setSpinner] = useState<boolean>(false);
 	const { showSuccessToast, showErrorToast } = useToast();
@@ -57,13 +61,7 @@ export default function VerifyAccount() {
 								id="exampleFormControlInput1"
 								type="email"
 								className="form-control m-1 px-2"
-								{...register("email", {
-									required: "Email Is Required",
-									pattern: {
-										value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-										message: "Email is not valid ",
-									},
-								})}
+								{...register("email", emailValidation)}
 								placeholder="Enter Your Email"
 							/>
 							<div className="border_bottom"></div>
@@ -82,13 +80,7 @@ export default function VerifyAccount() {
 								id="exampleFormControlInput1"
 								type="text"
 								className="form-control m-1 px-2"
-								{...register("code", {
-									required: "Code Is Required",
-									minLength: {
-										value: 4,
-										message: "Code must be 4 characters ",
-									},
-								})}
+								{...register("code", OTPValidation)}
 								placeholder="Enter Verification"
 							/>
 							<div className="border_bottom"></div>

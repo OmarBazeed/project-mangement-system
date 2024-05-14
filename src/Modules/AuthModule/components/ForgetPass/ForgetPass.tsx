@@ -6,6 +6,7 @@ import axios from "axios";
 import { useToast } from "../../../../Context/ToastContext";
 import { FormData } from "../../../../interfaces/Auth";
 import { BaseUrlContext } from "../../../../Context/BaseUrlContext";
+import { emailValidation } from "../../../../utils/InputsValidation";
 
 export default function ForgetPass() {
 	const baseUrl: string = useContext(BaseUrlContext);
@@ -61,13 +62,7 @@ export default function ForgetPass() {
 								id="exampleFormControlInput1"
 								type="email"
 								className="form-control m-1 px-2"
-								{...register("email", {
-									required: "Email Is Required",
-									pattern: {
-										value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-										message: "Email is not valid ",
-									},
-								})}
+								{...register("email", emailValidation)}
 								placeholder="Enter Your Email"
 							/>
 							<div className="border_bottom"></div>

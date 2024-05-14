@@ -40,7 +40,6 @@
   text-align: left;
   position: relative;
 }
-
 .form-title p {
   position: absolute;
   bottom: 20%;
@@ -61,12 +60,10 @@
   top: 82%;
   right: 97%;
 }
-
 .input-container {
   position: relative;
   margin: 35px 0;
 }
-
 .input-field {
   font-family: Inter;
   font-size: 16px;
@@ -82,11 +79,9 @@
   background-color: transparent;
   color: #fff;
 }
-
 .input-field::placeholder {
   color: #ccc;
 }
-
 .input-label {
   position: absolute;
   top: 0;
@@ -96,7 +91,6 @@
   pointer-events: none;
   transition: all 0.3s ease;
 }
-
 .input-highlight {
   position: absolute;
   bottom: 0;
@@ -221,4 +215,32 @@
   color: #ef9b28;
   top: 10%;
   left: 90%;
+}
+.dash-layout {
+  height: 100vh;
+  padding-top: 83px;
+}
+.user-img {
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+.user-data {
+  position: relative;
+}
+.user-data::before {
+  position: absolute;
+  content: "";
+  right: 102%;
+  width: 1px;
+  height: 80%;
+  background: rgb(154, 154, 154, 0.7);
+}
+
+@media screen and (max-width: 576px) {
+  .navbar-brand {
+    margin-left: 40px;
+  }
 }

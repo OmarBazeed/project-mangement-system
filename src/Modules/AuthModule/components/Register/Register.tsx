@@ -399,5 +399,3 @@ export default function Register() {
     </>
   );
 }
-
-// ${errors.recipeImage && "border-danger " }

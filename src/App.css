@@ -1,4 +1,4 @@
-* {
+a {
   text-decoration: none !important;
 }
 
@@ -6,6 +6,10 @@
   background-image: url("./assets/images/bg1.png");
   background-position: center center;
   background-size: cover;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
 }
 

@@ -10,13 +10,13 @@ import {
 	emailValidation,
 } from "../../../../utils/InputsValidation";
 export default function VerifyAccount() {
-	const [spinner, setSpinner] = useState<boolean>(false);
+	const [spinner, setSpinner] = useState(false);
 	const { showSuccessToast, showErrorToast } = useToast();
 
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, isSubmitting },
 	} = useForm<FormData>();
 	const navigate = useNavigate();
 
@@ -28,6 +28,7 @@ export default function VerifyAccount() {
 				`https://upskilling-egypt.com:3003/api/v1/Users/verify`,
 				data
 			);
+			console.log(response);
 			showSuccessToast("Account verified successfully");
 			navigate("/login");
 		} catch (error) {
@@ -92,10 +93,11 @@ export default function VerifyAccount() {
 						)}
 
 						<button
+							disabled={isSubmitting}
 							type="submit"
 							className="w-100 btn color-button rounded-5 mt-5"
 						>
-							{spinner ? (
+							{spinner && isSubmitting ? (
 								<div className="spinner-border" role="status"></div>
 							) : (
 								"Verify"

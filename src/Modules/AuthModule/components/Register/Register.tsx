@@ -1,15 +1,15 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { ErrorMessage } from "@hookform/error-message";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import Images from "../../../ImageModule/components/Images/Images";
-
-import BaceUrlContext from "../../../../Context/BaceUrlContext";
+// import Images from "../../../ImageModule/components/Images/Images";
+import { BaseUrlContext } from "../../../../Context/BaseUrlContext";
 
 export default function Register() {
+	const baseUrl: string = useContext(BaseUrlContext);
 	// instance from use navigate
 	const navigate = useNavigate();
 	// image input state
@@ -45,7 +45,7 @@ export default function Register() {
 		const registerFormData = appendToFormData(data);
 		try {
 			const response = await axios.post(
-				`https://upskilling-egypt.com:3003/api/v1/Users/Register`,
+				`${baseUrl}/Users/Register`,
 				registerFormData
 			);
 			toast.success(response.data.message);

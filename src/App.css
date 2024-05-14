@@ -84,6 +84,7 @@
 
 /* first letter underline */
 .forget-pass::first-letter,
-.login::first-letter {
+.login::first-letter,
+.verify-account::first-letter {
   border-bottom: 3px solid #EF9B28;
 }

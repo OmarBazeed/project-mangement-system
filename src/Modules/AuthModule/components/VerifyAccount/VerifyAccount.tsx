@@ -47,7 +47,7 @@ export default function VerifyAccount() {
 
 				<div className="login-container col-md-5 col-sm-10 rounded-4 px-5 py-5">
 					<p className="text-white m-0">Welcome to PMS</p>
-					<h3 className="color-text mb-4 forget-pass">Verify Account</h3>
+					<h3 className="color-text mb-4 verify-account">Verify Account</h3>
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<div className="form-group">
 							<label className="color-text" htmlFor="exampleFormControlInput1">

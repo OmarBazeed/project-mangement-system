@@ -1,0 +1,89 @@
+* {
+  text-decoration: none !important;
+}
+
+.Auth-container {
+  background-image: url("./assets/images/bg1.png");
+  background-position: center center;
+  background-size: cover;
+  flex-direction: column;
+}
+
+.login-container {
+  /* background-color: rgba(2, 36, 5, 0.705); */
+  background-color: #2d564ecb;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  color: #EF9B28;
+  font-size: 13px;
+}
+
+.for-visibilty-password-container {
+  position: relative;
+
+}
+
+.main-content {
+  background-color: #f5f5f5;
+
+}
+
+.for-visibilty-password-button {
+  position: absolute;
+  top: 40%;
+  right: -8px;
+  border: none !important;
+}
+
+.for-visibilty-password-button:hover {
+  background-color: transparent !important;
+}
+
+/* end style for register section  */
+.form-control {
+  background-color: transparent !important;
+  border: none !important;
+  color: white !important;
+  padding: 0.5rem 0 !important;
+  fill: none;
+  border: none;
+  border-bottom: 1px solid #ffffff;
+}
+
+.form-control::placeholder {
+  color: white !important;
+  padding-left: -10px !important;
+
+}
+
+.form-control::focus {
+  border: none !important;
+  outline: none !important;
+}
+
+.border_bottom {
+  width: 100%;
+  border-bottom: .5px solid rgba(206, 205, 205, 0.507);
+}
+
+/*custom color for button  */
+.color-button {
+  background-color: #EF9B28 !important;
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.color-text {
+  color: #EF9B28;
+}
+
+/* first letter underline */
+.forget-pass::first-letter,
+.login::first-letter {
+  border-bottom: 3px solid #EF9B28;
+}

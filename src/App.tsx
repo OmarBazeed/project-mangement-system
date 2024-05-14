@@ -12,6 +12,7 @@ import Dashboard from "./Modules/DashboardModule/components/Dashboard/Dashboard"
 import ProjectList from "./Modules/ProjectModule/components/ProjectList/ProjectList";
 import TaskList from "./Modules/TasksModule/components/TaskList/TaskList";
 import UsersList from "./Modules/UsersModule/components/UsersList/UsersList";
+import ProtectedRoute from "./Modules/SharedModule/components/ProtectedRoute/ProtectedRoute";
 
 function App() {
 	const routes = createBrowserRouter([
@@ -48,7 +49,11 @@ function App() {
 		},
 		{
 			path: "dashboard",
-			element: <MasterLayout />,
+			element: (
+				<ProtectedRoute>
+					<MasterLayout />
+				</ProtectedRoute>
+			),
 			errorElement: <Notfound />,
 			children: [
 				{

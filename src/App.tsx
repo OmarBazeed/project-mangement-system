@@ -1,6 +1,7 @@
 import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import AuthLayout from "./Modules/SharedModule/components/AuthLayout/AuthLayout";
+import { ToastContainer } from "react-toastify";
 import Notfound from "./Modules/SharedModule/components/Notfound/Notfound";
 import Login from "./Modules/AuthModule/components/Login/Login";
 import ForgetPass from "./Modules/AuthModule/components/ForgetPass/ForgetPass";
@@ -30,11 +31,11 @@ function App() {
 					element: <Login />,
 				},
 				{
-					path: "forget-pass",
+					path: "forget-password",
 					element: <ForgetPass />,
 				},
 				{
-					path: "reset-pass",
+					path: "reset-password",
 					element: <ResetPass />,
 				},
 				{
@@ -77,6 +78,7 @@ function App() {
 	]);
 	return (
 		<>
+			<ToastContainer />
 			<RouterProvider router={routes} />
 		</>
 	);

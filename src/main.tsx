@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 import { AuthContextProvider } from "./Context/AuthContext.tsx";
 import { ToastProvider } from "./Context/ToastContext.tsx";
-import { ToastContainer } from "react-toastify";
 import BaseUrlContextProvider from "./Context/BaseUrlContext.tsx";
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
@@ -18,7 +17,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 					<App />
 				</BaseUrlContextProvider>
 			</ToastProvider>
-			<ToastContainer />
 		</AuthContextProvider>
 	</React.StrictMode>
 );

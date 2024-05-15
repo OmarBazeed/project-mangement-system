@@ -9,7 +9,7 @@
 }
 
 .bg-forget {
-  background-image: url("/src/assets/images/bg-forget.svg");
+  background-image: url("/src/assets/images/bg-forget.png");
 }
 
 .bg-change {
@@ -52,25 +52,12 @@
 }
 
 .form-title p {
-  position: absolute;
-  bottom: 20%;
-  font-family: Inter;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 46px;
-  letter-spacing: -0.4000000059604645px;
+  margin: 0;
   text-align: left;
-  color: #fff;
 }
 
-.form-title h3::after {
-  content: "";
-  position: absolute;
-  background: #ef9b28;
-  width: 16px;
-  height: 3.57px;
-  top: 82%;
-  right: 97%;
+.form-title h3::first-letter {
+  border-bottom: 4px solid #ef9b28;
 }
 
 .input-container {

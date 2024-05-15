@@ -85,7 +85,7 @@ export default function Register() {
 								<div className="register w-100 ">
 									<img src={Images.authLogo} alt="" />
 									{/* form */}
-									<div className="form  rounded-4 py-3">
+									<div className="form rounded-4 py-3">
 										<div className="container-auth-form py-4">
 											<div className="form-title position-relative ">
 												<p>welcome to PMS</p>

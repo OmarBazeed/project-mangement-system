@@ -6,6 +6,10 @@ import axios from "axios";
 import { FormData } from "../../../../interfaces/Auth";
 import { useToast } from "../../../../Context/ToastContext";
 import Images from "../../../ImageModule/components/Images/Images";
+import {
+	emailValidation,
+	passwordValidation,
+} from "../../../../utils/InputsValidation";
 export default function Login() {
 	// All states here on the top
 	const [showPassword, setShowPassword] = useState(false);
@@ -73,7 +77,7 @@ export default function Login() {
 	return (
 		<>
 			<section className="">
-				<div className="bg-reset text-white d-flex  align-items-center  ">
+				<div className="bg-reset vh-100 text-white d-flex  align-items-center  ">
 					<div className="container  d-flex justify-content-center ">
 						<div className="row my-5 w-100">
 							<div className="col-md-6 mx-auto text-center ">
@@ -99,14 +103,7 @@ export default function Login() {
 																errors.email && "border-danger "
 															}`}
 															type="text"
-															{...register("email", {
-																required: "email is required",
-																pattern: {
-																	value:
-																		/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-																	message: "email is not valid ",
-																},
-															})}
+															{...register("email", emailValidation)}
 														/>
 														<label
 															htmlFor="input-field"
@@ -130,15 +127,7 @@ export default function Login() {
 																	errors.password && "border-danger "
 																}`}
 																type={showPassword ? "text" : "password"}
-																{...register("password", {
-																	required: "password is required ",
-																	pattern: {
-																		value:
-																			/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
-																		message:
-																			"Password must contain at least 8 characters, including upper and lowercase letters, and numbers",
-																	},
-																})}
+																{...register("password", passwordValidation)}
 															/>
 															<label
 																htmlFor="input-field"
@@ -206,7 +195,7 @@ export default function Login() {
 																errors.email && "border-danger "
 															}`}
 															type="text"
-															{...register("seed", {
+															{...register("code", {
 																required: "OTP required",
 															})}
 														/>
@@ -218,9 +207,9 @@ export default function Login() {
 														</label>
 														<span className="input-highlight"></span>
 													</div>
-													{errors.seed && (
+													{errors.code && (
 														<p className="text-start text-danger ps-3">
-															{errors.seed.message}
+															{errors.code.message}
 														</p>
 													)}
 

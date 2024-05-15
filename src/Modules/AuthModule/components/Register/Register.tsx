@@ -104,9 +104,9 @@ export default function Register() {
 																	type="file"
 																	accept="image/*"
 																	placeholder="Recipe Price"
-																	// {...register("profileImage", {
-																	//   // required: "Image is required",
-																	// })}
+																	{...register("profileImage", {
+																		required: "Image is required",
+																	})}
 																	onChange={({ target: { files } }) => {
 																		if (files) {
 																			setImage(URL.createObjectURL(files[0]));
@@ -140,6 +140,7 @@ export default function Register() {
 																	)}
 																</span>
 															</div>
+															{/* errors */}
 														</div>
 														{/* col 1 */}
 														<div className="col-md-6 ">
@@ -152,8 +153,7 @@ export default function Register() {
 																		errors.userName && "border-danger"
 																	} `}
 																	type="text"
-																	{...(register("userName"),
-																	userNameValidation)}
+																	{...register("userName", userNameValidation)}
 																/>
 																<label
 																	htmlFor="input-field"
@@ -270,8 +270,10 @@ export default function Register() {
 																			errors.password && "border-danger "
 																		}`}
 																		type={hidePassInInpt ? "password" : "text"}
-																		{...(register("password"),
-																		passwordValidation)}
+																		{...register(
+																			"password",
+																			passwordValidation
+																		)}
 																	/>
 																	<label
 																		htmlFor="input-field"

@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import logo from "../../../../assets/images/PMS 3.png";
 import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import axios from "axios";
@@ -7,11 +6,22 @@ import { useToast } from "../../../../Context/ToastContext";
 import { FormData } from "../../../../interfaces/Auth";
 import { BaseUrlContext } from "../../../../Context/BaseUrlContext";
 import { emailValidation } from "../../../../utils/InputsValidation";
+import Images from "../../../ImageModule/components/Images/Images";
 
 export default function ForgetPass() {
 	const baseUrl: string = useContext(BaseUrlContext);
 	const [spinner, setSpinner] = useState(false);
 	const { showSuccessToast, showErrorToast } = useToast();
+
+	const btnloading = () => {
+		return (
+			<div className="loader">
+				<i>&lt;</i>
+				<span>LOADING</span>
+				<i>/&gt;</i>
+			</div>
+		);
+	};
 
 	const {
 		register,
@@ -45,48 +55,63 @@ export default function ForgetPass() {
 
 	return (
 		<>
-			<div className="container-auth-form bg-forget vh-100 gx-0">
-				<div className="logo col-md-5 text-center">
-					<img src={logo} alt="logo" className="mb-3" />
-				</div>
+			<section className="">
+				<div className="bg-forget vh-100 text-white d-flex  align-items-center  ">
+					<div className="container d-flex justify-content-center ">
+						<div className="row  w-100">
+							<div className="col-md-6 mx-auto text-center ">
+								{/* register */}
+								<div className="login w-100 ">
+									<img className="mb-3" src={Images.authLogo} alt="" />
+									{/* form */}
+									<div className="form  rounded-4 py-5">
+										<div className="container-auth-form pt-4  ">
+											<div className="form-title position-relative ">
+												<p>welcome to PMS</p>
+												<h3 className="text-main">Forget Password</h3>
+											</div>
+											{/* form body */}
+											<div className="form-body mt-3">
+												{/* */}
+												<form onSubmit={handleSubmit(onSubmit)}>
+													{/* email input */}
+													<div className="input-container">
+														<input
+															placeholder="Enter your E-mail"
+															className={`input-field ${
+																errors.email && "border-danger "
+															}`}
+															type="text"
+															{...register("email", emailValidation)}
+														/>
+														<label
+															htmlFor="input-field"
+															className={`input-label `}
+														>
+															E-mail
+														</label>
+														<span className="input-highlight"></span>
+													</div>
+													{errors.email && (
+														<p className="text-start text-danger ps-3">
+															{errors.email.message}
+														</p>
+													)}
 
-				<div className="col-md-5 col-sm-10 rounded-4 px-5 py-5">
-					<p className="text-white m-0">Welcome to PMS</p>
-					<h3 className="color-text mb-4 forget-pass">Forget Password</h3>
-					<form onSubmit={handleSubmit(onSubmit)}>
-						<div className="form-group">
-							<label className="color-text" htmlFor="exampleFormControlInput1">
-								Email
-							</label>
-							<input
-								id="exampleFormControlInput1"
-								type="email"
-								className="form-control m-1 px-2"
-								{...register("email", emailValidation)}
-								placeholder="Enter Your Email"
-							/>
-							<div className="border_bottom"></div>
-						</div>
-						{errors.email && (
-							<div className="alert alert-danger p-2 m-0 ">
-								{errors.email.message}
+													{/* submit button */}
+													<button className="main-btn">
+														{spinner ? btnloading() : "Verify"}
+													</button>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
-						)}
-
-						<button
-							disabled={isSubmitting}
-							type="submit"
-							className="w-100 btn color-button rounded-5 mt-5"
-						>
-							{spinner && isSubmitting ? (
-								<div className="spinner-border" role="status"></div>
-							) : (
-								"Verify"
-							)}
-						</button>
-					</form>
+						</div>
+					</div>
 				</div>
-			</div>
+			</section>
 		</>
 	);
 }

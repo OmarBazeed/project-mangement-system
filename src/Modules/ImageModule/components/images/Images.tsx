@@ -1,5 +1,5 @@
 const Images = {
-	authLogo: require("../../../../assets/images/PMS 3.png"),
+	authLogo: require("../../../../assets/images/PMS3.png"),
 };
 
 export default Images;

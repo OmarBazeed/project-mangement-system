@@ -45,7 +45,7 @@ export default function ForgetPass() {
 
 	return (
 		<>
-			<div className="Auth-container vh-100 gx-0">
+			<div className="Auth-container bg-forget vh-100 gx-0">
 				<div className="logo col-md-5 text-center">
 					<img src={logo} alt="logo" className="mb-3" />
 				</div>

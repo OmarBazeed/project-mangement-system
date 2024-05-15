@@ -7,6 +7,12 @@ import { toast } from "react-toastify";
 
 import Images from "../../../ImageModule/components/Images/Images";
 import { BaseUrlContext } from "../../../../Context/BaseUrlContext";
+import {
+	emailValidation,
+	passwordValidation,
+	phoneNumberValidation,
+	userNameValidation,
+} from "../../../../utils/InputsValidation";
 
 export default function Register() {
 	const baseUrl: string = useContext(BaseUrlContext);
@@ -71,10 +77,10 @@ export default function Register() {
 	return (
 		<>
 			<section className="">
-				<div className="bg-reg vh-100 text-white d-flex align-items-center  ">
-					<div className="container  d-flex justify-content-center ">
-						<div className="row  w-100">
-							<div className="col-md-12 mx-auto text-center ">
+				<div className="bg-reg text-white d-flex align-items-center  ">
+					<div className="container-auth-form d-flex justify-content-center ">
+						<div className="row w-100">
+							<div className="col-md-12 my-5 mx-auto text-center ">
 								{/* register */}
 								<div className="register w-100 ">
 									<img src={Images.authLogo} alt="" />
@@ -146,24 +152,8 @@ export default function Register() {
 																		errors.userName && "border-danger"
 																	} `}
 																	type="text"
-																	{...register("userName", {
-																		required: "User Name is Required",
-																		pattern: {
-																			value: /[A-Za-z]{4,7}[\d]{1}/gm,
-																			message:
-																				"The user name must contain characters and end with numbers without spaces.",
-																		},
-																		maxLength: {
-																			value: 8,
-																			message:
-																				"The user name may not be greater than 8 characters.",
-																		},
-																		minLength: {
-																			value: 4,
-																			message:
-																				"The user name must be at least 4 characters.",
-																		},
-																	})}
+																	{...(register("userName"),
+																	userNameValidation)}
 																/>
 																<label
 																	htmlFor="input-field"
@@ -200,13 +190,10 @@ export default function Register() {
 																		errors.phoneNumber && "border-danger"
 																	}`}
 																	type="text"
-																	{...register("phoneNumber", {
-																		required: "Phone number is required",
-																		pattern: {
-																			value: /^[\d]{1,18}$/gm,
-																			message: "Phone digits only",
-																		},
-																	})}
+																	{...register(
+																		"phoneNumber",
+																		phoneNumberValidation
+																	)}
 																/>
 																<label
 																	htmlFor="input-field"
@@ -258,9 +245,7 @@ export default function Register() {
 																		errors.email && "border-danger "
 																	}`}
 																	type="text"
-																	{...register("email", {
-																		required: "Email is Required",
-																	})}
+																	{...register("email", emailValidation)}
 																/>
 																<label
 																	htmlFor="input-field"
@@ -285,24 +270,8 @@ export default function Register() {
 																			errors.password && "border-danger "
 																		}`}
 																		type={hidePassInInpt ? "password" : "text"}
-																		{...register("password", {
-																			required: "Password is required",
-																			pattern: {
-																				value:
-																					/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* )/,
-																				message:
-																					"Password must contain at least one digit, lowercase letter, uppercase letter, special character",
-																			},
-																			minLength: {
-																				value: 8,
-																				message:
-																					"Minimum length should be 8 characters",
-																			},
-																			maxLength: {
-																				value: 16,
-																				message: "Maximum length exceeded 16",
-																			},
-																		})}
+																		{...(register("password"),
+																		passwordValidation)}
 																	/>
 																	<label
 																		htmlFor="input-field"

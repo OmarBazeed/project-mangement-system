@@ -1,11 +1,11 @@
 /* register style */
 
 .bg-reg {
-  background-image: url("/src/assets/images/bg-register.svg");
+  background-image: url("/src/assets/images/bg-register.png");
 }
 
 .bg-login {
-  background-image: url("/src/assets/images/bg-login.svg");
+  background-image: url("/src/assets/images/bg-login.png");
 }
 
 .bg-forget {

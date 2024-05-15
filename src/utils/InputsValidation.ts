@@ -10,44 +10,42 @@ export const emailValidation = {
 
 export const passwordValidation = {
 	required: "Password is required",
+	pattern: {
+		value: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* )/,
+		message:
+			"Password must contain at least one digit, lowercase letter, uppercase letter, special character",
+	},
 	minLength: {
 		value: 6,
-		message: "Password must be at least 6 characters long",
-	},
-	pattern: {
-		value:
-			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
-		message:
-			"Password must include at least one lowercase letter, one uppercase letter, one number, and one special character",
-	},
-};
-
-export const userNameValidation = {
-	required: "Username is required",
-	minLength: {
-		value: 3,
-		message: "Username must be at least 3 characters",
-	},
-	pattern: {
-		value: /^[a-zA-Z]+[0-9]+$/,
-		message:
-			"Username must contain characters and end with numbers without spaces",
-	},
-};
-
-export const countryValidation = {
-	required: "Country is required",
-	minLength: {
-		value: 3,
-		message: "Country must be at least 3 characters",
+		message: "Minimum length should be 6 characters",
 	},
 	maxLength: {
-		value: 30,
-		message: "Country must not be more than 30 characters",
+		value: 16,
+		message: "Maximum length exceeded 16",
 	},
+};
+
+// export const confirmPasswordVaidation = {
+// 	required: "Confirm Password is required",
+// 	validate: (value: string) =>
+// 		value === watch("password") || "Confirm Password do not match",
+// 	// import watch from react-hook-form
+// };
+
+export const userNameValidation = {
+	required: "User Name is Required",
 	pattern: {
-		value: /^[a-zA-Z\s]+$/,
-		message: "Country is invalid (only letters)",
+		value: /[A-Za-z]{4,7}[\d]{1}/gm,
+		message:
+			"The user name must contain characters and end with numbers without spaces.",
+	},
+	maxLength: {
+		value: 8,
+		message: "The user name may not be greater than 8 characters.",
+	},
+	minLength: {
+		value: 4,
+		message: "The user name must be at least 4 characters.",
 	},
 };
 

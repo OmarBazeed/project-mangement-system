@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-// import Images from "../../../ImageModule/components/Images/Images";
+import Images from "../../../ImageModule/components/Images/Images";
 import { BaseUrlContext } from "../../../../Context/BaseUrlContext";
 
 export default function Register() {
@@ -71,7 +71,7 @@ export default function Register() {
 	return (
 		<>
 			<section className="">
-				<div className="bg-reg vh-100 text-white d-flex  align-items-center  ">
+				<div className="bg-reg vh-100 text-white d-flex align-items-center  ">
 					<div className="container  d-flex justify-content-center ">
 						<div className="row  w-100">
 							<div className="col-md-12 mx-auto text-center ">

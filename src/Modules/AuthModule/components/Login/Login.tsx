@@ -82,7 +82,7 @@ export default function Login() {
                   <img className="mb-3" src={Images.authLogo} alt="" />
                   {/* form */}
                   <div className="form  rounded-4 py-5">
-                    <div className="container-auth-form pt-4  ">
+                    <div className="container-auth-form pt-4">
                       <div className="form-title position-relative ">
                         <p>welcome to PMS</p>
                         <h3 className="text-main">Login</h3>

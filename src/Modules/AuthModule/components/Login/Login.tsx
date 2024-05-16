@@ -8,6 +8,7 @@ import { FormData } from "../../../../interfaces/Auth";
 import { useUser } from "../../../../Context/AuthContext";
 import { useToast } from "../../../../Context/ToastContext";
 import Images from "../../../ImageModule/components/Images/Images";
+import { BaseUrl } from "../../../../utils/Utils";
 export default function Login() {
   // All states here on the top
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -44,10 +45,7 @@ export default function Login() {
     setSpinner(true);
 
     try {
-      const response = await axios.post(
-        "https://upskilling-egypt.com:3003/api/v1/Users/Login",
-        data
-      );
+      const response = await axios.post(`${BaseUrl}/Users/Login`, data);
       localStorage.setItem("adminToken", response?.data?.token);
       showSuccessToast("Login successfully");
       localStorage.setItem("token", response.data.token);

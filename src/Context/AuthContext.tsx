@@ -27,7 +27,7 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [adminData, setAdminData] = useState<DecodedToken | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
-  console.log(userRole);
+  // console.log(userRole);
   const Token = localStorage.getItem("adminToken");
 
   const saveAdminData = () => {

@@ -136,7 +136,7 @@ export default function SideBar() {
                     !toggleIcon
                       ? " bi-text-indent-left"
                       : " bi-text-indent-right"
-                  }   fs-1 `}
+                  }   fs-1 text-theme`}
                 ></i>
               }
             </button>

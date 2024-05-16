@@ -10,7 +10,7 @@ export default function MasterLayout() {
         <div>
           <SideBar />
         </div>
-        <div className="w-100 dash-layout overflow-y-auto bg-success">
+        <div className="w-100 dash-layout overflow-y-auto bg-theme">
           <Outlet />
         </div>
       </div>

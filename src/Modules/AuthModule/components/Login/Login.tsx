@@ -14,7 +14,7 @@ export default function Login() {
   const { showSuccessToast, showErrorToast } = useToast();
 
   const { saveAdminData, adminData } = useUser();
-  console.log(adminData);
+  // console.log(adminData);
   const [spinner, setSpinner] = useState<boolean>(false);
   const {
     register,

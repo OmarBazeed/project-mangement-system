@@ -71,8 +71,8 @@ export default function Register() {
   return (
     <>
       <section className="">
-        <div className="bg-reg vh-100 text-white d-flex  align-items-center  ">
-          <div className="container  d-flex justify-content-center ">
+        <div className="bg-reg   text-white d-flex pb-5 align-items-center  ">
+          <div className="container py-5 d-flex justify-content-center ">
             <div className="row  w-100">
               <div className="col-md-12 mx-auto text-center ">
                 {/* register */}
@@ -382,7 +382,7 @@ export default function Register() {
                             </div>
                           </div>
                           {/* submit button */}
-                          <button className="main-btn">
+                          <button disabled={isLoading} className="main-btn">
                             {isLoading ? btnloading() : " Save"}
                           </button>
                         </form>

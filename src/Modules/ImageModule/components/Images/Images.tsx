@@ -1,9 +1,9 @@
 const Images = {
   authLogo: require("../../../../assets/images/PMS3.png"),
-  logo: require("../../../../assets/images/nav-logo.png"),
+  logoLight: require("../../../../assets/images/nav-logo.png"),
+  logoDark: require("../../../../assets/images/PMS3Dark.png"),
   test: require("../../../../assets/images/auth-bg.png"),
-  menuClose: require("../../../../assets/images/menuClose.svg"),
-  menuOpen: require("../../../../assets/images/menuOpen.png"),
+  NoData: require("../../../../assets/images/no-data.png"),
 };
 
 export default Images;

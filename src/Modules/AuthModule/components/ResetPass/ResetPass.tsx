@@ -4,17 +4,20 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "../../../../Context/ToastContext";
 import { FormData } from "../../../../interfaces/Auth";
-import Images from "../../../ImageModule/components/Images/Images";
 import { BaseUrl } from "../../../../utils/Utils";
+import Images from "../../../ImageModule/components/Images/Images";
+import { toast } from "react-toastify";
+import {
+  emailValidation,
+  OTPValidation,
+  passwordValidation,
+} from "../../../../utils/InputsValidation";
 export default function Login() {
   // All states here on the top
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
-  const { showSuccessToast, showErrorToast } = useToast();
-
   const [spinner, setSpinner] = useState<boolean>(false);
   const {
     register,
@@ -55,14 +58,14 @@ export default function Login() {
 
     try {
       await axios.post(`${BaseUrl}/Users/Reset`, data);
-      showSuccessToast("Password Reset Successfully");
+      toast.success("Password Reset Successfully");
       navigate("/login");
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        showErrorToast(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
         // Handle other types of errors here
-        showErrorToast("An error occurred.");
+        toast.error("An error occurred.");
       }
     } finally {
       setSpinner(false);
@@ -98,14 +101,7 @@ export default function Login() {
                                 errors.email && "border-danger "
                               }`}
                               type="text"
-                              {...register("email", {
-                                required: "email is required",
-                                pattern: {
-                                  value:
-                                    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                                  message: "email is not valid ",
-                                },
-                              })}
+                              {...register("email", emailValidation)}
                             />
                             <label
                               htmlFor="input-field"
@@ -129,15 +125,7 @@ export default function Login() {
                                   errors.password && "border-danger "
                                 }`}
                                 type={showPassword ? "text" : "password"}
-                                {...register("password", {
-                                  required: "password is required ",
-                                  pattern: {
-                                    value:
-                                      /^(?=.\d)(?=.[a-z])(?=.[A-Z])(?=.[a-zA-Z]).{8,}$/,
-                                    message:
-                                      "Password must contain at least 8 characters, including upper and lowercase letters, and numbers",
-                                  },
-                                })}
+                                {...register("password", passwordValidation)}
                               />
                               <label
                                 htmlFor="input-field"
@@ -205,9 +193,7 @@ export default function Login() {
                                 errors.email && "border-danger "
                               }`}
                               type="text"
-                              {...register("seed", {
-                                required: "OTP required",
-                              })}
+                              {...register("seed", OTPValidation)}
                             />
                             <label
                               htmlFor="input-field"

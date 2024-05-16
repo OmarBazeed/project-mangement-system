@@ -1,22 +1,29 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useForm } from "react-hook-form";
 // import logo from '../../../../assets/images/PMS 3.png';
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import axios from "axios";
-import { FormData } from "../../../../interfaces/Auth";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useUser } from "../../../../Context/AuthContext";
-import { useToast } from "../../../../Context/ToastContext";
-import Images from "../../../ImageModule/components/Images/Images";
+import { FormData } from "../../../../interfaces/Auth";
+import {
+  emailValidation,
+  passwordValidation,
+} from "../../../../utils/InputsValidation";
 import { BaseUrl } from "../../../../utils/Utils";
+import Images from "../../../ImageModule/components/Images/Images";
 export default function Login() {
   // All states here on the top
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { showSuccessToast, showErrorToast } = useToast();
 
   const { saveAdminData, adminData } = useUser();
-  console.log(adminData);
+
   const [spinner, setSpinner] = useState<boolean>(false);
+  const [subBtnCilcked, setSubBtnCilcked] = useState(false);
+  const toastOption = {
+    onClose: () => setSubBtnCilcked(false),
+  };
   const {
     register,
     handleSubmit,
@@ -43,20 +50,20 @@ export default function Login() {
   // senD Data to Api
   const onSubmit = async (data: FormData) => {
     setSpinner(true);
-
+    setSubBtnCilcked(true);
     try {
       const response = await axios.post(`${BaseUrl}/Users/Login`, data);
       localStorage.setItem("adminToken", response?.data?.token);
-      showSuccessToast("Login successfully");
+      toast.success(response.data.message || "Login successfully");
       localStorage.setItem("token", response.data.token);
       navigate("/dashboard");
       saveAdminData && saveAdminData(); // Call saveAdminData only if it exists
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        showErrorToast(error.response.data.message);
+        toast.error(error.response.data.message, toastOption);
       } else {
         // Handle other types of errors here
-        showErrorToast("An error occurred.");
+        toast.error("An error occurred.");
       }
     } finally {
       setSpinner(false);
@@ -92,14 +99,7 @@ export default function Login() {
                                 errors.email && "border-danger "
                               }`}
                               type="text"
-                              {...register("email", {
-                                required: "email is required",
-                                pattern: {
-                                  value:
-                                    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                                  message: "email is not valid ",
-                                },
-                              })}
+                              {...register("email", emailValidation)}
                             />
                             <label
                               htmlFor="input-field"
@@ -123,15 +123,7 @@ export default function Login() {
                                   errors.password && "border-danger "
                                 }`}
                                 type={showPassword ? "text" : "password"}
-                                {...register("password", {
-                                  required: "password is required ",
-                                  pattern: {
-                                    value:
-                                      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
-                                    message:
-                                      "Password must contain at least 8 characters, including upper and lowercase letters, and numbers",
-                                  },
-                                })}
+                                {...register("password", passwordValidation)}
                               />
                               <label
                                 htmlFor="input-field"
@@ -171,7 +163,7 @@ export default function Login() {
                             </Link>
                           </div>
                           {/* submit button */}
-                          <button className="main-btn">
+                          <button className="main-btn" disabled={subBtnCilcked}>
                             {spinner ? btnloading() : " Save"}
                           </button>
                         </form>

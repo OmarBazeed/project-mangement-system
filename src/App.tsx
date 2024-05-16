@@ -1,18 +1,17 @@
-import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import AuthLayout from "./Modules/SharedModule/components/AuthLayout/AuthLayout";
-import Notfound from "./Modules/SharedModule/components/Notfound/Notfound";
-import Login from "./Modules/AuthModule/components/Login/Login";
+import "./App.css";
 import ForgetPass from "./Modules/AuthModule/components/ForgetPass/ForgetPass";
-import ResetPass from "./Modules/AuthModule/components/ResetPass/ResetPass";
+import Login from "./Modules/AuthModule/components/Login/Login";
 import Register from "./Modules/AuthModule/components/Register/Register";
+import ResetPass from "./Modules/AuthModule/components/ResetPass/ResetPass";
 import VerifyAccount from "./Modules/AuthModule/components/VerifyAccount/VerifyAccount";
-import MasterLayout from "./Modules/SharedModule/components/MasterLayout/MasterLayout";
 import Dashboard from "./Modules/DashboardModule/components/Dashboard/Dashboard";
 import ProjectList from "./Modules/ProjectModule/components/ProjectList/ProjectList";
+import AuthLayout from "./Modules/SharedModule/components/AuthLayout/AuthLayout";
+import MasterLayout from "./Modules/SharedModule/components/MasterLayout/MasterLayout";
+import Notfound from "./Modules/SharedModule/components/Notfound/Notfound";
 import TaskList from "./Modules/TasksModule/components/TaskList/TaskList";
 import UsersList from "./Modules/UsersModule/components/UsersList/UsersList";
-import BaceUrlContext from "./Context/BaceUrlContext";
 import ProtectedRoute from "./Modules/SharedModule/components/ProtectedRoute/ProtectedRoute";
 
 function App() {
@@ -35,7 +34,7 @@ function App() {
           element: <ForgetPass />,
         },
         {
-          path: "reset-pass",
+          path: "reset-password",
           element: <ResetPass />,
         },
         {
@@ -43,14 +42,18 @@ function App() {
           element: <Register />,
         },
         {
-          path: "verify-account",
+          path: "verifyaccount",
           element: <VerifyAccount />,
         },
       ],
     },
     {
       path: "dashboard",
-      element: <MasterLayout />,
+      element: (
+        <ProtectedRoute>
+          <MasterLayout />
+        </ProtectedRoute>
+      ),
       errorElement: <Notfound />,
       children: [
         {
@@ -74,9 +77,7 @@ function App() {
   ]);
   return (
     <>
-      <BaceUrlContext>
-        <RouterProvider router={routes} />
-      </BaceUrlContext>
+      <RouterProvider router={routes} />
     </>
   );
 }

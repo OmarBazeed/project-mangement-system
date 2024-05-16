@@ -5,7 +5,6 @@ import style from "../Project.module.css";
 import moment from "moment";
 import NoData from "../../../SharedModule/components/NoData/NoData";
 import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
-import { ModalFooter } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 
@@ -122,7 +121,7 @@ export default function ProjectList() {
         </div>
 
         <div
-          className={`project-body head-bg mt-5 container rounded-4  px-4 py-5`}
+          className={`project-body head-bg mt-5 container rounded-4 shadow  px-4 py-5`}
         >
           <ul className={`${style.responsiveTableProjects} text-white`}>
             <li className={`${style.tableHeader}`}>

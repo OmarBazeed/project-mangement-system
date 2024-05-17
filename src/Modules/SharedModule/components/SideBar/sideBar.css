@@ -1,0 +1,112 @@
+.ps-sidebar-root {
+  border: none !important;
+  position: relative;
+}
+.ps-sidebar-container {
+  background-color: #0e382f !important;
+  color: #fff;
+  height: 100vh !important;
+  padding-top: 150px;
+}
+.ps-menu-button {
+  transition: 0.3s;
+}
+.ps-menu-button:hover {
+  color: #ef9b28 !important ;
+  background-color: transparent !important;
+}
+
+.sidBarImg {
+  width: 350px;
+  padding-left: 150px;
+  transition: 0.3s;
+}
+.ps-collapsed .sidBarImg {
+  width: 100px;
+  padding-left: 2px;
+}
+
+.imgToggel {
+  position: absolute;
+  right: 83%;
+  top: 2%;
+  transition: 0.3s;
+  z-index: 1;
+}
+
+.imgToggel img {
+  width: 110px;
+  cursor: pointer;
+}
+
+.hideImgToggel {
+  display: none;
+}
+
+.ps-collapsed .ps-menu-button {
+  padding-right: 12px !important;
+  flex-direction: column;
+}
+
+.ps-collapsed .ps-menu-button .ps-menu-label {
+  font-size: 11px;
+  font-weight: 600;
+  padding-right: 10px;
+}
+
+.ps-collapsed .ps-menu-button .ps-menu-label .changePass {
+  font-size: 7px !important;
+}
+
+/* .ps-menuitem-root .ps-active {
+    background-color: transparent !important;
+  }
+  .ps-menu-button .ps-active {
+    background-color: rgba(239, 155, 40, 0.3) !important;
+    color: #ef9b28 !important ;
+  } */
+
+/* .ps-menu-root  ul .ps-menuitem-root  .ps-menu-button{
+    background-color: red !important;
+    
+  } */
+.headerSidbar .ps-menu-button:hover {
+  background-color: transparent !important;
+}
+.changePassModal {
+  top: 15% !important;
+}
+
+.btn-collapse {
+  color: #fff;
+  position: absolute;
+  right: 0;
+  top: 12%;
+  width: 20px;
+  height: 32px;
+  border-radius: 8px 0px 0px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  background-color: #ef9b28;
+  border: none;
+}
+.ps-collapsed .btn-collapse {
+  border-radius: 0px 8px 8px 0px;
+  left: 0;
+  justify-content: end;
+  align-items: center;
+}
+.btn-toggle {
+  z-index: 9999;
+  position: absolute;
+  top: 1.5%;
+  left: 1%;
+  border: none;
+  background-color: transparent;
+}
+@media screen and (max-width: 576px) {
+  .ps-sidebar-container {
+    padding-top: 90px;
+  }
+}

@@ -57,22 +57,22 @@ export default function VerifyAccount() {
 	return (
 		<>
 			<section className="">
-				<div className="bg-verify vh-100 text-white d-flex  align-items-center  ">
-					<div className="container  d-flex justify-content-center ">
-						<div className="row  w-100">
-							<div className="col-md-6 mx-auto text-center ">
+				<div className="text-white bg-verify vh-100 d-flex align-items-center ">
+					<div className="container d-flex justify-content-center ">
+						<div className="row w-100">
+							<div className="mx-auto text-center col-md-6 ">
 								{/* register */}
 								<div className="login w-100 ">
 									<img className="mb-3" src={Images.authLogo} alt="" />
 									{/* form */}
-									<div className="form  rounded-4 py-5">
-										<div className="container-auth-form pt-4  ">
+									<div className="py-5 form rounded-4">
+										<div className="pt-4 container-auth-form ">
 											<div className="form-title position-relative ">
 												<p>welcome to PMS</p>
 												<h3 className="text-main">Verify Account</h3>
 											</div>
 											{/* form body */}
-											<div className="form-body mt-3">
+											<div className="mt-3 form-body">
 												{/* */}
 												<form onSubmit={handleSubmit(onSubmit)}>
 													{/* email input */}
@@ -99,7 +99,7 @@ export default function VerifyAccount() {
 														</p>
 													)}
 													{/* password input */}
-													<div className="input-container  ">
+													<div className="input-container ">
 														<input
 															placeholder="Enter Verification"
 															className={`input-field ${

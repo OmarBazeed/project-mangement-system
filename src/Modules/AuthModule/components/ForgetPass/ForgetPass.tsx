@@ -98,8 +98,21 @@ export default function ForgetPass() {
                           )}
 
                           {/* submit button */}
-                          <button className="main-btn" disabled={subBtnCilcked}>
+                          <button
+                            type="submit"
+                            className="main-btn"
+                            disabled={subBtnCilcked}
+                          >
                             {spinner ? btnloading() : "Verify"}
+                          </button>
+                          <button
+                            onClick={() => {
+                              navigate("/login");
+                            }}
+                            className="d-block mx-auto mt-3 bg-transparent border-0 text-white "
+                            type="button"
+                          >
+                            Back to Login?
                           </button>
                         </form>
                       </div>

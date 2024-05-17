@@ -2,7 +2,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import Images from "../../../ImageModule/components/Images/Images";
@@ -76,7 +76,7 @@ export default function Register() {
   return (
     <>
       <section className="">
-        <div className="bg-reg vh-100 text-white d-flex  align-items-center  ">
+        <div className="bg-reg min-vh-100 pb-5 text-white d-flex  align-items-center  ">
           <div className="container  d-flex justify-content-center ">
             <div className="row  w-100">
               <div className="col-md-12 mx-auto text-center ">
@@ -103,9 +103,7 @@ export default function Register() {
                                   type="file"
                                   accept="image/*"
                                   placeholder="Recipe Price"
-                                  // {...register("profileImage", {
-                                  //   // required: "Image is required",
-                                  // })}
+                                  {...register("profileImage")}
                                   onChange={({ target: { files } }) => {
                                     if (files) {
                                       setImage(URL.createObjectURL(files[0]));
@@ -350,9 +348,24 @@ export default function Register() {
                               )}
                             </div>
                           </div>
+                          <div className="d-flex justify-content-between my-2">
+                            <Link
+                              to="/login"
+                              className="text-white text-main nav-link "
+                            >
+                              Login Now?
+                            </Link>
+
+                            <Link
+                              to="/verifyaccount"
+                              className="text-white nav-link "
+                            >
+                              Have a Code?
+                            </Link>
+                          </div>
                           {/* submit button */}
                           <button className="main-btn">
-                            {isLoading ? btnloading() : " Save"}
+                            {isLoading ? btnloading() : " Register Now"}
                           </button>
                         </form>
                         {/*  */}

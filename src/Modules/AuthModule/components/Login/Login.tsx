@@ -150,7 +150,7 @@ export default function Login() {
                           <div className="d-flex justify-content-between my-2">
                             <Link
                               to="/register"
-                              className="text-white text-main nav-link "
+                              className="text-white text-main nav-link"
                             >
                               Register now ?
                             </Link>
@@ -164,7 +164,7 @@ export default function Login() {
                           </div>
                           {/* submit button */}
                           <button className="main-btn" disabled={subBtnCilcked}>
-                            {spinner ? btnloading() : " Save"}
+                            {spinner ? btnloading() : " Login"}
                           </button>
                         </form>
                       </div>

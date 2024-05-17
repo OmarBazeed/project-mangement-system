@@ -75,7 +75,7 @@ export default function Login() {
   return (
     <>
       <section className="">
-        <div className="bg-reset vh-100 text-white d-flex  align-items-center  ">
+        <div className="bg-reset min-vh-100 pb-3 text-white d-flex  align-items-center  ">
           <div className="container  d-flex justify-content-center ">
             <div className="row  w-100">
               <div className="col-md-6 mx-auto text-center ">
@@ -210,8 +210,17 @@ export default function Login() {
                           )}
 
                           {/* submit button */}
-                          <button className="main-btn">
+                          <button type="submit" className="main-btn">
                             {spinner ? btnloading() : " Save"}
+                          </button>
+                          <button
+                            onClick={() => {
+                              navigate("/login");
+                            }}
+                            className="d-block mx-auto mt-3 bg-transparent border-0 text-white "
+                            type="button"
+                          >
+                            Back to Login?
                           </button>
                         </form>
                       </div>

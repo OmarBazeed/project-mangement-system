@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Images from "../../../ImageModule/components/Images/Images";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { FormData } from "../../../../interfaces/Auth";
@@ -39,69 +39,110 @@ export default function VerifyAccount() {
       setSpinner(false);
     }
   };
+  const btnloading = () => {
+    return (
+      <div className="loader">
+        <i>&lt;</i>
+        <span>LOADING</span>
+        <i>/&gt;</i>
+      </div>
+    );
+  };
 
   return (
     <>
-      <div className="Auth-container vh-100 row align-items-center justify-content-center overflow-auto gx-0 flex-nowrap ">
-        <div className="logo  col-md-5 text-center">
-          <img src={Images.logo} alt="logo" className="mb-3" />
-        </div>
+      <section className="">
+        <div className="bg-verify vh-100 text-white d-flex  align-items-center  ">
+          <div className="container  d-flex justify-content-center ">
+            <div className="row  w-100">
+              <div className="col-md-6 mx-auto text-center ">
+                {/* register */}
+                <div className="login w-100 ">
+                  <img className="mb-3" src={Images.authLogo} alt="" />
+                  {/* form */}
+                  <div className="form  rounded-4 py-5">
+                    <div className="container-auth-form pt-4  ">
+                      <div className="form-title position-relative ">
+                        <p>welcome to PMS</p>
+                        <h3 className="text-main">Verify Account</h3>
+                      </div>
+                      {/* form body */}
+                      <div className="form-body mt-3">
+                        {/* */}
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                          {/* email input */}
+                          <div className="input-container">
+                            <input
+                              placeholder="Enter your E-mail"
+                              className={`input-field ${
+                                errors.email && "border-danger "
+                              }`}
+                              type="text"
+                              {...register("email", emailValidation)}
+                            />
+                            <label
+                              htmlFor="input-field"
+                              className={`input-label `}
+                            >
+                              E-mail
+                            </label>
+                            <span className="input-highlight"></span>
+                          </div>
+                          {errors.email && (
+                            <p className="text-start text-danger ps-3">
+                              {errors.email.message}
+                            </p>
+                          )}
+                          {/* opt input */}
+                          <div className="input-container">
+                            <input
+                              placeholder="Enter Verification"
+                              className={`input-field ${
+                                errors.code && "border-danger "
+                              }`}
+                              type="text"
+                              {...register("code", OTPValidation)}
+                            />
+                            <label
+                              htmlFor="input-field"
+                              className={`input-label `}
+                            >
+                              E-mail
+                            </label>
+                            <span className="input-highlight"></span>
+                          </div>
+                          {errors.code && (
+                            <p className="text-start text-danger ps-3">
+                              {errors.code.message}
+                            </p>
+                          )}
 
-        <div className="login-container col-md-5 col-sm-10 rounded-4 px-5 py-5">
-          <p className="text-white m-0">Welcome to PMS</p>
-          <h3 className="color-text mb-4 verify-account">Verify Account</h3>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="form-group">
-              <label className="color-text" htmlFor="exampleFormControlInput1">
-                Email
-              </label>
-              <input
-                id="exampleFormControlInput1"
-                type="email"
-                className="form-control m-1 px-2"
-                {...register("email", emailValidation)}
-                placeholder="Enter Your Email"
-              />
-              <div className="border_bottom"></div>
-            </div>
-            {errors.email && (
-              <div className="alert alert-danger p-2 m-0 ">
-                {errors.email.message}
+                          <div className="d-flex justify-content-between my-2">
+                            <Link
+                              to="/register"
+                              className="text-white text-main nav-link "
+                            >
+                              Register now?
+                            </Link>
+
+                            <Link to="/login" className="text-white nav-link ">
+                              Login Now?
+                            </Link>
+                          </div>
+                          {/* submit button */}
+                          <button className="main-btn" disabled={setSpinner}>
+                            {spinner ? btnloading() : " Login"}
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            )}
-
-            <div className="form-group">
-              <label className="color-text" htmlFor="exampleFormControlInput1">
-                OTP Verification
-              </label>
-              <input
-                id="exampleFormControlInput1"
-                type="text"
-                className="form-control m-1 px-2"
-                {...register("seed", OTPValidation)}
-                placeholder="Enter Verification"
-              />
-              <div className="border_bottom"></div>
             </div>
-            {errors.seed && (
-              <div className="alert alert-danger p-2 m-0 ">
-                {errors.seed.message}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              className="w-100 btn color-button rounded-5 mt-5"
-            >
-              {spinner ? (
-                <div className="spinner-border" role="status"></div>
-              ) : (
-                "Verify"
-              )}
-            </button>
-          </form>
+          </div>
         </div>
-      </div>
+      </section>
     </>
   );
 }

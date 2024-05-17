@@ -122,16 +122,16 @@ export default function VerifyAccount() {
                               to="/register"
                               className="text-white text-main nav-link "
                             >
-                              Register now ?
+                              Register now?
                             </Link>
 
                             <Link to="/login" className="text-white nav-link ">
-                              Login Now ?
+                              Login Now?
                             </Link>
                           </div>
                           {/* submit button */}
                           <button className="main-btn" disabled={setSpinner}>
-                            {spinner ? btnloading() : " Login"}
+                            {spinner ? btnloading() : " Verify Now"}
                           </button>
                         </form>
                       </div>

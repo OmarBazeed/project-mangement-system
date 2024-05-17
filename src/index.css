@@ -1,0 +1,10 @@
+:root {
+  --text: #000;
+}
+[data-theme="dark"] {
+  --text: #fff;
+}
+
+.input-theme {
+  color: var(--text);
+}

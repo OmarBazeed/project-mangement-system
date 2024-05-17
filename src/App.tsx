@@ -13,6 +13,7 @@ import Notfound from "./Modules/SharedModule/components/Notfound/Notfound";
 import TaskList from "./Modules/TasksModule/components/TaskList/TaskList";
 import UsersList from "./Modules/UsersModule/components/UsersList/UsersList";
 import ProtectedRoute from "./Modules/SharedModule/components/ProtectedRoute/ProtectedRoute";
+import ProjectData from "./Modules/ProjectModule/components/ProjectData/ProjectData";
 
 function App() {
   const routes = createBrowserRouter([
@@ -63,6 +64,10 @@ function App() {
         {
           path: "projects",
           element: <ProjectList />,
+        },
+        {
+          path: "projects-data",
+          element: <ProjectData />,
         },
         {
           path: "tasks",

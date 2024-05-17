@@ -10,10 +10,7 @@ export default function MasterLayout() {
         <div>
           <SideBar />
         </div>
-        <div
-          className="w-100 dash-layout overflow-y-auto bg-success"
-          style={{ marginTop: "83px" }}
-        >
+        <div className="w-100 dash-layout overflow-y-auto bg-theme">
           <Outlet />
         </div>
       </div>

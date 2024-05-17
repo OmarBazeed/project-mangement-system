@@ -6,18 +6,21 @@ import {
   useEffect,
   useState,
 } from "react";
+
 // Define the type of the decoded token
 interface DecodedToken {
   userGroup: string;
   // Add other properties if needed
+  userName: string;
+  userEmail: string;
 }
+
 interface AuthContextType {
   saveAdminData: () => void;
-  // adminData?: string | null ,
   adminData: DecodedToken | null;
-
   userRole: string | null;
-  Token?: string | null;
+  Token: string | null;
+  logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -27,16 +30,21 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [adminData, setAdminData] = useState<DecodedToken | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
-  console.log(userRole);
+
   const Token = localStorage.getItem("adminToken");
 
   const saveAdminData = () => {
     const encodedToken = localStorage.getItem("adminToken");
     if (encodedToken) {
-      const decodedToken = jwtDecode(encodedToken) as DecodedToken;
+      const decodedToken = jwtDecode<DecodedToken>(encodedToken);
       setAdminData(decodedToken);
       setUserRole(decodedToken?.userGroup);
     }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setAdminData(null);
   };
 
   useEffect(() => {
@@ -48,6 +56,7 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
     userRole,
     saveAdminData,
     Token,
+    logout,
   };
 
   return (
@@ -55,11 +64,11 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
-// Custom hook to use the toast context
+// Custom hook to use the auth context
 export const useUser = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useToast must be used within a ToastProvider");
+    throw new Error("useUser must be used within an AuthContextProvider");
   }
   return context;
 };

@@ -1,4 +1,3 @@
-
 import NavBar from "../NavBar/NavBar";
 import { Outlet } from "react-router-dom";
 import SideBar from "../SideBar/SideBar";
@@ -6,17 +5,13 @@ import SideBar from "../SideBar/SideBar";
 export default function MasterLayout() {
   return (
     <>
-      <div className="d-flex">
-        <div className="w-25 bg-danger">
+      <NavBar />
+      <div className="d-flex ">
+        <div>
           <SideBar />
         </div>
-        <div className="w-75 vh-100 overflow-y-auto bg-success ">
-          <div className="bg-info">
-            <NavBar />
-          </div>
-          <div className="bg-warning">
-            <Outlet />
-          </div>
+        <div className="w-100 dash-layout overflow-y-auto bg-theme">
+          <Outlet />
         </div>
       </div>
     </>

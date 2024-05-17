@@ -132,7 +132,7 @@ export default function SideBar() {
           {window.innerWidth > 576 ? (
             ""
           ) : (
-            <button onClick={BreakPoint} className="btn-toggle">
+            <button onClick={BreakPoint} className="btn-toggle text-theme">
               {
                 <i
                   className={`bi ${

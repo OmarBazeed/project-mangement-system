@@ -211,7 +211,7 @@ export default function Login() {
 
                           {/* submit button */}
                           <button type="submit" className="main-btn">
-                            {spinner ? btnloading() : " Save"}
+                            {spinner ? btnloading() : " Reset Now"}
                           </button>
                           <button
                             onClick={() => {

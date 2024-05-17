@@ -103,7 +103,7 @@ export default function ForgetPass() {
                             className="main-btn"
                             disabled={subBtnCilcked}
                           >
-                            {spinner ? btnloading() : "Verify"}
+                            {spinner ? btnloading() : "Go Now"}
                           </button>
                           <button
                             onClick={() => {

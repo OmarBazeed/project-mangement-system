@@ -189,8 +189,7 @@ export default function Login() {
                               <span className="input-highlight"></span>
                             </div>
 
-                            
-
+                      
                             <i
                               role="button"
                               onClick={toggleConfirmPasswordVisibility}

@@ -131,7 +131,7 @@ export default function VerifyAccount() {
                           </div>
                           {/* submit button */}
                           <button className="main-btn" disabled={setSpinner}>
-                            {spinner ? btnloading() : " Login"}
+                            {spinner ? btnloading() : " Verify Now"}
                           </button>
                         </form>
                       </div>

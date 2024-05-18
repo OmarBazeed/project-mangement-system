@@ -5,7 +5,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormData } from "../../../../interfaces/Auth";
-import { BaseUrl } from "../../../../utils/Utils";
+import { baseUrl } from "../../../../utils/Utils";
 import Images from "../../../ImageModule/components/Images/Images";
 import { toast } from "react-toastify";
 import {
@@ -57,7 +57,7 @@ export default function Login() {
     setSpinner(true);
 
     try {
-      await axios.post(`${BaseUrl}/Users/Reset`, data);
+      await axios.post(`${baseUrl}/Users/Reset`, data);
       toast.success("Password Reset Successfully");
       navigate("/login");
     } catch (error) {

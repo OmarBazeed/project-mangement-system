@@ -7,13 +7,11 @@ import NoData from "../../../SharedModule/components/NoData/NoData";
 import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
+import { baseUrl, requestHeaders } from "../../../../utils/Utils";
+
 
 export default function TasksList() {
   const navigate = useNavigate();
-  const requestHeaders = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
-  const baseUrl = `https://upskilling-egypt.com:3003/api/v1`;
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   // State for page number

@@ -106,7 +106,7 @@ export default function UsersList() {
 											className={`${style.col} ${style.col2}`}
 											data-label="Title :"
 										>
-											{user.title}
+											{user.userName}
 										</div>
 										<div
 											className={`${style.col} ${style.col3}`}

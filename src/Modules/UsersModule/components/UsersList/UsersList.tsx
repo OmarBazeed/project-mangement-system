@@ -5,24 +5,21 @@ import { baseUrl, requestHeaders } from "../../../../utils/Utils";
 import NoData from "../../../SharedModule/components/NoData/NoData";
 import moment from "moment";
 import style from "./Users.module.css";
-
+import Images from "../../../ImageModule/components/Images/Images";
+import { UsersInterface } from "../../../../interfaces/Auth";
 
 export default function UsersList() {
-  const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [usersList, setUsersList] = useState([]);
 
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  const getUsersList = async () => {
+	const getUsersList = async () => {
 		setIsLoading(true);
 		try {
-			const response = await axios.get(
-				`${baseUrl}/Users/Manager`,
-				{
-					headers: requestHeaders,
-				}
-			);
-      console.log(response);
+			const response = await axios.get(`${baseUrl}/Users/Manager`, {
+				headers: requestHeaders,
+			});
 			setUsersList(response.data.data);
 			// setTotalPages(response.totalNumberOfPages);
 			// setTotalUserject(response.totalNumberOfPages);
@@ -31,23 +28,40 @@ export default function UsersList() {
 		}
 		setIsLoading(false);
 	};
-
-    const btnloading = () => {
-			return (
-				<div className="loader">
-					<i>&lt;</i>
-					<span>LOADING</span>
-					<i>/&gt;</i>
-				</div>
+	const toggleUserStatus = async (id: number) => {
+		try {
+			const response = await axios.put(
+				`${baseUrl}/Users/${id}`,
+				{},
+				{
+					headers: requestHeaders,
+				}
 			);
-		};
-
-		useEffect(() => {
 			getUsersList();
-		}, []);
+			setIsLoading(false);
 
+			// setTotalPages(response.totalNumberOfPages);
+			// setTotalUserject(response.totalNumberOfPages);
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
-  return (
+	const btnloading = () => {
+		return (
+			<div className="loader">
+				<i>&lt;</i>
+				<span>LOADING</span>
+				<i>/&gt;</i>
+			</div>
+		);
+	};
+
+	useEffect(() => {
+		getUsersList();
+	}, []);
+
+	return (
 		<>
 			<section>
 				<div
@@ -78,10 +92,11 @@ export default function UsersList() {
 					<ul className={`${style.responsiveTableProjects} text-white`}>
 						<li className={`${style.tableHeader}`}>
 							<div className={`${style.col} ${style.col1}`}>ID</div>
-							<div className={`${style.col} ${style.col2}`}>Title</div>
-							<div className={`${style.col} ${style.col3}`}>No of tasks</div>
+							<div className={`${style.col} ${style.col2}`}>UserName</div>
+							<div className={`${style.col} ${style.col3}`}>Image</div>
 							<div className={`${style.col} ${style.col4}`}>Creation Date</div>
 							<div className={`${style.col} ${style.col5}`}>Actions</div>
+							<div className={`${style.col} ${style.col6}`}>Status</div>
 						</li>
 					</ul>
 					{isLoading ? (
@@ -91,7 +106,7 @@ export default function UsersList() {
 					) : (
 						<ul className={`${style.responsiveTableProjects}`}>
 							{usersList.length > 0 ? (
-								usersList.map((user) => (
+								usersList.map((user: UsersInterface) => (
 									<li
 										key={user.id}
 										className={`${style.tableRow} bg-theme text-theme`}
@@ -110,9 +125,20 @@ export default function UsersList() {
 										</div>
 										<div
 											className={`${style.col} ${style.col3}`}
-											data-label="No of tasks :"
+											data-label="Images :"
 										>
-											{user.task?.lenngth > 0 ? user.task?.lenngth : 0}
+											{user.imagePath ? (
+												<img
+													src={`https://upskilling-egypt.com:3003/${user.imagePath}`}
+													alt=""
+												/>
+											) : (
+												<img
+													className="noImg w-50 h-50"
+													alt="no Data Image"
+													src={`${Images.NoData}`}
+												/>
+											)}
 										</div>
 										<div
 											className={`${style.col} ${style.col4}`}
@@ -137,7 +163,7 @@ export default function UsersList() {
 												)}
 
 												<ul
-													className={`  ${
+													className={`${
 														window.innerWidth < 650
 															? "d-flex  align-items-center  justify-content-center "
 															: "dropdown-menu dropdown-menu-end"
@@ -163,22 +189,21 @@ export default function UsersList() {
 															{window.innerWidth < 650 ? "" : <span>Edit</span>}
 														</div>
 													</li>
-													<li
-														role="button"
-														onClick={() => handleShowDelete(user.id, user.title)}
-														className="px-3 py-1 "
-													>
-														<div className="dropdown-div">
-															<i className="fa-solid fa-trash-can me-2"></i>
-															{window.innerWidth < 650 ? (
-																""
-															) : (
-																<span>Delelte</span>
-															)}
-														</div>
-													</li>
 												</ul>
 											</div>
+										</div>
+										<div role="button" className="dropdown-div">
+											{user.isActivated ? (
+												<i
+													onClick={() => toggleUserStatus(user.id)}
+													className="fas fa-toggle-on fa-2x text-success"
+												></i>
+											) : (
+												<i
+													onClick={() => toggleUserStatus(user.id)}
+													className="fas fa-toggle-off fa-2x text-danger"
+												></i>
+											)}
 										</div>
 									</li>
 								))

@@ -53,7 +53,7 @@ export default function Login() {
     setSubBtnCilcked(true);
     try {
       const response = await axios.post(`${baseUrl}/Users/Login`, data);
-      localStorage.setItem("adminToken", response?.data?.token);
+      // localStorage.setItem("adminToken", response?.data?.token);
       toast.success(response.data.message || "Login successfully");
       localStorage.setItem("token", response.data.token);
       navigate("/dashboard");

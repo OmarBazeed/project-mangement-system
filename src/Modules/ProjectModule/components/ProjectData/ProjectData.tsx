@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import style from "../Project.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 export default function ProjectData() {
+	const location=useLocation();
+	console.log(location);
+	const status=location.state ?.type==='edit';
+	const projectupdate=location.state ?.projectupdate;
 	const [isLoading, setIsLoading] = useState(false);
 	const requestHeaders = {
 		Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -20,9 +24,15 @@ export default function ProjectData() {
 	const navigate = useNavigate();
 	const onSubmit = (pro: any) => {
 		try {
-			const { data } = axios.post(`${baseUrl}/Project`, pro, {
-				headers: requestHeaders,
-			});
+			const { data } = axios(
+				{
+					method :status ?'put':'post',
+					url :status ?`https://upskilling-egypt.com:3003/api/v1/Project/${pro.id}`:
+					'https://upskilling-egypt.com:3003/api/v1/Project',
+					data: projectupdate,
+					headers: requestHeaders,
+				}
+			)
 			toast.success("New Project Has Been Added Successfully");
 			navigate("/dashboard/projects");
 		} catch (error) {
@@ -88,6 +98,7 @@ export default function ProjectData() {
 										{...register("title", {
 											required: "Title is required",
 										})}
+										defaultValue={status ? projectupdate.title:''}
 									/>
 									<label htmlFor="input-field" className={`input-label `}>
 										Title
@@ -111,6 +122,7 @@ export default function ProjectData() {
 										{...register("description", {
 											required: "Description is required",
 										})}
+										defaultValue={status ? projectupdate.description:''}
 									></textarea>
 									<label htmlFor={`input-field`} className={`input-label `}>
 										Description

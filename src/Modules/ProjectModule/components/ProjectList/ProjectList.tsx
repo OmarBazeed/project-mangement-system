@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import style from "../Project.module.css";
 import moment from "moment";
 import NoData from "../../../SharedModule/components/NoData/NoData";
@@ -210,8 +210,13 @@ export default function ProjectList() {
                             className="px-3 py-1"
                           >
                             <div role="button" className="dropdown-div">
+                            <Link 
+                              to={`/dashboard/projects-update/${pro.id}`}
+                              state={{projectupdate:pro , type:'edit'}}
+                              >
                               <i className="fa-regular fa-pen-to-square me-2 "></i>
                               {window.innerWidth < 650 ? "" : <span>Edit</span>}
+                            </Link>
                             </div>
                           </li>
                           <li

@@ -189,7 +189,7 @@ export default function TasksList() {
     );
   };
   useEffect(() => {
-    getTask("", 10, 1);
+    getTask(taskName, 10, 1);
     getUsers(50);
   }, [taskName]);
 
@@ -238,7 +238,7 @@ export default function TasksList() {
                 className={`form-control p-3 rounded-5 ${style.filterInput}`}
                 onChange={(e) => {
                   setTaskName(e.target.value);
-                  Tasks(taskName, 10, 1);
+                  getTask(taskName, 10, 1);
                 }}
               />
               <i className={`fa fa-search ${style.userSearchIcon}`}></i>

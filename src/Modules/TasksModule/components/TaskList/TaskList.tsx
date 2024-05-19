@@ -46,11 +46,10 @@ export default function TasksList() {
       );
 
       setTasks(data.data);
-      console.log(data.data);
       setTotalPages(data.totalNumberOfPages);
       setTotalTasks(data.totalNumberOfPages);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+			toast.error(error)
     }
     setIsLoading(false);
   };
@@ -85,20 +84,20 @@ export default function TasksList() {
       getTask(10);
       toast.success(`Deleted ${taskName} Successfully`);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
-  const onUpdateSubmit = async () => {
-    handleCloseUpdate();
+  const onUpdateSubmit = async (data) => {
     try {
-      const response = await axios.put(`${baseUrl}/Task/${taskId}`, {
+      const response = await axios.put(`${baseUrl}/Task/${taskId}`, data , {
         headers: requestHeaders,
       });
+      handleCloseUpdate();
       getTask(10);
       toast.success(`Updated ${taskName} Successfully`);
     } catch (error) {
-      toast.error(error)
+      toast.error(error.response.data.message);
     }
   };
 
@@ -337,104 +336,92 @@ export default function TasksList() {
         >
           <Modal.Body className="p-4 bg-theme">
             <div className="addCatModalHead text-end">
-              <div className="addCatModalHeadClose ">
+              <div className="addCatModalHeadClose">
                 <i
                   onClick={() => handleCloseUpdate()}
-                  className="fa-solid fa-close btn border-danger py-1 px-2 rounded-circle   text-danger "
+                  className="fa-solid fa-close btn border-danger py-1 px-2 rounded-circle text-danger"
                 ></i>
               </div>
             </div>
 
-            {/* ------------  */}
-            <div className="addCatModalBody ">
-              <div className='text-center'>
-                  <h5>Update {taskName}</h5>
+            <div className="addCatModalBody">
+              <div className="text-center">
+                <h5>Update {taskName}</h5>
+                <form onSubmit={handleSubmit(onUpdateSubmit)}>
                   <div className="input-container">
-									<input
-										placeholder="title"
-										className={`input-field input-theme ${
-											errors.title && "border-danger "
-										}`}
-										type="text"
-										{...register("title", {
-											required: "Title is required",
-										})}
-									/>
-									<label htmlFor="input-field" className={`input-label `}>
-										Title
-									</label>
-									<span className="input-highlight"></span>
-								</div>
-								{errors.title && (
-									<p className="text-start text-danger ps-3">
-										{errors.title.message}
-									</p>
-								)}
-                <div className="input-container">
-									<input
-										placeholder="description"
-										className={`input-field input-theme ${
-											errors.title && "border-danger "
-										}`}
-										type="text"
-										{...register("description", {
-											required: "Description is required",
-										})}
-									/>
-									<label htmlFor="input-field" className={`input-label `}>
-                  Description
-									</label>
-									<span className="input-highlight"></span>
-								</div>
-								{errors.description && (
-									<p className="text-start text-danger ps-3">
-										{errors.description.message}
-									</p>
-								)}
+                    <input
+                      placeholder="title"
+                      className={`input-field input-theme ${
+                        errors.title && "border-danger"
+                      }`}
+                      type="text"
+                      {...register("title", {
+                        required: "Title is required",
+                      })}
+                    />
+                    <label htmlFor="input-field" className={`input-label`}>Title</label>
+                    <span className="input-highlight"></span>
+                  </div>
+                  {errors.title && (
+                    <p className="text-start text-danger ps-3">{errors.title.message}</p>
+                  )}
+                  
+                  <div className="input-container">
+                    <input
+                      placeholder="description"
+                      className={`input-field input-theme ${
+                        errors.description && "border-danger"
+                      }`}
+                      type="text"
+                      {...register("description", {
+                        required: "Description is required",
+                      })}
+                    />
+                    <label htmlFor="input-field" className={`input-label`}>Description</label>
+                    <span className="input-highlight"></span>
+                  </div>
+                  {errors.description && (
+                    <p className="text-start text-danger ps-3">{errors.description.message}</p>
+                  )}
 
-<div className="input-container mt-5">
-									<select
-										name="User"
-										className={`input-field input-theme ${
-											errors.employeeId && "border-danger "
-										}`}
-										{...register("employeeId", {
-											required: "User is required",
-										})}
-									>
-										<option value="">No User Selected</option>
-										{users.map((user) => (
-											<option key={user.id} value={user.id}>
-												{user.userName}
-											</option>
-										))}
-									</select>
-									<label htmlFor={`input-field`} className={`input-label `}>
-										User
-									</label>
-									<span className={`input-highlight`}></span>
-								</div>
-								{errors.employeeId && (
-									<p className={`text-start text-danger ps-3`}>
-										{errors.employeeId.message}
-									</p>
-								)}
+                  <div className="input-container mt-5">
+                    <select
+                      name="User"
+                      className={`input-field input-theme ${
+                        errors.employeeId && "border-danger"
+                      }`}
+                      {...register("employeeId", {
+                        required: "User is required",
+                      })}
+                    >
+                      <option value="">No User Selected</option>
+                      {users.map((user) => (
+                        <option key={user.id} value={user.id}>
+                          {user.userName}
+                        </option>
+                      ))}
+                    </select>
+                    <label htmlFor={`input-field`} className={`input-label`}>User</label>
+                    <span className={`input-highlight`}></span>
+                  </div>
+                  {errors.employeeId && (
+                    <p className={`text-start text-danger ps-3`}>{errors.employeeId.message}</p>
+                  )}
+
+                  <div className="text-end">
+                    <button
+                      type="submit"
+                      className={`btn py-1 px-3 fs-6 fw-medium btn btn-outline-success`}
+                    >
+                      {isLoading ? (
+                        <i className="fa-solid fa-spinner fa-spin"></i>
+                      ) : (
+                        `Update ${taskName}`
+                      )}
+                    </button>
+                  </div>
+                </form>
               </div>
-            </div>
-            {/* ------------- */}
-            <div className="addCatModalFooter"></div>
-
-            <div className=" text-end">
-              <button
-                onClick={onUpdateSubmit}
-                className={`btn py-1 px-3 fs-6  fw-medium  btn btn-outline-success `}
-              >
-                {isLoading ? (
-                  <i className="fa-solid fa-spinner fa-spin"></i>
-                ) : (
-                  ` Update ${taskName}`
-                )}
-              </button>
             </div>
           </Modal.Body>
         </Modal>

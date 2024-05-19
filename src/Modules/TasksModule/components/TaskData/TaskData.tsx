@@ -19,15 +19,18 @@ export default function TaskData() {
 		criteriaMode: "all",
 	});
 	const navigate = useNavigate();
-	const onSubmit = (task: any) => {
+
+	const onSubmit = async (task: any) => {
 		try {
-			const { data } = axios.post(`${baseUrl}/Task`, task, {
+			const { data } = await axios.post(`${baseUrl}/Task`, task, {
 				headers: requestHeaders,
 			});
+			console.log(data);
 			toast.success("New Task Has Been Added Successfully");
 			navigate("/dashboard/tasks");
 		} catch (error) {
-			console.log(error.data);
+			console.log(error);
+			toast.error(error.response.data.message);
 		}
 	};
 
@@ -44,8 +47,8 @@ export default function TaskData() {
 				}
 			);
 			setprojects(data.data);
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			toast.error(error)
 		}
 		setIsLoading(false);
 	};
@@ -63,9 +66,8 @@ export default function TaskData() {
 				}
 			);
 			setUsers(data.data);
-			console.log(data.data);
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			toast.error(error)
 		}
 		setIsLoading(false);
 	};

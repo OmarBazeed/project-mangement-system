@@ -85,11 +85,7 @@ export default function TasksList() {
 		setIsLoading(false);
 	};
 
-  const getTasksList = async (
-    taskName: string,
-    pSize: number,
-    pNum: number
-  ) => {
+  const getTasksList = async (taskName: string, pSize: number, pNum: number) => {
     setIsLoading(true);
     try {
       const res = await axios.get(
@@ -233,7 +229,7 @@ export default function TasksList() {
                 className={`form-control p-3 rounded-5 ${style.filterInput}`}
                 onChange={(e) => {
                   setTaskName(e.target.value);
-                  getTasksList(taskName, 10, 1);
+                  getTasksList(taskName, 10);
                 }}
               />
               <i className={`fa fa-search ${style.userSearchIcon}`}></i>

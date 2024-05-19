@@ -28,7 +28,11 @@ export default function UsersList() {
       // setTotalPages(response.totalNumberOfPages);
       // setTotalUserject(response.totalNumberOfPages);
     } catch (err) {
-      toast.error(err.message);
+      const errMsg =
+        axios.isAxiosError(err) && err.response?.data?.message
+          ? err.response.data.message
+          : "An unexpected error occurred";
+      toast.error(errMsg);
     }
     setIsLoading(false);
   };

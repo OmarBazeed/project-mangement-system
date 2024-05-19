@@ -16,7 +16,7 @@ export default function NavBar() {
   } else {
     setLightMode();
   }
-  const toggletheme = (e: any) => {
+  const toggletheme = (e: { target: { checked: boolean } }) => {
     if (e.target.checked) setDarkMode();
     else setLightMode();
   };
@@ -29,7 +29,7 @@ export default function NavBar() {
   //   localStorage.setItem("theme", theme === "dark" ? "dark" : "light");
   // };
   // setTheme(localStorage.getItem("theme") === "dark" ? "dark" : "light");
-  // const toggletheme = (e: any) => {
+  // const toggletheme = (e: { target: { checked: boolean } }) => {
   //   setTheme(e.target.checked ? "dark" : "light");
   // };
 

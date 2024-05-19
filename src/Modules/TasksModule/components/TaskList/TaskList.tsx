@@ -133,7 +133,7 @@ export default function TasksList() {
       const response = await axios.delete(`${baseUrl}/Task/${taskId}`, {
         headers: requestHeaders,
       });
-      getTask(10);
+      getTask(taskName, 10, 1);
       toast.success(`Deleted ${taskName} Successfully`);
     } catch (err) {
       console.log(err);
@@ -146,7 +146,7 @@ export default function TasksList() {
         headers: requestHeaders,
       });
       handleCloseUpdate();
-      getTask(10);
+      getTask(taskName, 10, 1);
       toast.success(`Updated ${taskName} Successfully`);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -189,7 +189,7 @@ export default function TasksList() {
     );
   };
   useEffect(() => {
-    getTask(taskName, 10, 1);
+    getTask("", 10, 1);
     getUsers(50);
   }, [taskName]);
 

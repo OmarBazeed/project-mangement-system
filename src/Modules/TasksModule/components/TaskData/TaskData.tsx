@@ -30,12 +30,7 @@ export default function TaskData() {
         headers: requestHeaders,
       });
       // console.log(data);
-      reset({
-        title: "",
-        description: "",
-        employeeId: 0,
-        projectId: 0
-      });
+      navigate('/dashboard/tasks')
       toast.success("Added Your Task Successfully");
     } catch (error) {
       console.log(error.data);

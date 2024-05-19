@@ -1,12 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import style from "../Tasks.module.css";
-import moment from "moment";
-import NoData from "../../../SharedModule/components/NoData/NoData";
-import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
+import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
+import NoData from "../../../SharedModule/components/NoData/NoData";
+import style from "../Tasks.module.css";
 
 export default function TasksList() {
   const navigate = useNavigate();
@@ -83,7 +82,7 @@ export default function TasksList() {
     );
   };
   useEffect(() => {
-    getTask(3);
+    getTask(10);
   }, []);
 
   return (

@@ -9,7 +9,7 @@ import {
   emailValidation,
   OTPValidation,
 } from "../../../../utils/InputsValidation";
-import { BaseUrl } from "../../../../utils/Utils";
+import { baseUrl } from "../../../../utils/Utils";
 export default function VerifyAccount() {
   const [spinner, setSpinner] = useState<boolean>(false);
 
@@ -24,7 +24,7 @@ export default function VerifyAccount() {
     setSpinner(true);
 
     try {
-      const response = await axios.put(`${BaseUrl}/Users/verify`, data);
+      const response = await axios.put(`${baseUrl}/Users/verify`, data);
       toast.success(response.data.message || "Account verified successfully");
       console.log(response);
       navigate("/login");

@@ -4,28 +4,40 @@ import Images from "../../../ImageModule/components/Images/Images";
 export default function NavBar() {
   const { adminData } = useUser();
   const setDarkMode = () => {
-    document.querySelector("body")?.setAttribute("data-theme", "dark");
     localStorage.setItem("theme", "dark");
+    document.querySelector("body")?.setAttribute("data-theme", "dark");
   };
   const setLightMode = () => {
-    document.querySelector("body")?.setAttribute("data-theme", "light");
     localStorage.removeItem("theme");
+    document.querySelector("body")?.setAttribute("data-theme", "light");
   };
   if (localStorage.getItem("theme")) {
     setDarkMode();
   } else {
     setLightMode();
   }
-  const toggletheme = (e: any) => {
+  const toggletheme = (e: { target: { checked: boolean } }) => {
     if (e.target.checked) setDarkMode();
     else setLightMode();
   };
+  console.log(adminData);
+  //********************************************
+  //Enhance On settheme(Light-Dark)... By O.B
+  //********************************************
+  // const setTheme = (theme: "dark" | "light") => {
+  //   document.querySelector("body")?.setAttribute("data-theme", theme);
+  //   localStorage.setItem("theme", theme === "dark" ? "dark" : "light");
+  // };
+  // setTheme(localStorage.getItem("theme") === "dark" ? "dark" : "light");
+  // const toggletheme = (e: { target: { checked: boolean } }) => {
+  //   setTheme(e.target.checked ? "dark" : "light");
+  // };
 
   return (
     <>
       <nav className="navbar navbar-expand-lg nav-theme shadow fixed-top ">
         <div className="container-fluid">
-          <a className="navbar-brand  ">
+          <a className="navbar-brand">
             {localStorage.getItem("theme") ? (
               <img height={50} className="w-100" src={Images.logoDark} alt="" />
             ) : (
@@ -94,6 +106,7 @@ export default function NavBar() {
                 id="switch-dark-theme"
                 onChange={toggletheme}
               />
+
               <div className="icon-dark-theme icon--moon">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -109,6 +122,7 @@ export default function NavBar() {
                   />
                 </svg>
               </div>
+
               <div className="icon-dark-theme icon--sun">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

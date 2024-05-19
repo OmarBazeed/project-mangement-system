@@ -6,9 +6,13 @@ import NoData from "../../../SharedModule/components/NoData/NoData";
 import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-import { baseUrl, requestHeaders } from "../../../../utils/Utils";
+import {
+  baseUrl,
+  handleApiError,
+  requestHeaders,
+} from "../../../../utils/Utils";
+import { TaskInterface } from "../../../../interfaces/Auth";
 import { useForm } from "react-hook-form";
-
 
 export default function TasksList() {
   const navigate = useNavigate();
@@ -20,11 +24,14 @@ export default function TasksList() {
   const [totalPages, setTotalPages] = useState(0);
   // State for total number of pages
   const [totalTasks, setTotalTasks] = useState(0);
-  const [taskName, setTaskName] = useState(null);
+  const [taskName, setTaskName] = useState("");
+  const [tasksList, setTasksList] = useState<[UsersInterface] | []>([]);
   const [taskId, setTaskId] = useState(null);
   const [showDelete, setShowDelete] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
   const [users, setUsers] = useState([]);
+  const [paginationNum, setPaginationNum] = useState<number[]>([]);
+
 
 
   const {
@@ -42,14 +49,18 @@ export default function TasksList() {
         `${baseUrl}/Task/manager?pageSize=${pageSize}&pageNumber=${pageNumber}`,
         {
           headers: requestHeaders,
+          // params: {
+          //   name: name,
+          // },
         }
       );
 
       setTasks(data.data);
+      console.log(data.data);
       setTotalPages(data.totalNumberOfPages);
       setTotalTasks(data.totalNumberOfPages);
-    } catch (error) {
-			toast.error(error)
+    } catch (err) {
+      console.log(err);
     }
     setIsLoading(false);
   };
@@ -74,6 +85,41 @@ export default function TasksList() {
 		setIsLoading(false);
 	};
 
+  const getTasksList = async (
+    taskName: string,
+    pSize: number,
+    pNum: number
+  ) => {
+    setIsLoading(true);
+    try {
+      const res = await axios.get(
+        `${baseUrl}/Task/manager?pageSize=${pSize}&pageNumber=${pNum}`,
+        {
+          headers: requestHeaders,
+          params: {
+            title: taskName,
+          },
+        }
+      );
+      setTasksList(res.data.data);
+      setPaginationNum(
+        Array(res.data.totalNumberOfPages)
+          .fill(0)
+          .map((_, i) => i + 1)
+      );
+      // setTotalPages(response.totalNumberOfPages);
+      // setTotalUserject(response.totalNumberOfPages);
+    } catch (err) {
+      const errMsg =
+        axios.isAxiosError(err) && err.response?.data?.message
+          ? err.response.data.message
+          : "An unexpected error occurred";
+      toast.error(errMsg);
+    }
+    setIsLoading(false);
+  };
+
+
 
   const onDeleteSubmit = async () => {
     handleCloseDelete();
@@ -83,8 +129,8 @@ export default function TasksList() {
       });
       getTask(10);
       toast.success(`Deleted ${taskName} Successfully`);
-    } catch (error) {
-      toast.error(error.response.data.message);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -139,7 +185,8 @@ export default function TasksList() {
   useEffect(() => {
     getTask(10);
     getUsers(50);
-  }, []);
+    getTasksList(taskName, 10, 1);
+  }, [taskName]);
 
   return (
     <>
@@ -173,6 +220,30 @@ export default function TasksList() {
             </div>
           </div>
         </div>
+
+        {/*Filtaration*/}
+        <div
+          className={`filtaration container rounded-4 w-100 mt-3 ${style.inputSearch}`}
+        >
+          <div className="row">
+            <div className="col-md-9 inputSearch">
+              <input
+                type="text"
+                placeholder="Search Fleets"
+                className={`form-control p-3 rounded-5 ${style.filterInput}`}
+                onChange={(e) => {
+                  setTaskName(e.target.value);
+                  getTasksList(taskName, 10, 1);
+                }}
+              />
+              <i className={`fa fa-search ${style.userSearchIcon}`}></i>
+            </div>
+            <button className="col-md-1 btn btn-success border-0 rounded-5">
+              <i className="fa fa-filter"></i> Filter
+            </button>
+          </div>
+        </div>
+
 
         <div
           className={`project-body head-bg mt-5 container rounded-4 shadow  px-4 py-5`}
@@ -425,6 +496,34 @@ export default function TasksList() {
             </div>
           </Modal.Body>
         </Modal>
+        {/*Pagination*/}
+        <div className="w-100 container my-3">
+          <nav aria-label="Page navigation example w-100">
+            <ul className="pagination w-100 d-flex align-items-center justify-content-center flex-wrap">
+              <li className="page-item">
+                <a className="page-link" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              {paginationNum.map((ele) => {
+                return (
+                  <li
+                    className="page-item"
+                    key={ele}
+                    onClick={() => getTask(taskName, 10, ele)}
+                  >
+                    <a className="page-link">{ele}</a>
+                  </li>
+                );
+              })}
+              <li className="page-item">
+                <a className="page-link" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </section>
     </>
   );

@@ -1,47 +1,31 @@
+import { useState } from "react";
 import { useUser } from "../../../../Context/AuthContext";
 import Images from "../../../ImageModule/components/Images/Images";
+import useLocalStorage from "use-local-storage";
 
 export default function NavBar() {
+  const [dark, setDark] = useLocalStorage("dark", false);
   const { adminData } = useUser();
-  const setDarkMode = () => {
-    localStorage.setItem("theme", "dark");
-    document.querySelector("body")?.setAttribute("data-theme", "dark");
-  };
-  const setLightMode = () => {
-    localStorage.removeItem("theme");
-    document.querySelector("body")?.setAttribute("data-theme", "light");
-  };
-  if (localStorage.getItem("theme")) {
-    setDarkMode();
-  } else {
-    setLightMode();
-  }
-  const toggletheme = (e: { target: { checked: boolean } }) => {
-    if (e.target.checked) setDarkMode();
-    else setLightMode();
-  };
-  console.log(adminData);
-  //********************************************
-  //Enhance On settheme(Light-Dark)... By O.B
-  //********************************************
-  // const setTheme = (theme: "dark" | "light") => {
-  //   document.querySelector("body")?.setAttribute("data-theme", theme);
-  //   localStorage.setItem("theme", theme === "dark" ? "dark" : "light");
-  // };
-  // setTheme(localStorage.getItem("theme") === "dark" ? "dark" : "light");
-  // const toggletheme = (e: { target: { checked: boolean } }) => {
-  //   setTheme(e.target.checked ? "dark" : "light");
-  // };
+
+  
+  document
+    .querySelector("body")
+    ?.setAttribute("data-theme", dark ? "dark" : "light");
 
   return (
     <>
       <nav className="navbar navbar-expand-lg nav-theme shadow fixed-top ">
         <div className="container-fluid">
           <a className="navbar-brand">
-            {localStorage.getItem("theme") ? (
-              <img height={50} className="w-100" src={Images.logoDark} alt="" />
+            {dark ? (
+              <img height={54} className="w-100" src={Images.logoDark} alt="" />
             ) : (
-              <img className="w-100" src={Images.logoLight} alt="" />
+              <img
+                height={50}
+                className="w-100"
+                src={Images.logoLight}
+                alt=""
+              />
             )}
           </a>
           <button
@@ -99,12 +83,16 @@ export default function NavBar() {
             </ul>
           </div>
           <div className="mx-lg-3 ">
+            {/* <button onClick={toggletheme} className="border-0 bg-transparent ">
+              f
+            </button> */}
             <label htmlFor="switch-dark-theme" className="toggle-dark-theme">
               <input
                 type="checkbox"
                 className="input-dark-theme"
                 id="switch-dark-theme"
-                onChange={toggletheme}
+                onChange={() => setDark(!dark)}
+                checked={dark}
               />
 
               <div className="icon-dark-theme icon--moon">
@@ -112,8 +100,8 @@ export default function NavBar() {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  width={32}
-                  height={32}
+                  width={20}
+                  height={20}
                 >
                   <path
                     fillRule="evenodd"
@@ -128,8 +116,8 @@ export default function NavBar() {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  width={32}
-                  height={32}
+                  width={20}
+                  height={20}
                 >
                   <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
                 </svg>

@@ -14,14 +14,14 @@ import {
 import Images from "../../../ImageModule/components/Images/Images";
 import NoData from "../../../SharedModule/components/NoData/NoData";
 import style from "./Users.module.css";
-
+import ResponsivePagination from "react-responsive-pagination";
 export default function UsersList() {
   const [isLoading, setIsLoading] = useState(false);
   const [usersList, setUsersList] = useState<[UsersInterface] | []>([]);
   const [showView, setShowView] = useState(false);
   const [userUsername, setUserUsername] = useState("");
-  const [paginationNum, setPaginationNum] = useState<number[]>([]);
-
+  const [totalPages, setTotalPages] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
   const [selectedUser, setSelectedUser] = useState<UsersInterface>({
     country: "",
     email: "",
@@ -43,15 +43,11 @@ export default function UsersList() {
 
   const navigate = useNavigate();
 
-  const getUsersList = async (
-    userUsername: string,
-    pSize: number,
-    pNum: number
-  ) => {
+  const getUsersList = async (userUsername: string, pSize: number) => {
     setIsLoading(true);
     try {
       const res = await axios.get(
-        `${baseUrl}/Users/?pageSize=${pSize}&pageNumber=${pNum}`,
+        `${baseUrl}/Users/?pageSize=${pSize}&pageNumber=${pageNumber}`,
         {
           headers: requestHeaders,
           params: {
@@ -60,11 +56,7 @@ export default function UsersList() {
         }
       );
       setUsersList(res.data.data);
-      setPaginationNum(
-        Array(res.data.totalNumberOfPages)
-          .fill(0)
-          .map((_, i) => i + 1)
-      );
+      setTotalPages(res.data.totalNumberOfPages);
       // setTotalPages(response.totalNumberOfPages);
       // setTotalUserject(response.totalNumberOfPages);
     } catch (err) {
@@ -140,8 +132,8 @@ export default function UsersList() {
   };
 
   useEffect(() => {
-    getUsersList(userUsername, 10, 1);
-  }, [userUsername]);
+    getUsersList(userUsername, 10);
+  }, [userUsername, pageNumber]);
   return (
     <>
       <section>
@@ -229,7 +221,7 @@ export default function UsersList() {
                 className={`form-control p-3 rounded-5 ${style.filterInput}`}
                 onChange={(e) => {
                   setUserUsername(e.target.value);
-                  getUsersList(userUsername, 10, 1);
+                  getUsersList(userUsername, 10);
                 }}
               />
               <i className={`fa fa-search ${style.userSearchIcon}`}></i>
@@ -380,35 +372,15 @@ export default function UsersList() {
               )}
             </ul>
           )}
-        </div>
+          {/*Pagination*/}
 
-        {/*Pagination*/}
-        <div className="w-100 container my-3">
-          <nav aria-label="Page navigation example w-100">
-            <ul className="pagination w-100 d-flex align-items-center justify-content-center flex-wrap">
-              <li className="page-item">
-                <a className="page-link" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              {paginationNum.map((ele) => {
-                return (
-                  <li
-                    className="page-item"
-                    key={ele}
-                    onClick={() => getUsersList(userUsername, 10, ele)}
-                  >
-                    <a className="page-link">{ele}</a>
-                  </li>
-                );
-              })}
-              <li className="page-item">
-                <a className="page-link" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <div className="mt-5">
+            <ResponsivePagination
+              current={pageNumber}
+              total={totalPages}
+              onPageChange={setPageNumber}
+            />
+          </div>
         </div>
       </section>
     </>

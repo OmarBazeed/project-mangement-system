@@ -5,12 +5,16 @@
   --text: #000;
   --navbg: #fff;
   --headerBg: #fff;
+  --sideBg: #0e382f;
+  --tableHdBg: #315951e5;
 }
 [data-theme="dark"] {
   --bg: #22272b;
   --text: #fff;
   --navbg: #161a1d;
   --headerBg: #1d2125;
+  --sideBg: #38414a;
+  --tableHdBg: #38414a;
 }
 
 .nav-theme {
@@ -272,8 +276,8 @@
 
 .toggle-dark-theme {
   background-color: #0e382f;
-  width: 56px;
-  height: 56px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   display: grid;
   place-items: center;

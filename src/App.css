@@ -319,3 +319,12 @@ input:-webkit-autofill:active {
   -webkit-background-clip: text !important;
   background-clip: text !important;
 }
+.header-container {
+  background-image: url(./assets/images/bgHeader.jpg);
+  border-radius: 2rem;
+  background-size: cover;
+  width: 100%;
+  color: white;
+  height: 330px;
+
+}

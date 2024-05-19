@@ -13,7 +13,7 @@ import {
   requestHeaders,
 } from "../../../../utils/Utils";
 import { ProjectInterface } from "../../../../interfaces/Auth";
-
+import ResponsivePagination from "react-responsive-pagination";
 export default function ProjectList() {
   const navigate = useNavigate();
   const [projects, setprojects] = useState([]);
@@ -23,28 +23,28 @@ export default function ProjectList() {
   // State for total number of pages
   const [totalPages, setTotalPages] = useState(0);
   // State for total number of pages
-  const [totalProject, setTotalProject] = useState(0);
+  // const [totalProject, setTotalProject] = useState(0);
   const [proName, setProName] = useState("");
   const [proId, setProId] = useState(0);
   const [showDelete, setShowDelete] = useState(false);
-
+const [projectTitle, setProjecTitle] = useState("");
   const getProject = useCallback(
-    async (pageSize: number) => {
+    async (proTitle: string,pageSize: number) => {
       setIsLoading(true);
       try {
         const { data } = await axios.get(
           `${baseUrl}/Project/manager?pageSize=${pageSize}&pageNumbe=${pageNumber}`,
           {
             headers: requestHeaders,
-            // params: {
-            //   name: name,
-            // },
+            params: {
+              title: proTitle,
+            },
           }
         );
 
         setprojects(data.data);
         setTotalPages(data.totalNumberOfPages);
-        setTotalProject(data.totalNumberOfPages);
+        // setTotalProject(data.totalNumberOfPages);
       } catch (err) {
         handleApiError(err);
       }
@@ -87,8 +87,8 @@ export default function ProjectList() {
     );
   };
   useEffect(() => {
-    getProject(20);
-  }, [getProject]);
+    getProject(projectTitle, 10);
+  }, [getProject, projectTitle, pageNumber]);
 
   return (
     <>
@@ -122,7 +122,28 @@ export default function ProjectList() {
             </div>
           </div>
         </div>
-
+        {/*Filtaration*/}
+        <div
+          className={`filtaration container rounded-4 w-100 mt-3 ${style.inputSearch}`}
+        >
+          <div className="row">
+            <div className="col-md-9 inputSearch">
+              <input
+                type="text"
+                placeholder="Search Fleets"
+                className={`form-control p-3 rounded-5 ${style.filterInput}`}
+                onChange={(e) => {
+                  setProjecTitle(e.target.value);
+                  getProject(projectTitle, 10);
+                }}
+              />
+              <i className={`fa fa-search ${style.userSearchIcon}`}></i>
+            </div>
+            <button className="col-md-1 btn btn-success border-0 rounded-5">
+              <i className="fa fa-filter"></i> Filter
+            </button>
+          </div>
+        </div>
         <div
           className={`project-body head-bg mt-5 container rounded-4 shadow  px-4 py-5`}
         >
@@ -238,6 +259,14 @@ export default function ProjectList() {
               )}
             </ul>
           )}
+
+          <div className="mt-5">
+            <ResponsivePagination
+              current={pageNumber}
+              total={totalPages}
+              onPageChange={setPageNumber}
+            />
+          </div>
         </div>
 
         {/* modal handle delete  */}

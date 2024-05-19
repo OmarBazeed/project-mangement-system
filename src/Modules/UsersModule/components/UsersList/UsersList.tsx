@@ -135,204 +135,223 @@ export default function UsersList() {
     }
   }, [adminData]);
   return (
-    <>
-      <section>
-        <div
-          className={`project-data-head container-fluid shadow-sm  head-bg py-3 px-5`}
-        >
-          <div className={`row`}>
-            <div className="col-md-6">
-              <div
-                className={`text-theme text-lg-start text-sm-center text-center`}
-              >
-                <button
-                  onClick={() => {
-                    navigate("/dashboard/tasks");
-                  }}
-                  className={`border-0 bg-transparent `}
-                ></button>
-                <h2 className={`text-theme `}>Users</h2>
-              </div>
-            </div>
-          </div>
-        </div>
+		<>
+			<section>
+				<div
+					className={`project-data-head container-fluid shadow-sm  head-bg py-3 px-5`}
+				>
+					<div className={`row`}>
+						<div className="col-md-6">
+							<div
+								className={`text-theme text-lg-start text-sm-center text-center`}
+							>
+								<button
+									onClick={() => {
+										navigate("/dashboard/tasks");
+									}}
+									className={`border-0 bg-transparent `}
+								></button>
+								<h2 className={`text-theme `}>Users</h2>
+							</div>
+						</div>
+					</div>
+				</div>
 
-        {/* Modal for View */}
-        <Modal show={showView} onHide={handleViewClose}>
-          <Modal.Header closeButton>
-            <h3>User Details</h3>
-          </Modal.Header>
-          <Modal.Body>
-            <div>
-              <p>{`Name: ${selectedUser.userName}`}</p>
-              <p>{`Email: ${selectedUser.email} `}</p>
-              <p>
-                Image:
-                <img
-                  src={`https://upskilling-egypt.com:3003/${selectedUser.imagePath}`}
-                  alt="..."
-                  style={{ width: "70px", height: "70px" }}
-                />
-              </p>
-              <p>{`Active: ${selectedUser.isActivated} `}</p>
-              <p>{`Tasks No.: ${
-                selectedUser.task.length > 0 ? selectedUser.task.length : 0
-              } `}</p>
-            </div>
-          </Modal.Body>
-          <ModalFooter className="py-3">
-            <button
-              onClick={handleCloseShowUser}
-              className={`btn py-1 px-3 fs-6 fw-medium btn btn-outline-success `}
-            >
-              Back
-            </button>
-          </ModalFooter>
-        </Modal>
+				{/* Modal for View */}
+				<Modal show={showView} onHide={handleViewClose}>
+					<Modal.Header closeButton>
+						<h3>User Details</h3>
+					</Modal.Header>
+					<Modal.Body>
+						<div className="fw-bold">
+							<p className="text-center">
+								{selectedUser.imagePath ? (
+									<img
+										src={`https://upskilling-egypt.com:3003/${selectedUser.imagePath}`}
+										alt="..."
+										style={{ width: "70px", height: "70px" }}
+									/>
+								) : (
+									<img style={{ width: "70px" }} src={`${Images.NoData}`} />
+								)}
+							</p>
+							<p>
+								<i className="mx-2 bi bi-people text-success"></i>
+								{`Name: ${selectedUser.userName}`}
+							</p>
+							<p>
+								<i className="mx-2 bi bi-envelope text-success"></i>
+								{`Email: ${selectedUser.email} `}
+							</p>
+							<p className="d-flex align-items-center">
+								{selectedUser.isActivated ? (
+									<i className="mx-2 fas fa-toggle-on text-success" />
+								) : (
+									<i className="mx-2 fas fa-toggle-on text-danger" />
+								)}
+								{`Active: ${selectedUser.isActivated} `}
+							</p>
+							<p>
+								<i className="mx-2 fas fa-tasks text-success"></i>
+								{`Tasks No.: ${
+									selectedUser.task.length > 0 ? selectedUser.task.length : 0
+								} `}
+							</p>
+						</div>
+					</Modal.Body>
+					<ModalFooter className="py-3">
+						<button
+							onClick={handleCloseShowUser}
+							className={`btn py-1 px-3 fs-6 fw-medium btn btn-outline-success `}
+						>
+							Back
+						</button>
+					</ModalFooter>
+				</Modal>
 
-        {/* table */}
+				{/* table */}
 
-        <div
-          className={`project-body head-bg mt-5 container rounded-4 shadow  px-4 py-5`}
-        >
-          <ul className={`${style.responsiveTableProjects} text-white`}>
-            <li className={`${style.tableHeader}`}>
-              <div className={`${style.col} ${style.col1}`}>ID</div>
-              <div className={`${style.col} ${style.col2}`}>UserName</div>
-              <div className={`${style.col} ${style.col3}`}>Image</div>
-              <div className={`${style.col} ${style.col4}`}>Creation Date</div>
-              <div className={`${style.col} ${style.col5}`}>Actions</div>
-              <div className={`${style.col} ${style.col6}`}>Status</div>
-            </li>
-          </ul>
-          {isLoading ? (
-            <div className="container pt-5 mt-5 text-center text-theme">
-              {btnloading()}
-            </div>
-          ) : (
-            <ul className={`${style.responsiveTableProjects}`}>
-              {usersList.length > 0 ? (
-                usersList.map((user: UsersInterface) => (
-                  <li
-                    key={user.id}
-                    className={`${style.tableRow} bg-theme text-theme`}
-                  >
-                    <div
-                      className={`${style.col}  ${style.col1}`}
-                      data-label="ID"
-                    >
-                      {user.id}
-                    </div>
-                    <div
-                      className={`${style.col} ${style.col2}`}
-                      data-label="Title :"
-                    >
-                      {user.userName}
-                    </div>
-                    <div
-                      className={`${style.col} ${style.col3}`}
-                      data-label="Images :"
-                    >
-                      {user.imagePath ? (
-                        <img
-                          className={`${style.noImg}`}
-                          src={`https://upskilling-egypt.com:3003/${user.imagePath}`}
-                          alt=""
-                        />
-                      ) : (
-                        <img
-                          className={`${style.noImg}`}
-                          alt="no Data Image"
-                          src={`${Images.NoData}`}
-                        />
-                      )}
-                    </div>
-                    <div
-                      className={`${style.col} ${style.col4}`}
-                      data-label="Creation Date :"
-                    >
-                      {/* {item.modificationDate} */}
-                      {moment(user.creationDate).format("LLLL")}
-                    </div>
-                    <div
-                      className={`${style.col} ${style.col5}`}
-                      data-label="Actions :"
-                    >
-                      <div className="btn-group">
-                        {window.innerWidth < 650 ? (
-                          ""
-                        ) : (
-                          <i
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                            className="fa-solid fa-ellipsis"
-                          ></i>
-                        )}
+				<div
+					className={`project-body head-bg mt-5 container rounded-4 shadow  px-4 py-5`}
+				>
+					<ul className={`${style.responsiveTableProjects} text-white`}>
+						<li className={`${style.tableHeader}`}>
+							<div className={`${style.col} ${style.col1}`}>ID</div>
+							<div className={`${style.col} ${style.col2}`}>UserName</div>
+							<div className={`${style.col} ${style.col3}`}>Image</div>
+							<div className={`${style.col} ${style.col4}`}>Creation Date</div>
+							<div className={`${style.col} ${style.col5}`}>Actions</div>
+							<div className={`${style.col} ${style.col6}`}>Status</div>
+						</li>
+					</ul>
+					{isLoading ? (
+						<div className="container pt-5 mt-5 text-center text-theme">
+							{btnloading()}
+						</div>
+					) : (
+						<ul className={`${style.responsiveTableProjects}`}>
+							{usersList.length > 0 ? (
+								usersList.map((user: UsersInterface) => (
+									<li
+										key={user.id}
+										className={`${style.tableRow} bg-theme text-theme`}
+									>
+										<div
+											className={`${style.col}  ${style.col1}`}
+											data-label="ID"
+										>
+											{user.id}
+										</div>
+										<div
+											className={`${style.col} ${style.col2}`}
+											data-label="Title :"
+										>
+											{user.userName}
+										</div>
+										<div
+											className={`${style.col} ${style.col3}`}
+											data-label="Images :"
+										>
+											{user.imagePath ? (
+												<img
+													className={`${style.noImg}`}
+													src={`https://upskilling-egypt.com:3003/${user.imagePath}`}
+													alt=""
+												/>
+											) : (
+												<img
+													className={`${style.noImg}`}
+													alt="no Data Image"
+													src={`${Images.NoData}`}
+												/>
+											)}
+										</div>
+										<div
+											className={`${style.col} ${style.col4}`}
+											data-label="Creation Date :"
+										>
+											{/* {item.modificationDate} */}
+											{moment(user.creationDate).format("LLLL")}
+										</div>
+										<div
+											className={`${style.col} ${style.col5}`}
+											data-label="Actions :"
+										>
+											<div className="btn-group">
+												{window.innerWidth < 650 ? (
+													""
+												) : (
+													<i
+														data-bs-toggle="dropdown"
+														aria-expanded="false"
+														className="fa-solid fa-ellipsis"
+													></i>
+												)}
 
-                        <ul
-                          className={`${
-                            window.innerWidth < 650
-                              ? "d-flex  align-items-center  justify-content-center "
-                              : "dropdown-menu dropdown-menu-end"
-                          }  m-0 p-0`}
-                        >
-                          <li
-                            role="button"
-                            className="px-3 py-1 pt-2 "
-                            onClick={() => handleShowUser(user)}
-                          >
-                            <div className="dropdown-div ">
-                              <i className="m-2 fa-regular fa-eye"></i>
-                              {window.innerWidth < 650 ? "" : <span>View</span>}
-                            </div>
-                          </li>
-                          <li
-                            role="button"
-                            // onClick={() => handleUpdate(item.id, item.name)}
-                            className="px-3 py-1"
-                          >
-                            <div role="button" className="dropdown-div">
-                              <i className="m-2 fa-regular fa-pen-to-square "></i>
-                              {window.innerWidth < 650 ? "" : <span>Edit</span>}
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div role="button" className="dropdown-div">
-                      {user.isActivated ? (
-                        <i
-                          onClick={() =>
-                            toggleUserStatus(
-                              user.id,
-                              user.userName,
-                              user.isActivated
-                            )
-                          }
-                          className="fas fa-toggle-on fa-2x text-success"
-                        ></i>
-                      ) : (
-                        <i
-                          onClick={() =>
-                            toggleUserStatus(
-                              user.id,
-                              user.userName,
-                              user.isActivated
-                            )
-                          }
-                          className="fas fa-toggle-off fa-2x text-danger"
-                        ></i>
-                      )}
-                    </div>
-                  </li>
-                ))
-              ) : (
-                <NoData />
-              )}
-            </ul>
-          )}
-        </div>
-      </section>
-    </>
-  );
+												<ul
+													className={`${
+														window.innerWidth < 650
+															? "d-flex  align-items-center  justify-content-center "
+															: "dropdown-menu dropdown-menu-end"
+													}  m-0 p-0`}
+												>
+													<li
+														role="button"
+														className="px-3 py-1 pt-2 "
+														onClick={() => handleShowUser(user)}
+													>
+														<div className="dropdown-div ">
+															<i className="m-2 fa-regular fa-eye"></i>
+															{window.innerWidth < 650 ? "" : <span>View</span>}
+														</div>
+													</li>
+													<li
+														role="button"
+														// onClick={() => handleUpdate(item.id, item.name)}
+														className="px-3 py-1"
+													>
+														<div role="button" className="dropdown-div">
+															<i className="m-2 fa-regular fa-pen-to-square "></i>
+															{window.innerWidth < 650 ? "" : <span>Edit</span>}
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div role="button" className="dropdown-div">
+											{user.isActivated ? (
+												<i
+													onClick={() =>
+														toggleUserStatus(
+															user.id,
+															user.userName,
+															user.isActivated
+														)
+													}
+													className="fas fa-toggle-on fa-2x text-success"
+												></i>
+											) : (
+												<i
+													onClick={() =>
+														toggleUserStatus(
+															user.id,
+															user.userName,
+															user.isActivated
+														)
+													}
+													className="fas fa-toggle-off fa-2x text-danger"
+												></i>
+											)}
+										</div>
+									</li>
+								))
+							) : (
+								<NoData />
+							)}
+						</ul>
+					)}
+				</div>
+			</section>
+		</>
+	);
 }

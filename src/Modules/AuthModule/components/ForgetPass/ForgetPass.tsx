@@ -4,7 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { FormData } from "../../../../interfaces/Auth";
 import Images from "../../../ImageModule/components/Images/Images";
-import { BaseUrl } from "../../../../utils/Utils";
+import { baseUrl } from "../../../../utils/Utils";
 import { toast } from "react-toastify";
 import { emailValidation } from "../../../../utils/InputsValidation";
 
@@ -35,7 +35,7 @@ export default function ForgetPass() {
     setSpinner(true);
     setSubBtnCilcked(true);
     try {
-      const response = await axios.post(`${BaseUrl}/Users/Reset/Request`, data);
+      const response = await axios.post(`${baseUrl}/Users/Reset/Request`, data);
       toast.success(
         response.data.message ||
           "Your request is being processed, please check your Email",
@@ -103,7 +103,7 @@ export default function ForgetPass() {
                             className="main-btn"
                             disabled={subBtnCilcked}
                           >
-                            {spinner ? btnloading() : "Verify"}
+                            {spinner ? btnloading() : "Go Now"}
                           </button>
                           <button
                             onClick={() => {

@@ -11,7 +11,7 @@ import {
   emailValidation,
   passwordValidation,
 } from "../../../../utils/InputsValidation";
-import { BaseUrl } from "../../../../utils/Utils";
+import { baseUrl } from "../../../../utils/Utils";
 import Images from "../../../ImageModule/components/Images/Images";
 export default function Login() {
   // All states here on the top
@@ -52,8 +52,8 @@ export default function Login() {
     setSpinner(true);
     setSubBtnCilcked(true);
     try {
-      const response = await axios.post(`${BaseUrl}/Users/Login`, data);
-      localStorage.setItem("adminToken", response?.data?.token);
+      const response = await axios.post(`${baseUrl}/Users/Login`, data);
+      // localStorage.setItem("adminToken", response?.data?.token);
       toast.success(response.data.message || "Login successfully");
       localStorage.setItem("token", response.data.token);
       navigate("/dashboard");

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "../Project.module.css";
 import moment from "moment";
@@ -7,13 +7,15 @@ import NoData from "../../../SharedModule/components/NoData/NoData";
 import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
+import {
+  baseUrl,
+  handleApiError,
+  requestHeaders,
+} from "../../../../utils/Utils";
+import { ProjectInterface } from "../../../../interfaces/Auth";
 
 export default function ProjectList() {
   const navigate = useNavigate();
-  const requestHeaders = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
-  const baseUrl = `https://upskilling-egypt.com:3003/api/v1`;
   const [projects, setprojects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   // State for page number
@@ -22,42 +24,44 @@ export default function ProjectList() {
   const [totalPages, setTotalPages] = useState(0);
   // State for total number of pages
   const [totalProject, setTotalProject] = useState(0);
-  const [proName, setProName] = useState(null);
-  const [proId, setProId] = useState(null);
+  const [proName, setProName] = useState("");
+  const [proId, setProId] = useState(0);
   const [showDelete, setShowDelete] = useState(false);
 
-  const getProject = async (pageSize: any) => {
-    setIsLoading(true);
-    try {
-      const { data } = await axios.get(
-        `${baseUrl}/Project/manager?pageSize=${pageSize}&pageNumbe=${pageNumber}`,
-        {
-          headers: requestHeaders,
-          // params: {
-          //   name: name,
-          // },
-        }
-      );
+  const getProject = useCallback(
+    async (pageSize: number) => {
+      setIsLoading(true);
+      try {
+        const { data } = await axios.get(
+          `${baseUrl}/Project/manager?pageSize=${pageSize}&pageNumbe=${pageNumber}`,
+          {
+            headers: requestHeaders,
+            // params: {
+            //   name: name,
+            // },
+          }
+        );
 
-      setprojects(data.data);
-      console.log(data.data);
-      setTotalPages(data.totalNumberOfPages);
-      setTotalProject(data.totalNumberOfPages);
-    } catch (err) {
-      console.log(err);
-    }
-    setIsLoading(false);
-  };
+        setprojects(data.data);
+        setTotalPages(data.totalNumberOfPages);
+        setTotalProject(data.totalNumberOfPages);
+      } catch (err) {
+        handleApiError(err);
+      }
+      setIsLoading(false);
+    },
+    [pageNumber]
+  );
   const onDeleteSubmit = async () => {
     handleCloseDelete();
     try {
-      const response = await axios.delete(`${baseUrl}/Project/${proId}`, {
+      await axios.delete(`${baseUrl}/Project/${proId}`, {
         headers: requestHeaders,
       });
       getProject(10);
       toast.success(`Deleted ${proName} Successfully`);
     } catch (err) {
-      console.log(err);
+      handleApiError(err);
     }
   };
   const handleCloseDelete = () => {
@@ -66,7 +70,7 @@ export default function ProjectList() {
     setProId(null);
     setProName(null);
   };
-  const handleShowDelete = (id, name) => {
+  const handleShowDelete = (id: number, name: string) => {
     // set the values to handle  them in the delete process
     setProId(id);
     setProName(name);
@@ -84,7 +88,7 @@ export default function ProjectList() {
   };
   useEffect(() => {
     getProject(20);
-  }, []);
+  }, [getProject]);
 
   return (
     <>
@@ -138,7 +142,7 @@ export default function ProjectList() {
           ) : (
             <ul className={`${style.responsiveTableProjects}`}>
               {projects.length > 0 ? (
-                projects.map((pro) => (
+                projects.map((pro: ProjectInterface) => (
                   <li
                     key={pro.id}
                     className={`${style.tableRow} bg-theme text-theme`}
@@ -159,7 +163,7 @@ export default function ProjectList() {
                       className={`${style.col} ${style.col3}`}
                       data-label="No of tasks :"
                     >
-                      {pro.task?.lenngth > 0 ? pro.task?.lenngth : 0}
+                      {pro.task?.length > 0 ? pro.task?.length : 0}
                     </div>
                     <div
                       className={`${style.col} ${style.col4}`}

@@ -42,28 +42,6 @@ export default function TasksList() {
 		criteriaMode: "all",
 	});
 
-  const getTask = async (pageSize: any) => {
-    setIsLoading(true);
-    try {
-      const { data } = await axios.get(
-        `${baseUrl}/Task/manager?pageSize=${pageSize}&pageNumber=${pageNumber}`,
-        {
-          headers: requestHeaders,
-          // params: {
-          //   name: name,
-          // },
-        }
-      );
-
-      setTasks(data.data);
-      console.log(data.data);
-      setTotalPages(data.totalNumberOfPages);
-      setTotalTasks(data.totalNumberOfPages);
-    } catch (err) {
-      console.log(err);
-    }
-    setIsLoading(false);
-  };
 
   const getUsers = async (pageSize: any) => {
 		setIsLoading(true);
@@ -85,7 +63,39 @@ export default function TasksList() {
 		setIsLoading(false);
 	};
 
-  const getTasksList = async (taskName: string, pSize: number, pNum: number) => {
+
+
+  const getTask = async (taskName: string, pageSize: number, pageNumber: number) => {
+    setIsLoading(true);
+    try {
+      const { data } = await axios.get(
+        `${baseUrl}/Task/manager?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+        {
+          headers: requestHeaders,
+          params: {
+            title: taskName,
+          },
+        }
+      );
+
+      setTasks(data.data);
+      console.log(data.data);
+      setTotalPages(data.totalNumberOfPages);
+      setPaginationNum(
+        Array(data.data.totalNumberOfPages)
+          .fill(0)
+          .map((_, i) => i + 1)
+      );
+      setTotalTasks(data.totalNumberOfPages);
+    } catch (err) {
+      console.log(err);
+    }
+    setIsLoading(false);
+  };
+
+ 
+
+  /*const getTasksList = async (taskName: string, pSize: number, pNum: number) => {
     setIsLoading(true);
     try {
       const res = await axios.get(
@@ -113,7 +123,7 @@ export default function TasksList() {
       toast.error(errMsg);
     }
     setIsLoading(false);
-  };
+  };*/
 
 
 
@@ -179,9 +189,8 @@ export default function TasksList() {
     );
   };
   useEffect(() => {
-    getTask(10);
+    getTask(taskName, 10, 1);
     getUsers(50);
-    getTasksList(taskName, 10, 1);
   }, [taskName]);
 
   return (
@@ -229,7 +238,7 @@ export default function TasksList() {
                 className={`form-control p-3 rounded-5 ${style.filterInput}`}
                 onChange={(e) => {
                   setTaskName(e.target.value);
-                  getTasksList(taskName, 10);
+                  Tasks(taskName, 10, 1);
                 }}
               />
               <i className={`fa fa-search ${style.userSearchIcon}`}></i>

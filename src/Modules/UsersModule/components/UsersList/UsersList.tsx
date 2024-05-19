@@ -5,7 +5,6 @@ import { ModalFooter } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useUser } from "../../../../Context/AuthContext";
 import { UsersInterface } from "../../../../interfaces/Auth";
 import {
   baseUrl,
@@ -20,6 +19,9 @@ export default function UsersList() {
   const [isLoading, setIsLoading] = useState(false);
   const [usersList, setUsersList] = useState<[UsersInterface] | []>([]);
   const [showView, setShowView] = useState(false);
+  const [userUsername, setUserUsername] = useState("");
+  const [paginationNum, setPaginationNum] = useState<number[]>([]);
+
   const [selectedUser, setSelectedUser] = useState<UsersInterface>({
     country: "",
     email: "",
@@ -39,18 +41,30 @@ export default function UsersList() {
     setShowView(false);
   };
 
-  const { adminData } = useUser();
   const navigate = useNavigate();
 
-  const getUsersList = async () => {
+  const getUsersList = async (
+    userUsername: string,
+    pSize: number,
+    pNum: number
+  ) => {
     setIsLoading(true);
     try {
-      const {
-        data: { data },
-      } = await axios.get(`${baseUrl}/Users/Manager`, {
-        headers: requestHeaders,
-      });
-      setUsersList(data);
+      const res = await axios.get(
+        `${baseUrl}/Users/?pageSize=${pSize}&pageNumber=${pNum}`,
+        {
+          headers: requestHeaders,
+          params: {
+            userName: userUsername,
+          },
+        }
+      );
+      setUsersList(res.data.data);
+      setPaginationNum(
+        Array(res.data.totalNumberOfPages)
+          .fill(0)
+          .map((_, i) => i + 1)
+      );
       // setTotalPages(response.totalNumberOfPages);
       // setTotalUserject(response.totalNumberOfPages);
     } catch (err) {
@@ -76,7 +90,7 @@ export default function UsersList() {
           headers: requestHeaders,
         }
       );
-      getUsersList();
+      getUsersList(userUsername, 10, 1);
       setIsLoading(false);
 
       //*** Controlling Toast When You Click To Active/Deactive The User ***//
@@ -126,10 +140,8 @@ export default function UsersList() {
   };
 
   useEffect(() => {
-    if (adminData?.userGroup === "Manager") {
-      getUsersList();
-    }
-  }, [adminData]);
+    getUsersList(userUsername, 10, 1);
+  }, [userUsername]);
   return (
     <>
       <section>
@@ -190,7 +202,7 @@ export default function UsersList() {
               <p>
                 <i className="mx-2 fas fa-tasks text-success"></i>
                 {`Tasks No.: ${
-                  selectedUser.task.length > 0 ? selectedUser.task.length : 0
+                  selectedUser.task?.length > 0 ? selectedUser.task?.length : 0
                 } `}
               </p>
             </div>
@@ -205,8 +217,30 @@ export default function UsersList() {
           </ModalFooter>
         </Modal>
 
-        {/* table */}
+        {/*Filtaration*/}
+        <div
+          className={`filtaration container rounded-4 w-100 mt-3 ${style.inputSearch}`}
+        >
+          <div className="row">
+            <div className="col-md-9 inputSearch">
+              <input
+                type="text"
+                placeholder="Search Fleets"
+                className={`form-control p-3 rounded-5 ${style.filterInput}`}
+                onChange={(e) => {
+                  setUserUsername(e.target.value);
+                  getUsersList(userUsername, 10, 1);
+                }}
+              />
+              <i className={`fa fa-search ${style.userSearchIcon}`}></i>
+            </div>
+            <button className="col-md-1 btn btn-success border-0 rounded-5">
+              <i className="fa fa-filter"></i> Filter
+            </button>
+          </div>
+        </div>
 
+        {/* table */}
         <div
           className={`project-body head-bg mt-5 container rounded-4 shadow  px-4 py-5`}
         >
@@ -346,6 +380,35 @@ export default function UsersList() {
               )}
             </ul>
           )}
+        </div>
+
+        {/*Pagination*/}
+        <div className="w-100 container my-3">
+          <nav aria-label="Page navigation example w-100">
+            <ul className="pagination w-100 d-flex align-items-center justify-content-center flex-wrap">
+              <li className="page-item">
+                <a className="page-link" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              {paginationNum.map((ele) => {
+                return (
+                  <li
+                    className="page-item"
+                    key={ele}
+                    onClick={() => getUsersList(userUsername, 10, ele)}
+                  >
+                    <a className="page-link">{ele}</a>
+                  </li>
+                );
+              })}
+              <li className="page-item">
+                <a className="page-link" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </section>
     </>

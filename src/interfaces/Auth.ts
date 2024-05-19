@@ -14,11 +14,13 @@ export interface UsersInterface {
   country: string;
   email: string;
   id: number;
-  imagePath: string | null;
+  imagePath: string;
   isActivated: boolean;
   creationDate: string;
   phoneNumber: string;
   task: [];
   userName: string;
   err?: string;
+  userGroup: string;
+  user?: string;
 }

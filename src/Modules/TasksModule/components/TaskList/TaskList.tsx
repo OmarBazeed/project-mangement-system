@@ -1,13 +1,17 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "../Tasks.module.css";
 import NoData from "../../../SharedModule/components/NoData/NoData";
 import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-import { baseUrl, requestHeaders } from "../../../../utils/Utils";
-
+import {
+  baseUrl,
+  handleApiError,
+  requestHeaders,
+} from "../../../../utils/Utils";
+import { TaskInterface } from "../../../../interfaces/Auth";
 
 export default function TasksList() {
   const navigate = useNavigate();
@@ -19,51 +23,55 @@ export default function TasksList() {
   const [totalPages, setTotalPages] = useState(0);
   // State for total number of pages
   const [totalTasks, setTotalTasks] = useState(0);
-  const [taskName, setTaskName] = useState(null);
-  const [taskId, setTaskId] = useState(null);
+  const [taskName, setTaskName] = useState("");
+  const [taskId, setTaskId] = useState(0);
   const [showDelete, setShowDelete] = useState(false);
 
-  const getTask = async (pageSize: any) => {
-    setIsLoading(true);
-    try {
-      const { data } = await axios.get(
-        `${baseUrl}/Task/manager?pageSize=${pageSize}&pageNumber=${pageNumber}`,
-        {
-          headers: requestHeaders,
-          // params: {
-          //   name: name,
-          // },
-        }
-      );
+  const getTask = useCallback(
+    async (pageSize: number) => {
+      setIsLoading(true);
+      try {
+        const { data } = await axios.get(
+          `${baseUrl}/Task/manager?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+          {
+            headers: requestHeaders,
+            // params: {
+            //   name: name,
+            // },
+          }
+        );
 
-      setTasks(data.data);
-      console.log(data.data);
-      setTotalPages(data.totalNumberOfPages);
-      setTotalTasks(data.totalNumberOfPages);
-    } catch (err) {
-      console.log(err);
-    }
-    setIsLoading(false);
-  };
+        setTasks(data.data);
+        console.log(data.data);
+        setTotalPages(data.totalNumberOfPages);
+        setTotalTasks(data.totalNumberOfPages);
+      } catch (err) {
+        handleApiError(err);
+      }
+      setIsLoading(false);
+    },
+    [pageNumber]
+  );
+
   const onDeleteSubmit = async () => {
     handleCloseDelete();
     try {
-      const response = await axios.delete(`${baseUrl}/Task/${taskId}`, {
+      await axios.delete(`${baseUrl}/Task/${taskId}`, {
         headers: requestHeaders,
       });
       getTask(10);
       toast.success(`Deleted ${taskName} Successfully`);
     } catch (err) {
-      console.log(err);
+      handleApiError(err);
     }
   };
   const handleCloseDelete = () => {
     // resetting the values to default after closing the modal
     setShowDelete(false);
-    setTaskId(null);
-    setTaskName(null);
+    setTaskId(0);
+    setTaskName("");
   };
-  const handleShowDelete = (id, name) => {
+  const handleShowDelete = (id: number, name: string) => {
     // set the values to handle  them in the delete process
     setTaskId(id);
     setTaskName(name);
@@ -81,7 +89,7 @@ export default function TasksList() {
   };
   useEffect(() => {
     getTask(3);
-  }, []);
+  }, [getTask]);
 
   return (
     <>
@@ -135,7 +143,7 @@ export default function TasksList() {
           ) : (
             <ul className={`${style.responsiveTableProjects}`}>
               {tasks.length > 0 ? (
-                tasks.map((task) => (
+                tasks.map((task: TaskInterface) => (
                   <li
                     key={task.id}
                     className={`${style.tableRow} bg-theme text-theme`}
@@ -208,7 +216,9 @@ export default function TasksList() {
                           </li>
                           <li
                             role="button"
-                            onClick={() => handleShowDelete(task.id, task.title)}
+                            onClick={() =>
+                              handleShowDelete(task.id, task.title)
+                            }
                             className="px-3 py-1 "
                           >
                             <div className="dropdown-div">

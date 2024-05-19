@@ -1,18 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
-import NoData from "../../../SharedModule/components/NoData/NoData";
 import style from "../Tasks.module.css";
+import NoData from "../../../SharedModule/components/NoData/NoData";
+import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
+import Modal from "react-bootstrap/Modal";
+import { toast } from "react-toastify";
+import { baseUrl, requestHeaders } from "../../../../utils/Utils";
+import { useForm } from "react-hook-form";
+
 
 export default function TasksList() {
   const navigate = useNavigate();
-  const requestHeaders = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
-  const baseUrl = `https://upskilling-egypt.com:3003/api/v1`;
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   // State for page number
@@ -24,6 +23,17 @@ export default function TasksList() {
   const [taskName, setTaskName] = useState(null);
   const [taskId, setTaskId] = useState(null);
   const [showDelete, setShowDelete] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
+  const [users, setUsers] = useState([]);
+
+
+  const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		criteriaMode: "all",
+	});
 
   const getTask = async (pageSize: any) => {
     setIsLoading(true);
@@ -32,9 +42,6 @@ export default function TasksList() {
         `${baseUrl}/Task/manager?pageSize=${pageSize}&pageNumber=${pageNumber}`,
         {
           headers: requestHeaders,
-          // params: {
-          //   name: name,
-          // },
         }
       );
 
@@ -47,6 +54,28 @@ export default function TasksList() {
     }
     setIsLoading(false);
   };
+
+  const getUsers = async (pageSize: any) => {
+		setIsLoading(true);
+		try {
+			const { data } = await axios.get(
+				`${baseUrl}/Users?pageSize=${pageSize}&pageNumbe=${pageNumber}`,
+				{
+					headers: requestHeaders,
+					// params: {
+					//   name: name,
+					// },
+				}
+			);
+			setUsers(data.data);
+			toast.success(data.data)
+		} catch (error) {
+			toast.error(error)
+		}
+		setIsLoading(false);
+	};
+
+
   const onDeleteSubmit = async () => {
     handleCloseDelete();
     try {
@@ -55,10 +84,25 @@ export default function TasksList() {
       });
       getTask(10);
       toast.success(`Deleted ${taskName} Successfully`);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
   };
+
+  const onUpdateSubmit = async () => {
+    handleCloseUpdate();
+    try {
+      const response = await axios.put(`${baseUrl}/Task/${taskId}`, {
+        headers: requestHeaders,
+      });
+      getTask(10);
+      toast.success(`Updated ${taskName} Successfully`);
+    } catch (error) {
+      toast.error(error)
+    }
+  };
+
+
   const handleCloseDelete = () => {
     // resetting the values to default after closing the modal
     setShowDelete(false);
@@ -72,6 +116,18 @@ export default function TasksList() {
     setShowDelete(true);
   };
 
+  const handleCloseUpdate = () => {
+    setShowUpdate(false);
+    setTaskId(null);
+    setTaskName(null);
+  }
+
+  const handleShowUpdate = (id, name) => {
+    setTaskId(id);
+    setTaskName(name);
+    setShowUpdate(true);
+  }
+
   const btnloading = () => {
     return (
       <div className="loader">
@@ -83,6 +139,7 @@ export default function TasksList() {
   };
   useEffect(() => {
     getTask(10);
+    getUsers(50);
   }, []);
 
   return (
@@ -200,7 +257,7 @@ export default function TasksList() {
                           </li>
                           <li
                             role="button"
-                            // onClick={() => handleUpdate(item.id, item.name)}
+                            onClick={() => handleShowUpdate(task.id, task.title)}
                             className="px-3 py-1"
                           >
                             <div role="button" className="dropdown-div">
@@ -266,6 +323,116 @@ export default function TasksList() {
                   <i className="fa-solid fa-spinner fa-spin"></i>
                 ) : (
                   ` Delete this ${taskName}`
+                )}
+              </button>
+            </div>
+          </Modal.Body>
+        </Modal>
+
+        {/* modal handle update */}
+        <Modal
+          className="posModalUpdate"
+          show={showUpdate}
+          onHide={handleCloseUpdate}
+        >
+          <Modal.Body className="p-4 bg-theme">
+            <div className="addCatModalHead text-end">
+              <div className="addCatModalHeadClose ">
+                <i
+                  onClick={() => handleCloseUpdate()}
+                  className="fa-solid fa-close btn border-danger py-1 px-2 rounded-circle   text-danger "
+                ></i>
+              </div>
+            </div>
+
+            {/* ------------  */}
+            <div className="addCatModalBody ">
+              <div className='text-center'>
+                  <h5>Update {taskName}</h5>
+                  <div className="input-container">
+									<input
+										placeholder="title"
+										className={`input-field input-theme ${
+											errors.title && "border-danger "
+										}`}
+										type="text"
+										{...register("title", {
+											required: "Title is required",
+										})}
+									/>
+									<label htmlFor="input-field" className={`input-label `}>
+										Title
+									</label>
+									<span className="input-highlight"></span>
+								</div>
+								{errors.title && (
+									<p className="text-start text-danger ps-3">
+										{errors.title.message}
+									</p>
+								)}
+                <div className="input-container">
+									<input
+										placeholder="description"
+										className={`input-field input-theme ${
+											errors.title && "border-danger "
+										}`}
+										type="text"
+										{...register("description", {
+											required: "Description is required",
+										})}
+									/>
+									<label htmlFor="input-field" className={`input-label `}>
+                  Description
+									</label>
+									<span className="input-highlight"></span>
+								</div>
+								{errors.description && (
+									<p className="text-start text-danger ps-3">
+										{errors.description.message}
+									</p>
+								)}
+
+<div className="input-container mt-5">
+									<select
+										name="User"
+										className={`input-field input-theme ${
+											errors.employeeId && "border-danger "
+										}`}
+										{...register("employeeId", {
+											required: "User is required",
+										})}
+									>
+										<option value="">No User Selected</option>
+										{users.map((user) => (
+											<option key={user.id} value={user.id}>
+												{user.userName}
+											</option>
+										))}
+									</select>
+									<label htmlFor={`input-field`} className={`input-label `}>
+										User
+									</label>
+									<span className={`input-highlight`}></span>
+								</div>
+								{errors.employeeId && (
+									<p className={`text-start text-danger ps-3`}>
+										{errors.employeeId.message}
+									</p>
+								)}
+              </div>
+            </div>
+            {/* ------------- */}
+            <div className="addCatModalFooter"></div>
+
+            <div className=" text-end">
+              <button
+                onClick={onUpdateSubmit}
+                className={`btn py-1 px-3 fs-6  fw-medium  btn btn-outline-success `}
+              >
+                {isLoading ? (
+                  <i className="fa-solid fa-spinner fa-spin"></i>
+                ) : (
+                  ` Update ${taskName}`
                 )}
               </button>
             </div>

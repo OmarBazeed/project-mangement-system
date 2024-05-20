@@ -10,6 +10,7 @@ export interface ToastContextType {
   showSuccessToast: (message: string) => void;
   showErrorToast: (message: string) => void;
 }
+//
 export interface UsersInterface {
   country: string;
   email: string;
@@ -18,24 +19,18 @@ export interface UsersInterface {
   isActivated: boolean;
   creationDate: string;
   phoneNumber: string;
-  task: [];
+  task: [] | string;
   userName: string;
   err?: string;
   userGroup: string;
   user?: string;
 }
+//
 export interface TaskInterface {
   id: number;
   title: string;
   employee?: { userName: string };
   project?: { title: string };
-}
-export interface ProjectInterface {
-  projectId?: string;
-  title: string;
-  id: number;
-  creationDate: string;
-  task: [] | string;
 }
 export interface TaskSubmitInterface {
   title: string;
@@ -47,4 +42,16 @@ export interface TaskUpdateSubmitInterface {
   title: string;
   description: string;
   employeeId: string;
+}
+//
+export interface ProjectInterface {
+  projectId?: string;
+  title: string;
+  id: number;
+  creationDate: string;
+  task: [] | string;
+}
+export interface ProjectSubmitAndUpdateInterface {
+  title: string;
+  description: string;
 }

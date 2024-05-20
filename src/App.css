@@ -343,3 +343,12 @@ input:-webkit-autofill:active {
   right: 45% !important;
   top: 120% !important;
 }
+
+/*Browser SrollBar*/
+/* styles.css */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ef9b28 white;
+  scroll-behavior: smooth;
+}

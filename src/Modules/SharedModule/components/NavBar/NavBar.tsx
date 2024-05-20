@@ -56,11 +56,11 @@ export default function NavBar() {
                             alt=""
                           />
                         </div>
-                        <div className="user-info me-2 pt-2">
+                        <div className="user-info me-2 pt-2 text-start">
                           <h6 className="text-theme mb-0 pb-0">
                             {adminData?.userName}
                           </h6>
-                          <p className="text-theme mb-0 pb-0">
+                          <p className="text-theme mb-0 pb-0 text-start">
                             {adminData?.userEmail}
                           </p>
                         </div>

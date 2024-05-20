@@ -62,8 +62,6 @@ export default function UsersList() {
       );
       setUsersList(res.data.data);
       setTotalPages(res.data.totalNumberOfPages);
-      // setTotalPages(response.totalNumberOfPages);
-      // setTotalUserject(response.totalNumberOfPages);
     } catch (err) {
       const errMsg =
         axios.isAxiosError(err) && err.response?.data?.message
@@ -112,9 +110,6 @@ export default function UsersList() {
               position: "bottom-right",
             }
           );
-
-      // setTotalPages(response.totalNumberOfPages);
-      // setTotalUserject(response.totalNumberOfPages);
     } catch (error) {
       handleApiError(error);
     }
@@ -123,17 +118,6 @@ export default function UsersList() {
   const handleShowUser = (user: UsersInterface) => {
     setSelectedUser(user);
     setShowView(true);
-    console.log(user);
-  };
-
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
   };
 
   useEffect(() => {
@@ -168,39 +152,48 @@ export default function UsersList() {
             <h3>User Details</h3>
           </Modal.Header>
           <Modal.Body>
-            <div className="fw-bold">
+            <div className="">
               <p className="text-center">
                 {selectedUser.imagePath ? (
                   <img
                     src={`https://upskilling-egypt.com:3003/${selectedUser.imagePath}`}
                     alt="..."
-                    style={{ width: "70px", height: "70px" }}
+                    style={{ width: "150px", height: "150px" }}
+                    className="rounded-5 shadow-sm"
                   />
                 ) : (
-                  <img style={{ width: "70px" }} src={`${Images.NoData}`} />
+                  <img style={{ width: "100px" }} src={`${Images.NoData}`} />
                 )}
               </p>
               <p>
                 <i className="mx-2 bi bi-people text-success"></i>
-                {`Name: ${selectedUser.userName}`}
+                Name:
+                <span className="fw-bold mx-2">{selectedUser.userName} </span>
               </p>
               <p>
                 <i className="mx-2 bi bi-envelope text-success"></i>
-                {`Email: ${selectedUser.email} `}
+                Email:
+                <span className="fw-bold mx-2">{selectedUser.email} </span>
               </p>
               <p className="d-flex align-items-center">
                 {selectedUser.isActivated ? (
-                  <i className="mx-2 fas fa-toggle-on text-success" />
+                  <i className="mx-2 fa-regular fa-thumbs-up text-success" />
                 ) : (
-                  <i className="mx-2 fas fa-toggle-on text-danger" />
+                  <i className="mx-2 fa-regular fa-thumbs-down text-danger" />
                 )}
-                {`Active: ${selectedUser.isActivated} `}
+                Active:
+                <span className="fw-bold mx-2">
+                  {selectedUser.isActivated ? "yes" : "no"}
+                </span>
               </p>
               <p>
                 <i className="mx-2 fas fa-tasks text-success"></i>
-                {`Tasks No.: ${
-                  selectedUser.task?.length > 0 ? selectedUser.task?.length : 0
-                } `}
+                Tasks:
+                <span className="fw-bold mx-2">
+                  {selectedUser.task?.length > 0
+                    ? selectedUser.task?.length
+                    : 0}
+                </span>
               </p>
             </div>
           </Modal.Body>
@@ -321,7 +314,10 @@ export default function UsersList() {
                           <li
                             role="button"
                             className="px-3 py-1 pt-2 "
-                            onClick={() => handleShowUser(user)}
+                            onClick={() => {
+                              handleShowUser(user);
+                              console.log(user);
+                            }}
                           >
                             <div className="dropdown-div ">
                               <i className="m-2 fa-regular fa-eye"></i>

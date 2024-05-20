@@ -12,7 +12,7 @@ import MasterLayout from "./Modules/SharedModule/components/MasterLayout/MasterL
 import Notfound from "./Modules/SharedModule/components/Notfound/Notfound";
 import TaskList from "./Modules/TasksModule/components/TaskList/TaskList";
 import UsersList from "./Modules/UsersModule/components/UsersList/UsersList";
-import ProtectedRoute from "./Modules/SharedModule/components/ProtectedRoute/ProtectedRoute";
+import { ProtectedRoute } from "./Modules/SharedModule/components/ProtectedRoute/ProtectedRoute";
 import ProjectData from "./Modules/ProjectModule/components/ProjectData/ProjectData";
 import TaskData from "./Modules/TasksModule/components/TaskData/TaskData";
 

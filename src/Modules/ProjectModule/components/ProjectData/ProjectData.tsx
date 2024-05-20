@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ProjectSubmitAndUpdateInterface } from "../../../../interfaces/Auth";
 import {
   baseUrl,
   handleApiError,
-  loader,
   requestHeaders,
 } from "../../../../utils/Utils";
 export default function ProjectData() {
@@ -15,17 +15,19 @@ export default function ProjectData() {
   const [isUpdate, setIsUpdate] = useState(false);
   const [proId, setProId] = useState(0);
   const projectupdate = location.state?.projectupdate;
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
+  } = useForm<ProjectSubmitAndUpdateInterface>({
     criteriaMode: "all",
   });
-  const navigate = useNavigate();
-  const onSubmit = async (data: any) => {
+
+  const onSubmit: SubmitHandler<ProjectSubmitAndUpdateInterface> = async (
+    data
+  ) => {
     try {
       await axios.post(`${baseUrl}/Project`, data, {
         headers: requestHeaders,
@@ -36,7 +38,9 @@ export default function ProjectData() {
       handleApiError(error);
     }
   };
-  const onEditeSubmit = async (data: any) => {
+  const onEditeSubmit: SubmitHandler<ProjectSubmitAndUpdateInterface> = async (
+    data
+  ) => {
     try {
       await axios.put(`${baseUrl}/Project/${proId}`, data, {
         headers: requestHeaders,
@@ -131,7 +135,7 @@ export default function ProjectData() {
                     className={`input-field input-theme ${
                       errors.description && "border-danger "
                     }`}
-                    type="text"
+                    // type="text"
                     {...register("description", {
                       required: "Description is required",
                     })}

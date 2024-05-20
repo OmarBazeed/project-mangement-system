@@ -16,6 +16,7 @@ import { ProjectInterface } from "../../../../interfaces/Auth";
 import ResponsivePagination from "react-responsive-pagination";
 export default function ProjectList() {
   const navigate = useNavigate();
+
   const [projects, setprojects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   // State for page number
@@ -27,9 +28,10 @@ export default function ProjectList() {
   const [proName, setProName] = useState("");
   const [proId, setProId] = useState(0);
   const [showDelete, setShowDelete] = useState(false);
-const [projectTitle, setProjecTitle] = useState("");
+  const [projectTitle, setProjecTitle] = useState("");
+  
   const getProject = useCallback(
-    async (proTitle: string,pageSize: number) => {
+    async (proTitle: string, pageSize: number) => {
       setIsLoading(true);
       try {
         const { data } = await axios.get(
@@ -58,7 +60,7 @@ const [projectTitle, setProjecTitle] = useState("");
       await axios.delete(`${baseUrl}/Project/${proId}`, {
         headers: requestHeaders,
       });
-      getProject(10);
+      getProject("", 10);
       toast.success(`Deleted ${proName} Successfully`);
     } catch (err) {
       handleApiError(err);

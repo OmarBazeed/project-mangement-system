@@ -1,80 +1,76 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import style from "../Tasks.module.css";
-import NoData from "../../../SharedModule/components/NoData/NoData";
-import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
 import Modal from "react-bootstrap/Modal";
+import ResponsivePagination from "react-responsive-pagination";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { UsersInterface } from "../../../../interfaces/Auth";
 import {
   baseUrl,
   handleApiError,
   requestHeaders,
 } from "../../../../utils/Utils";
-import { TaskInterface } from "../../../../interfaces/Auth";
-
+import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
+import NoData from "../../../SharedModule/components/NoData/NoData";
+import style from "../Tasks.module.css";
 export default function TasksList() {
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<[UsersInterface] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
   // State for page number
   const [pageNumber, setPageNumber] = useState(1);
   // State for total number of pages
   const [totalPages, setTotalPages] = useState(0);
   // State for total number of pages
-  const [totalTasks, setTotalTasks] = useState(0);
   const [taskName, setTaskName] = useState("");
   const [taskId, setTaskId] = useState(0);
   const [showDelete, setShowDelete] = useState(false);
+  const [taskTitle, setTaskTitle] = useState("");
 
-  const getTask = useCallback(
-    async (pageSize: number) => {
-      setIsLoading(true);
-      try {
-        const { data } = await axios.get(
-          `${baseUrl}/Task/manager?pageSize=${pageSize}&pageNumber=${pageNumber}`,
-          {
-            headers: requestHeaders,
-            // params: {
-            //   name: name,
-            // },
-          }
-        );
+  const getTask = useCallback(async (taTitle: string, pageSize: number) => {
+    setIsLoading(true);
+    try {
+      const { data } = await axios.get(
+        `${baseUrl}/Task/manager?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+        {
+          headers: requestHeaders,
+          params: {
+            title: taTitle,
+          },
+        }
+      );
 
-        setTasks(data.data);
-        console.log(data.data);
-        setTotalPages(data.totalNumberOfPages);
-        setTotalTasks(data.totalNumberOfPages);
-      } catch (err) {
-        handleApiError(err);
-      }
-      setIsLoading(false);
-    },
-    [pageNumber]
-  );
+      setTasks(data.data);
+      setTotalPages(data.totalNumberOfPages);
+    } catch (err) {
+      handleApiError(err);
+    }
+    setIsLoading(false);
+  });
 
   const onDeleteSubmit = async () => {
     handleCloseDelete();
     try {
-      await axios.delete(`${baseUrl}/Task/${taskId}`, {
+      const response = await axios.delete(`${baseUrl}/Task/${taskId}`, {
         headers: requestHeaders,
       });
-      getTask(10);
+      getTask("", 10);
       toast.success(`Deleted ${taskName} Successfully`);
     } catch (err) {
-      handleApiError(err);
+      console.log(err);
     }
   };
+
   const handleCloseDelete = () => {
     // resetting the values to default after closing the modal
     setShowDelete(false);
-    setTaskId(0);
-    setTaskName("");
+    setTaskId(null);
+    setTaskName(null);
   };
-  const handleShowDelete = (id: number, name: string) => {
+  const handleShowDelete = (id: number, title: string) => {
     // set the values to handle  them in the delete process
     setTaskId(id);
-    setTaskName(name);
+    setTaskName(title);
     setShowDelete(true);
   };
 
@@ -88,8 +84,8 @@ export default function TasksList() {
     );
   };
   useEffect(() => {
-    getTask(3);
-  }, [getTask]);
+    getTask(taskTitle, 10);
+  }, [taskTitle, pageNumber]);
 
   return (
     <>
@@ -124,6 +120,29 @@ export default function TasksList() {
           </div>
         </div>
 
+        {/*Filtaration*/}
+        <div
+          className={`filtaration container rounded-4 w-100 mt-3 ${style.inputSearch}`}
+        >
+          <div className="row">
+            <div className="col-md-9 inputSearch">
+              <input
+                type="text"
+                placeholder="Search Fleets"
+                className={`form-control p-3 rounded-5 ${style.filterInput}`}
+                onChange={(e) => {
+                  setTaskTitle(e.target.value);
+                  getTask(taskTitle, 10);
+                }}
+              />
+              <i className={`fa fa-search ${style.userSearchIcon}`}></i>
+            </div>
+            <button className="col-md-1 btn btn-success border-0 rounded-5">
+              <i className="fa fa-filter"></i> Filter
+            </button>
+          </div>
+        </div>
+
         <div
           className={`project-body head-bg mt-5 container rounded-4 shadow  px-4 py-5`}
         >
@@ -143,7 +162,7 @@ export default function TasksList() {
           ) : (
             <ul className={`${style.responsiveTableProjects}`}>
               {tasks.length > 0 ? (
-                tasks.map((task: TaskInterface) => (
+                tasks.map((task: any) => (
                   <li
                     key={task.id}
                     className={`${style.tableRow} bg-theme text-theme`}
@@ -206,7 +225,10 @@ export default function TasksList() {
                           </li>
                           <li
                             role="button"
-                            // onClick={() => handleUpdate(item.id, item.name)}
+                            onClick={() =>
+                              // handleShowUpdate(task.id, task.title)
+                              navigate("/dashboard/tasks-data", { state: task })
+                            }
                             className="px-3 py-1"
                           >
                             <div role="button" className="dropdown-div">
@@ -217,7 +239,7 @@ export default function TasksList() {
                           <li
                             role="button"
                             onClick={() =>
-                              handleShowDelete(task.id, task.title)
+                              handleShowDelete(task.id, taskName)
                             }
                             className="px-3 py-1 "
                           >
@@ -240,6 +262,13 @@ export default function TasksList() {
               )}
             </ul>
           )}
+          <div className="mt-5">
+            <ResponsivePagination
+              current={pageNumber}
+              total={totalPages}
+              onPageChange={setPageNumber}
+            />
+          </div>
         </div>
 
         {/* modal handle delete  */}

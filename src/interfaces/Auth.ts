@@ -27,8 +27,8 @@ export interface UsersInterface {
 export interface TaskInterface {
   id: number;
   title: string;
-  employee: { userName: string };
-  project: { title: string };
+  employee?: { userName: string };
+  project?: { title: string };
 }
 export interface ProjectInterface {
   projectId?: string;
@@ -42,4 +42,9 @@ export interface TaskSubmitInterface {
   description: string;
   employeeId: string;
   projectId: string;
+}
+export interface TaskUpdateSubmitInterface {
+  title: string;
+  description: string;
+  employeeId: string;
 }

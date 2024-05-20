@@ -8,6 +8,9 @@
 .input-theme {
   color: var(--text);
 }
+.input-theme::placeholder {
+  color: var(--text);
+}
 .page-link {
   color: #009247;
 }
@@ -43,5 +46,8 @@
 
 select option{
   background-color: var(--bg);
+  color: var(--text);
+}
+.dropdown-menu li{
   color: var(--text);
 }

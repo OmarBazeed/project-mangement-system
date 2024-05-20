@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 import Images from "../../../ImageModule/components/Images/Images";
 
-import { baseUrl } from "../../../../utils/Utils";
+import { baseUrl, loader } from "../../../../utils/Utils";
 import {
   emailValidation,
   passwordValidation,
@@ -27,15 +27,6 @@ export default function Register() {
   // function for change password input type
   const changePassInputType = () => {
     setHidePassInInpt((hidePassInInpt = !hidePassInInpt ? true : false));
-  };
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
   };
 
   const {
@@ -365,7 +356,7 @@ export default function Register() {
                           </div>
                           {/* submit button */}
                           <button className="main-btn">
-                            {isLoading ? btnloading() : " Register Now"}
+                            {isLoading ? loader() : " Register Now"}
                           </button>
                         </form>
                         {/*  */}

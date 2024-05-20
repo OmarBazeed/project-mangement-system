@@ -9,6 +9,7 @@ import { UsersInterface } from "../../../../interfaces/Auth";
 import {
   baseUrl,
   handleApiError,
+  loader,
   requestHeaders,
 } from "../../../../utils/Utils";
 import Images from "../../../ImageModule/components/Images/Images";
@@ -210,25 +211,21 @@ export default function UsersList() {
         </Modal>
 
         {/*Filtaration*/}
-        <div
-          className={`filtaration container rounded-4 w-100 mt-3 ${style.inputSearch}`}
-        >
-          <div className="row">
-            <div className="col-md-9 inputSearch">
-              <input
-                type="text"
-                placeholder="Search Fleets"
-                className={`form-control p-3 rounded-5 ${style.filterInput}`}
-                onChange={(e) => {
-                  setUserUsername(e.target.value);
-                  getUsersList(userUsername, 10);
-                }}
-              />
-              <i className={`fa fa-search ${style.userSearchIcon}`}></i>
-            </div>
-            <button className="col-md-1 btn btn-success border-0 rounded-5">
-              <i className="fa fa-filter"></i> Filter
-            </button>
+        <div className="container">
+          <div className="input-container w-25 ">
+            <input
+              placeholder="Search By Name "
+              className={`input-field input-theme`}
+              type="text"
+              onChange={(e) => {
+                setUserUsername(e.target.value);
+                getUsersList(userUsername, 10);
+              }}
+            />
+            <label htmlFor="input-field" className={`input-label `}>
+              Search
+            </label>
+            <span className="input-highlight"></span>
           </div>
         </div>
 
@@ -247,8 +244,8 @@ export default function UsersList() {
             </li>
           </ul>
           {isLoading ? (
-            <div className="container pt-5 mt-5 text-center text-theme">
-              {btnloading()}
+            <div className="container pt-5 mt-5 d-flex justify-content-center ">
+              {loader()}
             </div>
           ) : (
             <ul className={`${style.responsiveTableProjects}`}>

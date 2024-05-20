@@ -4,7 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { FormData } from "../../../../interfaces/Auth";
 import Images from "../../../ImageModule/components/Images/Images";
-import { baseUrl } from "../../../../utils/Utils";
+import { baseUrl, loader, loading } from "../../../../utils/Utils";
 import { toast } from "react-toastify";
 import { emailValidation } from "../../../../utils/InputsValidation";
 
@@ -13,15 +13,6 @@ export default function ForgetPass() {
   const [subBtnCilcked, setSubBtnCilcked] = useState(false);
   const toastOption = {
     onClose: () => setSubBtnCilcked(false),
-  };
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
   };
 
   const {
@@ -103,7 +94,7 @@ export default function ForgetPass() {
                             className="main-btn"
                             disabled={subBtnCilcked}
                           >
-                            {spinner ? btnloading() : "Go Now"}
+                            {spinner ? loader() : "Go Now"}
                           </button>
                           <button
                             onClick={() => {

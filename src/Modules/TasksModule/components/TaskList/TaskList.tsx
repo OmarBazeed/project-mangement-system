@@ -1,71 +1,33 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import style from "../Tasks.module.css";
-import NoData from "../../../SharedModule/components/NoData/NoData";
-import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
+import { useCallback, useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import ResponsivePagination from "react-responsive-pagination";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { UsersInterface } from "../../../../interfaces/Auth";
 import {
   baseUrl,
   handleApiError,
   requestHeaders,
 } from "../../../../utils/Utils";
-import { TaskInterface } from "../../../../interfaces/Auth";
-import { useForm } from "react-hook-form";
-
+import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
+import NoData from "../../../SharedModule/components/NoData/NoData";
+import style from "../Tasks.module.css";
 export default function TasksList() {
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<[UsersInterface] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
   // State for page number
   const [pageNumber, setPageNumber] = useState(1);
   // State for total number of pages
   const [totalPages, setTotalPages] = useState(0);
   // State for total number of pages
-  const [totalTasks, setTotalTasks] = useState(0);
   const [taskName, setTaskName] = useState("");
-  const [tasksList, setTasksList] = useState<[UsersInterface] | []>([]);
-  const [taskId, setTaskId] = useState(null);
+  const [taskId, setTaskId] = useState(0);
   const [showDelete, setShowDelete] = useState(false);
-  const [showUpdate, setShowUpdate] = useState(false);
-  const [users, setUsers] = useState([]);
-  const [paginationNum, setPaginationNum] = useState<number[]>([]);
+  const [taskTitle, setTaskTitle] = useState("");
 
-
-
-  const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm({
-		criteriaMode: "all",
-	});
-
-
-  const getUsers = async (pageSize: any) => {
-		setIsLoading(true);
-		try {
-			const { data } = await axios.get(
-				`${baseUrl}/Users?pageSize=${pageSize}&pageNumbe=${pageNumber}`,
-				{
-					headers: requestHeaders,
-					// params: {
-					//   name: name,
-					// },
-				}
-			);
-			setUsers(data.data);
-			toast.success(data.data)
-		} catch (error) {
-			toast.error(error)
-		}
-		setIsLoading(false);
-	};
-
-
-
-  const getTask = async (taskName: string, pageSize: number, pageNumber: number) => {
+  const getTask = useCallback(async (taTitle: string, pageSize: number) => {
     setIsLoading(true);
     try {
       const { data } = await axios.get(
@@ -73,59 +35,18 @@ export default function TasksList() {
         {
           headers: requestHeaders,
           params: {
-            title: taskName,
+            title: taTitle,
           },
         }
       );
 
       setTasks(data.data);
-      console.log(data.data);
       setTotalPages(data.totalNumberOfPages);
-      setPaginationNum(
-        Array(data.data.totalNumberOfPages)
-          .fill(0)
-          .map((_, i) => i + 1)
-      );
-      setTotalTasks(data.totalNumberOfPages);
     } catch (err) {
-      console.log(err);
+      handleApiError(err);
     }
     setIsLoading(false);
-  };
-
- 
-
-  /*const getTasksList = async (taskName: string, pSize: number, pNum: number) => {
-    setIsLoading(true);
-    try {
-      const res = await axios.get(
-        `${baseUrl}/Task/manager?pageSize=${pSize}&pageNumber=${pNum}`,
-        {
-          headers: requestHeaders,
-          params: {
-            title: taskName,
-          },
-        }
-      );
-      setTasksList(res.data.data);
-      setPaginationNum(
-        Array(res.data.totalNumberOfPages)
-          .fill(0)
-          .map((_, i) => i + 1)
-      );
-      // setTotalPages(response.totalNumberOfPages);
-      // setTotalUserject(response.totalNumberOfPages);
-    } catch (err) {
-      const errMsg =
-        axios.isAxiosError(err) && err.response?.data?.message
-          ? err.response.data.message
-          : "An unexpected error occurred";
-      toast.error(errMsg);
-    }
-    setIsLoading(false);
-  };*/
-
-
+  });
 
   const onDeleteSubmit = async () => {
     handleCloseDelete();
@@ -133,26 +54,12 @@ export default function TasksList() {
       const response = await axios.delete(`${baseUrl}/Task/${taskId}`, {
         headers: requestHeaders,
       });
-      getTask(taskName, 10, 1);
+      getTask("", 10);
       toast.success(`Deleted ${taskName} Successfully`);
     } catch (err) {
       console.log(err);
     }
   };
-
-  const onUpdateSubmit = async (data) => {
-    try {
-      const response = await axios.put(`${baseUrl}/Task/${taskId}`, data , {
-        headers: requestHeaders,
-      });
-      handleCloseUpdate();
-      getTask(taskName, 10, 1);
-      toast.success(`Updated ${taskName} Successfully`);
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
-
 
   const handleCloseDelete = () => {
     // resetting the values to default after closing the modal
@@ -160,24 +67,12 @@ export default function TasksList() {
     setTaskId(null);
     setTaskName(null);
   };
-  const handleShowDelete = (id, name) => {
+  const handleShowDelete = (id: number, name: string) => {
     // set the values to handle  them in the delete process
     setTaskId(id);
     setTaskName(name);
     setShowDelete(true);
   };
-
-  const handleCloseUpdate = () => {
-    setShowUpdate(false);
-    setTaskId(null);
-    setTaskName(null);
-  }
-
-  const handleShowUpdate = (id, name) => {
-    setTaskId(id);
-    setTaskName(name);
-    setShowUpdate(true);
-  }
 
   const btnloading = () => {
     return (
@@ -189,9 +84,8 @@ export default function TasksList() {
     );
   };
   useEffect(() => {
-    getTask(taskName, 10, 1);
-    getUsers(50);
-  }, [taskName]);
+    getTask(taskTitle, 10);
+  }, [taskName, pageNumber]);
 
   return (
     <>
@@ -237,8 +131,8 @@ export default function TasksList() {
                 placeholder="Search Fleets"
                 className={`form-control p-3 rounded-5 ${style.filterInput}`}
                 onChange={(e) => {
-                  setTaskName(e.target.value);
-                  getTask(taskName, 10, 1);
+                  setTaskTitle(e.target.value);
+                  getTask(taskTitle, 10);
                 }}
               />
               <i className={`fa fa-search ${style.userSearchIcon}`}></i>
@@ -248,7 +142,6 @@ export default function TasksList() {
             </button>
           </div>
         </div>
-
 
         <div
           className={`project-body head-bg mt-5 container rounded-4 shadow  px-4 py-5`}
@@ -269,7 +162,7 @@ export default function TasksList() {
           ) : (
             <ul className={`${style.responsiveTableProjects}`}>
               {tasks.length > 0 ? (
-                tasks.map((task) => (
+                tasks.map((task: any) => (
                   <li
                     key={task.id}
                     className={`${style.tableRow} bg-theme text-theme`}
@@ -332,7 +225,10 @@ export default function TasksList() {
                           </li>
                           <li
                             role="button"
-                            onClick={() => handleShowUpdate(task.id, task.title)}
+                            onClick={() =>
+                              // handleShowUpdate(task.id, task.title)
+                              navigate("/dashboard/tasks-data", { state: task })
+                            }
                             className="px-3 py-1"
                           >
                             <div role="button" className="dropdown-div">
@@ -342,7 +238,9 @@ export default function TasksList() {
                           </li>
                           <li
                             role="button"
-                            onClick={() => handleShowDelete(task.id, task.title)}
+                            onClick={() =>
+                              handleShowDelete(task.id, task.title)
+                            }
                             className="px-3 py-1 "
                           >
                             <div className="dropdown-div">
@@ -364,6 +262,13 @@ export default function TasksList() {
               )}
             </ul>
           )}
+          <div className="mt-5">
+            <ResponsivePagination
+              current={pageNumber}
+              total={totalPages}
+              onPageChange={setPageNumber}
+            />
+          </div>
         </div>
 
         {/* modal handle delete  */}
@@ -403,132 +308,6 @@ export default function TasksList() {
             </div>
           </Modal.Body>
         </Modal>
-
-        {/* modal handle update */}
-        <Modal
-          className="posModalUpdate"
-          show={showUpdate}
-          onHide={handleCloseUpdate}
-        >
-          <Modal.Body className="p-4 bg-theme">
-            <div className="addCatModalHead text-end">
-              <div className="addCatModalHeadClose">
-                <i
-                  onClick={() => handleCloseUpdate()}
-                  className="fa-solid fa-close btn border-danger py-1 px-2 rounded-circle text-danger"
-                ></i>
-              </div>
-            </div>
-
-            <div className="addCatModalBody">
-              <div className="text-center">
-                <h5>Update {taskName}</h5>
-                <form onSubmit={handleSubmit(onUpdateSubmit)}>
-                  <div className="input-container">
-                    <input
-                      placeholder="title"
-                      className={`input-field input-theme ${
-                        errors.title && "border-danger"
-                      }`}
-                      type="text"
-                      {...register("title", {
-                        required: "Title is required",
-                      })}
-                    />
-                    <label htmlFor="input-field" className={`input-label`}>Title</label>
-                    <span className="input-highlight"></span>
-                  </div>
-                  {errors.title && (
-                    <p className="text-start text-danger ps-3">{errors.title.message}</p>
-                  )}
-                  
-                  <div className="input-container">
-                    <input
-                      placeholder="description"
-                      className={`input-field input-theme ${
-                        errors.description && "border-danger"
-                      }`}
-                      type="text"
-                      {...register("description", {
-                        required: "Description is required",
-                      })}
-                    />
-                    <label htmlFor="input-field" className={`input-label`}>Description</label>
-                    <span className="input-highlight"></span>
-                  </div>
-                  {errors.description && (
-                    <p className="text-start text-danger ps-3">{errors.description.message}</p>
-                  )}
-
-                  <div className="input-container mt-5">
-                    <select
-                      name="User"
-                      className={`input-field input-theme ${
-                        errors.employeeId && "border-danger"
-                      }`}
-                      {...register("employeeId", {
-                        required: "User is required",
-                      })}
-                    >
-                      <option value="">No User Selected</option>
-                      {users.map((user) => (
-                        <option key={user.id} value={user.id}>
-                          {user.userName}
-                        </option>
-                      ))}
-                    </select>
-                    <label htmlFor={`input-field`} className={`input-label`}>User</label>
-                    <span className={`input-highlight`}></span>
-                  </div>
-                  {errors.employeeId && (
-                    <p className={`text-start text-danger ps-3`}>{errors.employeeId.message}</p>
-                  )}
-
-                  <div className="text-end">
-                    <button
-                      type="submit"
-                      className={`btn py-1 px-3 fs-6 fw-medium btn btn-outline-success`}
-                    >
-                      {isLoading ? (
-                        <i className="fa-solid fa-spinner fa-spin"></i>
-                      ) : (
-                        `Update ${taskName}`
-                      )}
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </Modal.Body>
-        </Modal>
-        {/*Pagination*/}
-        <div className="w-100 container my-3">
-          <nav aria-label="Page navigation example w-100">
-            <ul className="pagination w-100 d-flex align-items-center justify-content-center flex-wrap">
-              <li className="page-item">
-                <a className="page-link" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              {paginationNum.map((ele) => {
-                return (
-                  <li
-                    className="page-item"
-                    key={ele}
-                    onClick={() => getTask(taskName, 10, ele)}
-                  >
-                    <a className="page-link">{ele}</a>
-                  </li>
-                );
-              })}
-              <li className="page-item">
-                <a className="page-link" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
       </section>
     </>
   );

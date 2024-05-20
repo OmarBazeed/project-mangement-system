@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   ProjectInterface,
+  TaskInterface,
   TaskSubmitInterface,
+  TaskUpdateSubmitInterface,
   UsersInterface,
 } from "../../../../interfaces/Auth";
 import {
@@ -18,12 +20,17 @@ export default function TaskData() {
   const [pageNumber, setPageNumber] = useState(1);
   const [projects, setprojects] = useState([]);
   const [users, setUsers] = useState([]);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [taskId, setTaskId] = useState(0);
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const task = location.state;
+  // console.log(location);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<TaskSubmitInterface>({
     criteriaMode: "all",
   });
@@ -58,7 +65,20 @@ export default function TaskData() {
     }
     setIsLoading(false);
   };
-
+  const onUpdateSubmit:SubmitHandler<TaskUpdateSubmitInterface> = async (data: TaskInterface) => {
+    try {
+      const response = await axios.put(`${baseUrl}/Task/${taskId}`, data, {
+        headers: requestHeaders,
+      });
+      // handleCloseUpdate();
+      // getTask(taskName, 10, 1);
+      toast.success(`Updated Task Successfully`);
+      navigate("/dashboard/tasks");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+    // console.log(data);
+  };
   const getUsers = async (pageSize: number) => {
     setIsLoading(true);
     try {
@@ -90,6 +110,16 @@ export default function TaskData() {
   };
 
   useEffect(() => {
+    if (task) {
+      console.log(task);
+      setIsUpdate(true);
+      setTaskId(task.id);
+      reset({
+        title: task.title,
+        description: task.description,
+        employeeId: task.employee.id,
+      });
+    }
     getProject(10);
     getUsers(10);
   }, []);
@@ -132,7 +162,9 @@ export default function TaskData() {
             {/* form body */}
             <div className="form-body mt-3">
               {/* */}
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form
+                onSubmit={handleSubmit(isUpdate ? onUpdateSubmit : onSubmit)}
+              >
                 {/* title input */}
                 <div className="input-container">
                   <input
@@ -187,6 +219,13 @@ export default function TaskData() {
                       required: "User is required",
                     })}
                   >
+                    {task ? (
+                      <option value={task.employee.id}>
+                        {task.employee.userName}
+                      </option>
+                    ) : (
+                      ""
+                    )}
                     <option value="">No User Selected</option>
                     {users.map((user: UsersInterface) => (
                       <option key={user.id} value={user.id}>
@@ -205,27 +244,31 @@ export default function TaskData() {
                   </p>
                 )}
 
-                <div className="input-container mt-5">
-                  <select
-                    className={`input-field input-theme ${
-                      errors.employeeId && "border-danger "
-                    }`}
-                    {...register("projectId", {
-                      required: "Project is required",
-                    })}
-                  >
-                    <option value="">No Project Selected</option>
-                    {projects.map((pro: ProjectInterface) => (
-                      <option key={pro.id} value={pro.id}>
-                        {pro.title}
-                      </option>
-                    ))}
-                  </select>
-                  <label htmlFor={`input-field`} className={`input-label`}>
-                    Project
-                  </label>
-                  <span className={`input-highlight`}></span>
-                </div>
+                {task ? (
+                  ""
+                ) : (
+                  <div className="input-container mt-5">
+                    <select
+                      className={`input-field input-theme ${
+                        errors.employeeId && "border-danger "
+                      }`}
+                      {...register("projectId", {
+                        required: "Project is required",
+                      })}
+                    >
+                      <option value="">No Project Selected</option>
+                      {projects.map((pro: ProjectInterface) => (
+                        <option key={pro.id} value={pro.id}>
+                          {pro.title}
+                        </option>
+                      ))}
+                    </select>
+                    <label htmlFor={`input-field`} className={`input-label`}>
+                      Project
+                    </label>
+                    <span className={`input-highlight`}></span>
+                  </div>
+                )}
                 {errors.projectId && (
                   <p className={`text-start text-danger ps-3`}>
                     {errors.projectId.message}

@@ -197,11 +197,13 @@ export default function UsersList() {
 							</p>
 							<p>
 								<i className="mx-2 fas fa-tasks text-success"></i>
-								<span>Tasks No: </span>
-
-								{`${
-									selectedUser.task?.length > 0 ? selectedUser.task?.length : 0
-								} `}
+								<span>Tasks Number: </span>
+									{selectedUser.task?.length > 0 ? (
+										selectedUser.task?.length
+									) : (
+										<span className="fw-bold">0</span>
+									)
+								}
 							</p>
 						</div>
 					</Modal.Body>

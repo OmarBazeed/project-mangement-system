@@ -75,15 +75,6 @@ export default function TasksList() {
     setShowDelete(true);
   };
 
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
-  };
   useEffect(() => {
     getTask(taskTitle, 10);
   }, [taskTitle, pageNumber]);

@@ -80,15 +80,6 @@ export default function ProjectList() {
     setShowDelete(true);
   };
 
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
-  };
   useEffect(() => {
     getProject(projectTitle, 10);
   }, [getProject, projectTitle, pageNumber]);
@@ -218,7 +209,7 @@ export default function ProjectList() {
                           <li
                             role="button"
                             // onClick={() => handleShowShowItem(pro)}
-                            className="px-3 py-1 pt-2  "
+                            className="px-3 py-1 pt-2"
                           >
                             <div className="dropdown-div ">
                               <i className="fa-regular fa-eye me-2"></i>
@@ -284,7 +275,7 @@ export default function ProjectList() {
               <div className="addCatModalHeadClose ">
                 <i
                   onClick={() => handleCloseDelete()}
-                  className="fa-solid fa-close btn border-danger py-1 px-2 rounded-circle   text-danger "
+                  className="px-2 py-1 fa-solid fa-close btn border-danger rounded-circle text-danger "
                 ></i>
               </div>
             </div>

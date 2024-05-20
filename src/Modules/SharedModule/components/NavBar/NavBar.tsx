@@ -1,13 +1,11 @@
-import { useState } from "react";
+import useLocalStorage from "use-local-storage";
 import { useUser } from "../../../../Context/AuthContext";
 import Images from "../../../ImageModule/components/Images/Images";
-import useLocalStorage from "use-local-storage";
 
 export default function NavBar() {
   const [dark, setDark] = useLocalStorage("dark", false);
   const { adminData } = useUser();
 
-  
   document
     .querySelector("body")
     ?.setAttribute("data-theme", dark ? "dark" : "light");
@@ -42,41 +40,47 @@ export default function NavBar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <div className="user-data d-flex  align-items-center    ">
-                  <div className="user-img rounded-circle me-3">
-                    <img
-                      className="w-100 rounded-circle me-1"
-                      src={Images.test}
-                      alt=""
-                    />
-                  </div>
-                  <div className="user-info me-2 ">
-                    <h6 className="text-theme">{adminData?.userName}</h6>
-                    <p className="text-theme">{adminData?.userEmail}</p>
-                  </div>
-                  <div className="me-2">
-                    <div className="btn-group dropstart">
-                      <button
-                        type="button"
-                        className=" border-0 bg-transparent "
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <i className="fa-solid fa-chevron-down text-theme"></i>
-                      </button>
-                      <ul className="dropdown-menu">
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            Profile
-                          </a>
-                        </li>
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            logOut
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
+                <div className="me-2">
+                  <div className="btn-group dropstart">
+                    <button
+                      type="button"
+                      className=" border-0 bg-transparent "
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <div className="user-data d-flex  align-items-center ">
+                        <div className="user-img rounded-circle me-3">
+                          <img
+                            className="w-100 rounded-circle me-1"
+                            src={Images.test}
+                            alt=""
+                          />
+                        </div>
+                        <div className="user-info me-2 pt-2">
+                          <h6 className="text-theme mb-0 pb-0">
+                            {adminData?.userName}
+                          </h6>
+                          <p className="text-theme mb-0 pb-0">
+                            {adminData?.userEmail}
+                          </p>
+                        </div>
+                        <div>
+                          <i className="fa-solid fa-chevron-down text-theme"></i>
+                        </div>
+                      </div>
+                    </button>
+                    <ul className="dropdown-menu">
+                      <li>
+                        <a className="dropdown-item" href="#">
+                          Profile
+                        </a>
+                      </li>
+                      <li>
+                        <a className="dropdown-item" href="#">
+                          logOut
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </li>

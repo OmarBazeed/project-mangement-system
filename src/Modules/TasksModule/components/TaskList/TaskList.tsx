@@ -8,6 +8,7 @@ import { UsersInterface } from "../../../../interfaces/Auth";
 import {
   baseUrl,
   handleApiError,
+  loader,
   requestHeaders,
 } from "../../../../utils/Utils";
 import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
@@ -156,8 +157,8 @@ export default function TasksList() {
             </li>
           </ul>
           {isLoading ? (
-            <div className="container text-center mt-5 pt-5 text-theme">
-              {btnloading()}
+            <div className="container pt-5 mt-5 d-flex justify-content-center ">
+              {loader()}
             </div>
           ) : (
             <ul className={`${style.responsiveTableProjects}`}>

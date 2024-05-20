@@ -76,28 +76,28 @@ export default function SideBar() {
               )}
 
               <MenuItem
-                icon={<i className="bi bi-house-door"></i>}
+                icon={<i className="bi bi-house-door fs-4"></i>}
                 component={<Link to="/dashboard" />}
               >
                 Home
               </MenuItem>
 
               <MenuItem
-                icon={<i className="bi bi-people"></i>}
+                icon={<i className="bi bi-people fs-4"></i>}
                 component={<Link to="/dashboard/users" />}
               >
                 Users
               </MenuItem>
 
               <MenuItem
-                icon={<i className="bi bi-columns-gap"></i>}
+                icon={<i className="bi bi-columns-gap fs-4"></i>}
                 component={<Link to="/dashboard/projects" />}
               >
                 Project
               </MenuItem>
 
               <MenuItem
-                icon={<i className="fa-solid fa-list-check"></i>}
+                icon={<i className="fa-solid fa-list-check fs-4"></i>}
                 component={<Link to="/dashboard/tasks" />}
               >
                 Tasks
@@ -119,7 +119,7 @@ export default function SideBar() {
                 // onClick={logOut}
                 icon={
                   <i
-                    className="fa fa-right-from-bracket"
+                    className="fa fa-right-from-bracket fs-4"
                     aria-hidden="true"
                   ></i>
                 }

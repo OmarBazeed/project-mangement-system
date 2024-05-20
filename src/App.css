@@ -7,6 +7,7 @@
   --headerBg: #fff;
   --sideBg: #0e382f;
   --tableHdBg: #315951e5;
+  --menuItem: #fff;
 }
 [data-theme="dark"] {
   --bg: #22272b;
@@ -15,6 +16,7 @@
   --headerBg: #1d2125;
   --sideBg: #38414a;
   --tableHdBg: #38414a;
+  --menuItem: #ef9b28;
 }
 
 .nav-theme {
@@ -108,7 +110,7 @@
   color: #fff;
 }
 .input-field::placeholder {
-  color: #ccc;
+  color: #f5f5f5a4;
 }
 .input-label {
   position: absolute;
@@ -147,7 +149,7 @@
 /* main btn */
 .main-btn {
   background-color: #ef9b28;
-  padding: 10px 80px;
+  padding: 10px 30px;
   color: #fff;
   text-transform: uppercase;
   font-size: 18px;
@@ -177,29 +179,32 @@
 }
 
 /* btn loading */
-.loader {
-  font-size: 18px;
-  font-weight: 500;
+.custom-loader {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 8px solid #0000;
+  border-right-color: #107d2897;
+  position: relative;
+  animation: s4 1.5s infinite linear;
+}
+.custom-loader:before,
+.custom-loader:after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: inherit;
+  animation: inherit;
+  animation-duration: 2s;
+}
+.custom-loader:after {
+  animation-duration: 4s;
 }
 
-.loader span {
-  display: inline-flex;
-}
-.loader span:nth-child(2) {
-  letter-spacing: -1em;
-  overflow: hidden;
-  animation: reveal 700ms cubic-bezier(0.645, 0.045, 0.355, 1) infinite
-    alternate;
-}
-@keyframes reveal {
-  0%,
+@keyframes s4 {
   100% {
-    opacity: 0.5;
-    letter-spacing: -1em;
-  }
-  50% {
-    opacity: 1;
-    letter-spacing: 0em;
+    transform: rotate(1turn);
   }
 }
 
@@ -330,5 +335,11 @@ input:-webkit-autofill:active {
   width: 100%;
   color: white;
   height: 330px;
+  background-position: center;
+}
 
+/*Modifying User DropDown*/
+.dropstart .dropdown-menu[data-bs-popper] {
+  right: 45% !important;
+  top: 120% !important;
 }

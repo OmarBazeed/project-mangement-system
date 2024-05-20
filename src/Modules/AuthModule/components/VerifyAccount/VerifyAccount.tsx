@@ -9,7 +9,7 @@ import {
   emailValidation,
   OTPValidation,
 } from "../../../../utils/InputsValidation";
-import { baseUrl } from "../../../../utils/Utils";
+import { baseUrl, loader } from "../../../../utils/Utils";
 export default function VerifyAccount() {
   const [spinner, setSpinner] = useState<boolean>(false);
 
@@ -38,15 +38,6 @@ export default function VerifyAccount() {
     } finally {
       setSpinner(false);
     }
-  };
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
   };
 
   return (
@@ -131,7 +122,7 @@ export default function VerifyAccount() {
                           </div>
                           {/* submit button */}
                           <button className="main-btn" disabled={setSpinner}>
-                            {spinner ? btnloading() : " Verify Now"}
+                            {spinner ? loader() : " Verify Now"}
                           </button>
                         </form>
                       </div>

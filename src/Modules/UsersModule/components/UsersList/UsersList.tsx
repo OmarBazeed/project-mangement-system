@@ -101,7 +101,7 @@ export default function UsersList() {
 						{
 							position: "bottom-right",
 						}
-				  )
+				)
 				: toast.warning(
 						<div
 							dangerouslySetInnerHTML={{
@@ -111,7 +111,7 @@ export default function UsersList() {
 						{
 							position: "bottom-right",
 						}
-				  );
+				);
 
 			// setTotalPages(response.totalNumberOfPages);
 			// setTotalUserject(response.totalNumberOfPages);
@@ -124,16 +124,6 @@ export default function UsersList() {
 		setSelectedUser(user);
 		setShowView(true);
 		console.log(user);
-	};
-
-	const btnloading = () => {
-		return (
-			<div className="loader">
-				<i>&lt;</i>
-				<span>LOADING</span>
-				<i>/&gt;</i>
-			</div>
-		);
 	};
 
 	useEffect(() => {
@@ -174,10 +164,10 @@ export default function UsersList() {
 									<img
 										src={`https://upskilling-egypt.com:3003/${selectedUser.imagePath}`}
 										alt="..."
-										style={{ width: "70px", height: "70px" }}
+										style={{ width: "250px", height: "250px" }}
 									/>
 								) : (
-									<img style={{ width: "70px" }} src={`${Images.NoData}`} />
+									<img style={{ width: "150px" }} src={`${Images.NoData}`} />
 								)}
 							</p>
 							<p>

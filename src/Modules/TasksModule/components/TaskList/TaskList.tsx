@@ -138,7 +138,7 @@ export default function TasksList() {
               />
               <i className={`fa fa-search ${style.userSearchIcon}`}></i>
             </div>
-            <button className="col-md-1 btn btn-success border-0 rounded-5">
+            <button className="border-0 col-md-1 btn btn-success rounded-5">
               <i className="fa fa-filter"></i> Filter
             </button>
           </div>
@@ -217,7 +217,7 @@ export default function TasksList() {
                           <li
                             role="button"
                             // onClick={() => handleShowShowItem(pro)}
-                            className="px-3 py-1 pt-2  "
+                            className="px-3 py-1 pt-2 "
                           >
                             <div className="dropdown-div ">
                               <i className="fa-regular fa-eye me-2"></i>
@@ -283,7 +283,7 @@ export default function TasksList() {
               <div className="addCatModalHeadClose ">
                 <i
                   onClick={() => handleCloseDelete()}
-                  className="fa-solid fa-close btn border-danger py-1 px-2 rounded-circle   text-danger "
+                  className="px-2 py-1 fa-solid fa-close btn border-danger rounded-circle text-danger "
                 ></i>
               </div>
             </div>

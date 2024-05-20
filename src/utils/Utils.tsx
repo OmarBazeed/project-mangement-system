@@ -13,3 +13,7 @@ export const handleApiError = (error: unknown) => {
       : "An unexpected error occurred";
   toast.error(errMsg);
 };
+
+export const loader = () => {
+  return <div className="custom-loader"></div>;
+};

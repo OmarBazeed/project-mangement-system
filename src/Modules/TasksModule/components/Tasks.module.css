@@ -9,7 +9,8 @@
   }
   .tableHeader {
     padding: 25px 35px;
-    background-color: #315951e5;
+    /* background-color: #315951e5; */
+    background-color: var(--tableHdBg);
     font-family: Poppins;
     font-size: 16px;
     font-weight: 500;
@@ -76,4 +77,30 @@
       }
     }
   }
+}
+
+.noImg {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+/*Filtaration*/
+.filterInput:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  filter: drop-shadow(2px 2px 2px #466a63);
+}
+
+.filterInput::placeholder {
+  padding-left: 30px;
+  margin-left: 30px !important;
+}
+.inputSearch {
+  position: relative;
+}
+.userSearchIcon {
+  position: absolute;
+  top: 22px;
+  left: 25px;
 }

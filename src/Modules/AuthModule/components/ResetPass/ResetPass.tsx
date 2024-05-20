@@ -5,7 +5,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormData } from "../../../../interfaces/Auth";
-import { baseUrl } from "../../../../utils/Utils";
+import { baseUrl, loader } from "../../../../utils/Utils";
 import Images from "../../../ImageModule/components/Images/Images";
 import { toast } from "react-toastify";
 import {
@@ -40,16 +40,6 @@ export default function Login() {
   const validateConfirmPassword = (value: string) => {
     const newPassword = getValues("password");
     return value === newPassword || "Passwords do not match";
-  };
-
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
   };
 
   // senD Data to Api
@@ -211,7 +201,7 @@ export default function Login() {
 
                           {/* submit button */}
                           <button type="submit" className="main-btn">
-                            {spinner ? btnloading() : " Reset Now"}
+                            {spinner ? loader() : " Reset Now"}
                           </button>
                           <button
                             onClick={() => {

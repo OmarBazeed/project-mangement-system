@@ -71,6 +71,10 @@ function App() {
           element: <ProjectData />,
         },
         {
+          path: "projects-update/:id",
+          element: <ProjectData />,
+        },
+        {
           path: "tasks",
           element: <TaskList />,
         },

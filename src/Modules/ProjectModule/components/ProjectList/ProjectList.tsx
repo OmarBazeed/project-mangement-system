@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import style from "../Project.module.css";
 import moment from "moment";
 import NoData from "../../../SharedModule/components/NoData/NoData";
@@ -10,41 +10,44 @@ import { toast } from "react-toastify";
 import {
   baseUrl,
   handleApiError,
+  loader,
   requestHeaders,
 } from "../../../../utils/Utils";
 import { ProjectInterface } from "../../../../interfaces/Auth";
-
+import ResponsivePagination from "react-responsive-pagination";
 export default function ProjectList() {
   const navigate = useNavigate();
+
   const [projects, setprojects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   // State for page number
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(0);
   // State for total number of pages
   const [totalPages, setTotalPages] = useState(0);
   // State for total number of pages
-  const [totalProject, setTotalProject] = useState(0);
+  // const [totalProject, setTotalProject] = useState(0);
   const [proName, setProName] = useState("");
   const [proId, setProId] = useState(0);
   const [showDelete, setShowDelete] = useState(false);
+  const [projectTitle, setProjecTitle] = useState("");
 
   const getProject = useCallback(
-    async (pageSize: number) => {
+    async (proTitle: string, pageSize: number) => {
       setIsLoading(true);
       try {
         const { data } = await axios.get(
           `${baseUrl}/Project/manager?pageSize=${pageSize}&pageNumbe=${pageNumber}`,
           {
             headers: requestHeaders,
-            // params: {
-            //   name: name,
-            // },
+            params: {
+              title: proTitle,
+            },
           }
         );
 
         setprojects(data.data);
         setTotalPages(data.totalNumberOfPages);
-        setTotalProject(data.totalNumberOfPages);
+        // setTotalProject(data.totalNumberOfPages);
       } catch (err) {
         handleApiError(err);
       }
@@ -58,7 +61,7 @@ export default function ProjectList() {
       await axios.delete(`${baseUrl}/Project/${proId}`, {
         headers: requestHeaders,
       });
-      getProject(10);
+      getProject("", "", 10);
       toast.success(`Deleted ${proName} Successfully`);
     } catch (err) {
       handleApiError(err);
@@ -87,8 +90,8 @@ export default function ProjectList() {
     );
   };
   useEffect(() => {
-    getProject(20);
-  }, [getProject]);
+    getProject(projectTitle, 10);
+  }, [getProject, projectTitle, pageNumber]);
 
   return (
     <>
@@ -122,7 +125,25 @@ export default function ProjectList() {
             </div>
           </div>
         </div>
+        {/*Filtaration*/}
 
+        <div className="container">
+          <div className="input-container w-25 ">
+            <input
+              placeholder="Search By Name "
+              className={`input-field input-theme`}
+              type="text"
+              onChange={(e) => {
+                setProjecTitle(e.target.value);
+                getProject(projectTitle, 10);
+              }}
+            />
+            <label htmlFor="input-field" className={`input-label `}>
+              Search
+            </label>
+            <span className="input-highlight"></span>
+          </div>
+        </div>
         <div
           className={`project-body head-bg mt-5 container rounded-4 shadow  px-4 py-5`}
         >
@@ -136,8 +157,8 @@ export default function ProjectList() {
             </li>
           </ul>
           {isLoading ? (
-            <div className="container text-center mt-5 pt-5 text-theme">
-              {btnloading()}
+            <div className="container pt-5 mt-5 d-flex justify-content-center ">
+              {loader()}
             </div>
           ) : (
             <ul className={`${style.responsiveTableProjects}`}>
@@ -206,7 +227,11 @@ export default function ProjectList() {
                           </li>
                           <li
                             role="button"
-                            // onClick={() => handleUpdate(item.id, item.name)}
+                            onClick={() => {
+                              navigate("/dashboard/projects-data", {
+                                state: pro,
+                              });
+                            }}
                             className="px-3 py-1"
                           >
                             <div role="button" className="dropdown-div">
@@ -238,6 +263,14 @@ export default function ProjectList() {
               )}
             </ul>
           )}
+
+          <div className="mt-5">
+            <ResponsivePagination
+              current={pageNumber}
+              total={totalPages}
+              onPageChange={setPageNumber}
+            />
+          </div>
         </div>
 
         {/* modal handle delete  */}

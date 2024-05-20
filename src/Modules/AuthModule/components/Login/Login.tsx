@@ -11,7 +11,7 @@ import {
   emailValidation,
   passwordValidation,
 } from "../../../../utils/InputsValidation";
-import { baseUrl } from "../../../../utils/Utils";
+import { baseUrl, loader } from "../../../../utils/Utils";
 import Images from "../../../ImageModule/components/Images/Images";
 export default function Login() {
   // All states here on the top
@@ -35,16 +35,6 @@ export default function Login() {
   //  void indicates that a function does not return any value
   const togglePasswordVisibility = (): void => {
     setShowPassword((prevState: boolean) => !prevState);
-  };
-
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
   };
 
   // senD Data to Api
@@ -164,7 +154,7 @@ export default function Login() {
                           </div>
                           {/* submit button */}
                           <button className="main-btn" disabled={subBtnCilcked}>
-                            {spinner ? btnloading() : " Login"}
+                            {spinner ?  loader() : " Login"}
                           </button>
                         </form>
                       </div>

@@ -278,7 +278,7 @@ export default function TaskData() {
                 <div className={`d-flex justify-content-between mt-5 `}>
                   <button
                     onClick={() => {
-                      navigate("/dashboard/projects");
+                      navigate("/dashboard/tasks");
                     }}
                     type="button"
                     className={`px-5 rounded-3 border-dark bg-white  fs-5 `}

@@ -67,10 +67,10 @@ export default function TasksList() {
     setTaskId(null);
     setTaskName(null);
   };
-  const handleShowDelete = (id: number, name: string) => {
+  const handleShowDelete = (id: number, title: string) => {
     // set the values to handle  them in the delete process
     setTaskId(id);
-    setTaskName(name);
+    setTaskName(title);
     setShowDelete(true);
   };
 
@@ -85,7 +85,7 @@ export default function TasksList() {
   };
   useEffect(() => {
     getTask(taskTitle, 10);
-  }, [taskName, pageNumber]);
+  }, [taskTitle, pageNumber]);
 
   return (
     <>
@@ -239,7 +239,7 @@ export default function TasksList() {
                           <li
                             role="button"
                             onClick={() =>
-                              handleShowDelete(task.id, task.title)
+                              handleShowDelete(task.id, taskName)
                             }
                             className="px-3 py-1 "
                           >

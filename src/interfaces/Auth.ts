@@ -24,19 +24,14 @@ export interface UsersInterface {
   userGroup: string;
   user?: string;
 }
+//
 export interface TaskInterface {
   id: number;
   title: string;
   employee?: { userName: string };
   project?: { title: string };
 }
-export interface ProjectInterface {
-  projectId?: string;
-  title: string;
-  id: number;
-  creationDate: string;
-  task: [] | string;
-}
+//
 export interface TaskSubmitInterface {
   title: string;
   description: string;
@@ -47,4 +42,16 @@ export interface TaskUpdateSubmitInterface {
   title: string;
   description: string;
   employeeId: string;
+}
+//
+export interface ProjectInterface {
+  projectId?: string;
+  title: string;
+  id: number;
+  creationDate: string;
+  task: [] | string;
+}
+export interface ProjectSubmitUpdateInterface {
+  title: string;
+  description: string;
 }

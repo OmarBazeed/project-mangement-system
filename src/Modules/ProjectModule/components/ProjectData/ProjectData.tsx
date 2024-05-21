@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ProjectSubmitUpdateInterface } from "../../../../interfaces/Auth";
 import {
   baseUrl,
   handleApiError,
-  loader,
   requestHeaders,
 } from "../../../../utils/Utils";
 export default function ProjectData() {
@@ -21,11 +21,13 @@ export default function ProjectData() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
+  } = useForm<ProjectSubmitUpdateInterface>({
     criteriaMode: "all",
   });
   const navigate = useNavigate();
-  const onSubmit = async (data: any) => {
+  const onSubmit: SubmitHandler<ProjectSubmitUpdateInterface> = async (
+    data
+  ) => {
     try {
       await axios.post(`${baseUrl}/Project`, data, {
         headers: requestHeaders,
@@ -36,7 +38,9 @@ export default function ProjectData() {
       handleApiError(error);
     }
   };
-  const onEditeSubmit = async (data: any) => {
+  const onEditeSubmit: SubmitHandler<ProjectSubmitUpdateInterface> = async (
+    data
+  ) => {
     try {
       await axios.put(`${baseUrl}/Project/${proId}`, data, {
         headers: requestHeaders,
@@ -131,7 +135,6 @@ export default function ProjectData() {
                     className={`input-field input-theme ${
                       errors.description && "border-danger "
                     }`}
-                    type="text"
                     {...register("description", {
                       required: "Description is required",
                     })}

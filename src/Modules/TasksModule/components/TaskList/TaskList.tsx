@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import ResponsivePagination from "react-responsive-pagination";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { UsersInterface } from "../../../../interfaces/Auth";
+import { TaskInterface } from "../../../../interfaces/Auth";
 import {
   baseUrl,
   handleApiError,
@@ -16,7 +16,7 @@ import NoData from "../../../SharedModule/components/NoData/NoData";
 import style from "../Tasks.module.css";
 export default function TasksList() {
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState<[UsersInterface] | []>([]);
+  const [tasks, setTasks] = useState<[TaskInterface] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
   // State for page number
   const [pageNumber, setPageNumber] = useState(1);
@@ -28,45 +28,48 @@ export default function TasksList() {
   const [showDelete, setShowDelete] = useState(false);
   const [taskTitle, setTaskTitle] = useState("");
 
-  const getTask = useCallback(async (taTitle: string, pageSize: number) => {
-    setIsLoading(true);
-    try {
-      const { data } = await axios.get(
-        `${baseUrl}/Task/manager?pageSize=${pageSize}&pageNumber=${pageNumber}`,
-        {
-          headers: requestHeaders,
-          params: {
-            title: taTitle,
-          },
-        }
-      );
+  const getTask = useCallback(
+    async (taTitle: string, pageSize: number) => {
+      setIsLoading(true);
+      try {
+        const { data } = await axios.get(
+          `${baseUrl}/Task/manager?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+          {
+            headers: requestHeaders,
+            params: {
+              title: taTitle,
+            },
+          }
+        );
 
-      setTasks(data.data);
-      setTotalPages(data.totalNumberOfPages);
-    } catch (err) {
-      handleApiError(err);
-    }
-    setIsLoading(false);
-  });
+        setTasks(data.data);
+        setTotalPages(data.totalNumberOfPages);
+      } catch (err) {
+        handleApiError(err);
+      }
+      setIsLoading(false);
+    },
+    [pageNumber]
+  );
 
   const onDeleteSubmit = async () => {
     handleCloseDelete();
     try {
-      const response = await axios.delete(`${baseUrl}/Task/${taskId}`, {
+      await axios.delete(`${baseUrl}/Task/${taskId}`, {
         headers: requestHeaders,
       });
       getTask("", 10);
       toast.success(`Deleted ${taskName} Successfully`);
     } catch (err) {
-      console.log(err);
+      handleApiError(err);
     }
   };
 
   const handleCloseDelete = () => {
     // resetting the values to default after closing the modal
     setShowDelete(false);
-    setTaskId(null);
-    setTaskName(null);
+    setTaskId(0);
+    setTaskName("");
   };
   const handleShowDelete = (id: number, title: string) => {
     // set the values to handle  them in the delete process
@@ -75,15 +78,6 @@ export default function TasksList() {
     setShowDelete(true);
   };
 
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
-  };
   useEffect(() => {
     getTask(taskTitle, 10);
   }, [taskTitle, pageNumber]);
@@ -144,6 +138,7 @@ export default function TasksList() {
           </div>
         </div>
 
+        {/*Table */}
         <div
           className={`project-body head-bg mt-5 container rounded-4 shadow  px-4 py-5`}
         >
@@ -163,7 +158,7 @@ export default function TasksList() {
           ) : (
             <ul className={`${style.responsiveTableProjects}`}>
               {tasks.length > 0 ? (
-                tasks.map((task: any) => (
+                tasks.map((task: TaskInterface) => (
                   <li
                     key={task.id}
                     className={`${style.tableRow} bg-theme text-theme`}
@@ -184,13 +179,13 @@ export default function TasksList() {
                       className={`${style.col} ${style.col3}`}
                       data-label="User"
                     >
-                      {task.employee.userName}
+                      {task.employee?.userName}
                     </div>
                     <div
                       className={`${style.col} ${style.col4}`}
                       data-label="Project"
                     >
-                      {task.project.title}
+                      {task.project?.title}
                     </div>
                     <div
                       className={`${style.col} ${style.col5}`}
@@ -240,7 +235,7 @@ export default function TasksList() {
                           <li
                             role="button"
                             onClick={() =>
-                              handleShowDelete(task.id, taskName)
+                              handleShowDelete(task.id, task.title)
                             }
                             className="px-3 py-1 "
                           >

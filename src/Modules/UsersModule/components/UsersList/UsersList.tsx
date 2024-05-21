@@ -126,16 +126,6 @@ export default function UsersList() {
     console.log(user);
   };
 
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
-  };
-
   useEffect(() => {
     getUsersList(userUsername, 10, pageNumber);
   }, [userUsername, pageNumber]);

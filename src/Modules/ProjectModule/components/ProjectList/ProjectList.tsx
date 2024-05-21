@@ -1,20 +1,20 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import style from "../Project.module.css";
 import moment from "moment";
-import NoData from "../../../SharedModule/components/NoData/NoData";
-import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
+import { useCallback, useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import ResponsivePagination from "react-responsive-pagination";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ProjectInterface } from "../../../../interfaces/Auth";
 import {
   baseUrl,
   handleApiError,
   loader,
   requestHeaders,
 } from "../../../../utils/Utils";
-import { ProjectInterface } from "../../../../interfaces/Auth";
-import ResponsivePagination from "react-responsive-pagination";
+import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
+import NoData from "../../../SharedModule/components/NoData/NoData";
+import style from "../Project.module.css";
 export default function ProjectList() {
   const navigate = useNavigate();
 
@@ -61,7 +61,7 @@ export default function ProjectList() {
       await axios.delete(`${baseUrl}/Project/${proId}`, {
         headers: requestHeaders,
       });
-      getProject("", "", 10);
+      getProject("", 10);
       toast.success(`Deleted ${proName} Successfully`);
     } catch (err) {
       handleApiError(err);
@@ -70,8 +70,8 @@ export default function ProjectList() {
   const handleCloseDelete = () => {
     // resetting the values to default after closing the modal
     setShowDelete(false);
-    setProId(null);
-    setProName(null);
+    setProId(0);
+    setProName("");
   };
   const handleShowDelete = (id: number, name: string) => {
     // set the values to handle  them in the delete process
@@ -80,15 +80,6 @@ export default function ProjectList() {
     setShowDelete(true);
   };
 
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
-  };
   useEffect(() => {
     getProject(projectTitle, 10);
   }, [getProject, projectTitle, pageNumber]);

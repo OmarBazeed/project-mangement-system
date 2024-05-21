@@ -4,18 +4,20 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ProjectSubmitUpdateInterface } from "../../../../interfaces/Auth";
+
 import {
   baseUrl,
   handleApiError,
   requestHeaders,
 } from "../../../../utils/Utils";
+
 export default function ProjectData() {
   const location = useLocation();
   const project = location.state;
   const [isUpdate, setIsUpdate] = useState(false);
   const [proId, setProId] = useState(0);
   const projectupdate = location.state?.projectupdate;
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -24,7 +26,7 @@ export default function ProjectData() {
   } = useForm<ProjectSubmitUpdateInterface>({
     criteriaMode: "all",
   });
-  const navigate = useNavigate();
+
   const onSubmit: SubmitHandler<ProjectSubmitUpdateInterface> = async (
     data
   ) => {

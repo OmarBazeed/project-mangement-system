@@ -1,63 +1,70 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import style from "../Project.module.css";
 import moment from "moment";
 import NoData from "../../../SharedModule/components/NoData/NoData";
 import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-
+import {
+  baseUrl,
+  handleApiError,
+  loader,
+  requestHeaders,
+} from "../../../../utils/Utils";
+import { ProjectInterface } from "../../../../interfaces/Auth";
+import ResponsivePagination from "react-responsive-pagination";
 export default function ProjectList() {
   const navigate = useNavigate();
-  const requestHeaders = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
-  const baseUrl = `https://upskilling-egypt.com:3003/api/v1`;
+
   const [projects, setprojects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   // State for page number
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(0);
   // State for total number of pages
   const [totalPages, setTotalPages] = useState(0);
   // State for total number of pages
-  const [totalProject, setTotalProject] = useState(0);
-  const [proName, setProName] = useState(null);
-  const [proId, setProId] = useState(null);
+  // const [totalProject, setTotalProject] = useState(0);
+  const [proName, setProName] = useState("");
+  const [proId, setProId] = useState(0);
   const [showDelete, setShowDelete] = useState(false);
+  const [projectTitle, setProjecTitle] = useState("");
 
-  const getProject = async (pageSize: any) => {
-    setIsLoading(true);
-    try {
-      const { data } = await axios.get(
-        `${baseUrl}/Project/manager?pageSize=${pageSize}&pageNumbe=${pageNumber}`,
-        {
-          headers: requestHeaders,
-          // params: {
-          //   name: name,
-          // },
-        }
-      );
+  const getProject = useCallback(
+    async (proTitle: string, pageSize: number) => {
+      setIsLoading(true);
+      try {
+        const { data } = await axios.get(
+          `${baseUrl}/Project/manager?pageSize=${pageSize}&pageNumbe=${pageNumber}`,
+          {
+            headers: requestHeaders,
+            params: {
+              title: proTitle,
+            },
+          }
+        );
 
-      setprojects(data.data);
-      console.log(data.data);
-      setTotalPages(data.totalNumberOfPages);
-      setTotalProject(data.totalNumberOfPages);
-    } catch (err) {
-      console.log(err);
-    }
-    setIsLoading(false);
-  };
+        setprojects(data.data);
+        setTotalPages(data.totalNumberOfPages);
+        // setTotalProject(data.totalNumberOfPages);
+      } catch (err) {
+        handleApiError(err);
+      }
+      setIsLoading(false);
+    },
+    [pageNumber]
+  );
   const onDeleteSubmit = async () => {
     handleCloseDelete();
     try {
-      const response = await axios.delete(`${baseUrl}/Project/${proId}`, {
+      await axios.delete(`${baseUrl}/Project/${proId}`, {
         headers: requestHeaders,
       });
-      getProject(10);
+      getProject("", "", 10);
       toast.success(`Deleted ${proName} Successfully`);
     } catch (err) {
-      console.log(err);
+      handleApiError(err);
     }
   };
   const handleCloseDelete = () => {
@@ -66,25 +73,16 @@ export default function ProjectList() {
     setProId(null);
     setProName(null);
   };
-  const handleShowDelete = (id, name) => {
+  const handleShowDelete = (id: number, name: string) => {
     // set the values to handle  them in the delete process
     setProId(id);
     setProName(name);
     setShowDelete(true);
   };
 
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
-  };
   useEffect(() => {
-    getProject(20);
-  }, []);
+    getProject(projectTitle, 10);
+  }, [getProject, projectTitle, pageNumber]);
 
   return (
     <>
@@ -118,7 +116,25 @@ export default function ProjectList() {
             </div>
           </div>
         </div>
+        {/*Filtaration*/}
 
+        <div className="container">
+          <div className="input-container w-25 ">
+            <input
+              placeholder="Search By Name "
+              className={`input-field input-theme`}
+              type="text"
+              onChange={(e) => {
+                setProjecTitle(e.target.value);
+                getProject(projectTitle, 10);
+              }}
+            />
+            <label htmlFor="input-field" className={`input-label `}>
+              Search
+            </label>
+            <span className="input-highlight"></span>
+          </div>
+        </div>
         <div
           className={`project-body head-bg mt-5 container rounded-4 shadow  px-4 py-5`}
         >
@@ -132,13 +148,13 @@ export default function ProjectList() {
             </li>
           </ul>
           {isLoading ? (
-            <div className="container text-center mt-5 pt-5 text-theme">
-              {btnloading()}
+            <div className="container pt-5 mt-5 d-flex justify-content-center ">
+              {loader()}
             </div>
           ) : (
             <ul className={`${style.responsiveTableProjects}`}>
               {projects.length > 0 ? (
-                projects.map((pro) => (
+                projects.map((pro: ProjectInterface) => (
                   <li
                     key={pro.id}
                     className={`${style.tableRow} bg-theme text-theme`}
@@ -159,7 +175,7 @@ export default function ProjectList() {
                       className={`${style.col} ${style.col3}`}
                       data-label="No of tasks :"
                     >
-                      {pro.task?.lenngth > 0 ? pro.task?.lenngth : 0}
+                      {pro.task?.length > 0 ? pro.task?.length : 0}
                     </div>
                     <div
                       className={`${style.col} ${style.col4}`}
@@ -193,7 +209,7 @@ export default function ProjectList() {
                           <li
                             role="button"
                             // onClick={() => handleShowShowItem(pro)}
-                            className="px-3 py-1 pt-2  "
+                            className="px-3 py-1 pt-2"
                           >
                             <div className="dropdown-div ">
                               <i className="fa-regular fa-eye me-2"></i>
@@ -202,7 +218,11 @@ export default function ProjectList() {
                           </li>
                           <li
                             role="button"
-                            // onClick={() => handleUpdate(item.id, item.name)}
+                            onClick={() => {
+                              navigate("/dashboard/projects-data", {
+                                state: pro,
+                              });
+                            }}
                             className="px-3 py-1"
                           >
                             <div role="button" className="dropdown-div">
@@ -234,6 +254,14 @@ export default function ProjectList() {
               )}
             </ul>
           )}
+
+          <div className="mt-5">
+            <ResponsivePagination
+              current={pageNumber}
+              total={totalPages}
+              onPageChange={setPageNumber}
+            />
+          </div>
         </div>
 
         {/* modal handle delete  */}
@@ -247,7 +275,7 @@ export default function ProjectList() {
               <div className="addCatModalHeadClose ">
                 <i
                   onClick={() => handleCloseDelete()}
-                  className="fa-solid fa-close btn border-danger py-1 px-2 rounded-circle   text-danger "
+                  className="px-2 py-1 fa-solid fa-close btn border-danger rounded-circle text-danger "
                 ></i>
               </div>
             </div>

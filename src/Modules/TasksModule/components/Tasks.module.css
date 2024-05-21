@@ -78,3 +78,29 @@
     }
   }
 }
+
+.noImg {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+/*Filtaration*/
+.filterInput:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  filter: drop-shadow(2px 2px 2px #466a63);
+}
+
+.filterInput::placeholder {
+  padding-left: 30px;
+  margin-left: 30px !important;
+}
+.inputSearch {
+  position: relative;
+}
+.userSearchIcon {
+  position: absolute;
+  top: 22px;
+  left: 25px;
+}

@@ -9,7 +9,7 @@ import {
   emailValidation,
   OTPValidation,
 } from "../../../../utils/InputsValidation";
-import { BaseUrl } from "../../../../utils/Utils";
+import { baseUrl, loader } from "../../../../utils/Utils";
 export default function VerifyAccount() {
   const [spinner, setSpinner] = useState<boolean>(false);
 
@@ -24,7 +24,7 @@ export default function VerifyAccount() {
     setSpinner(true);
 
     try {
-      const response = await axios.put(`${BaseUrl}/Users/verify`, data);
+      const response = await axios.put(`${baseUrl}/Users/verify`, data);
       toast.success(response.data.message || "Account verified successfully");
       console.log(response);
       navigate("/login");
@@ -38,15 +38,6 @@ export default function VerifyAccount() {
     } finally {
       setSpinner(false);
     }
-  };
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
   };
 
   return (
@@ -131,7 +122,7 @@ export default function VerifyAccount() {
                           </div>
                           {/* submit button */}
                           <button className="main-btn" disabled={setSpinner}>
-                            {spinner ? btnloading() : " Verify Now"}
+                            {spinner ? loader() : " Verify Now"}
                           </button>
                         </form>
                       </div>

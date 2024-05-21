@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 import Images from "../../../ImageModule/components/Images/Images";
 
-import { BaseUrl } from "../../../../utils/Utils";
+import { baseUrl, loader } from "../../../../utils/Utils";
 import {
   emailValidation,
   passwordValidation,
@@ -28,15 +28,6 @@ export default function Register() {
   const changePassInputType = () => {
     setHidePassInInpt((hidePassInInpt = !hidePassInInpt ? true : false));
   };
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
-  };
 
   const {
     register,
@@ -51,7 +42,7 @@ export default function Register() {
     const registerFormData = appendToFormData(data);
     try {
       const response = await axios.post(
-        `${BaseUrl}/Users/Register`,
+        `${baseUrl}/Users/Register`,
         registerFormData
       );
       toast.success(response.data.message);
@@ -365,7 +356,7 @@ export default function Register() {
                           </div>
                           {/* submit button */}
                           <button className="main-btn">
-                            {isLoading ? btnloading() : " Register Now"}
+                            {isLoading ? loader() : " Register Now"}
                           </button>
                         </form>
                         {/*  */}

@@ -14,6 +14,7 @@ import TaskList from "./Modules/TasksModule/components/TaskList/TaskList";
 import UsersList from "./Modules/UsersModule/components/UsersList/UsersList";
 import ProtectedRoute from "./Modules/SharedModule/components/ProtectedRoute/ProtectedRoute";
 import ProjectData from "./Modules/ProjectModule/components/ProjectData/ProjectData";
+import TaskData from "./Modules/TasksModule/components/TaskData/TaskData";
 
 function App() {
   const routes = createBrowserRouter([
@@ -70,8 +71,16 @@ function App() {
           element: <ProjectData />,
         },
         {
+          path: "projects-update/:id",
+          element: <ProjectData />,
+        },
+        {
           path: "tasks",
           element: <TaskList />,
+        },
+        {
+          path: "tasks-data",
+          element: <TaskData />,
         },
         {
           path: "users",

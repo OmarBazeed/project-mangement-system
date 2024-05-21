@@ -1,15 +1,21 @@
-import React, { useState } from "react";
-import style from "../Project.module.css";
-import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import {
+  baseUrl,
+  handleApiError,
+  loader,
+  requestHeaders,
+} from "../../../../utils/Utils";
 export default function ProjectData() {
-  const [isLoading, setIsLoading] = useState(false);
-  const requestHeaders = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
-  const baseUrl = `https://upskilling-egypt.com:3003/api/v1`;
+  const location = useLocation();
+  const project = location.state;
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [proId, setProId] = useState(0);
+  const projectupdate = location.state?.projectupdate;
+
   const {
     register,
     handleSubmit,
@@ -19,30 +25,40 @@ export default function ProjectData() {
     criteriaMode: "all",
   });
   const navigate = useNavigate();
-  const onSubmit = (pro: any) => {
+  const onSubmit = async (data: any) => {
     try {
-      const { data } = axios.post(`${baseUrl}/Project`, pro, {
+      await axios.post(`${baseUrl}/Project`, data, {
         headers: requestHeaders,
       });
-      // console.log(data);
-      reset({
-        title: "",
-        description: "",
-      });
-      toast.success("Added Your Project Successfully");
+      toast.success("New Project Has Been Added Successfully");
+      navigate("/dashboard/projects");
     } catch (error) {
-      console.log(error.data);
+      handleApiError(error);
     }
   };
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
+  const onEditeSubmit = async (data: any) => {
+    try {
+      await axios.put(`${baseUrl}/Project/${proId}`, data, {
+        headers: requestHeaders,
+      });
+      toast.success("Project Has Been Updated Successfully");
+      navigate("/dashboard/projects");
+    } catch (error) {
+      handleApiError(error);
+    }
   };
+
+  useEffect(() => {
+    if (project) {
+      setIsUpdate(true);
+      setProId(project.id);
+      reset({
+        title: project.title,
+        description: project.description,
+      });
+    }
+  }, []);
+
   return (
     <>
       <section>
@@ -81,7 +97,9 @@ export default function ProjectData() {
             {/* form body */}
             <div className="form-body mt-3">
               {/* */}
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form
+                onSubmit={handleSubmit(isUpdate ? onEditeSubmit : onSubmit)}
+              >
                 {/* title input */}
                 <div className="input-container">
                   <input
@@ -93,6 +111,7 @@ export default function ProjectData() {
                     {...register("title", {
                       required: "Title is required",
                     })}
+                    defaultValue={status ? projectupdate.title : ""}
                   />
                   <label htmlFor="input-field" className={`input-label `}>
                     Title
@@ -116,6 +135,7 @@ export default function ProjectData() {
                     {...register("description", {
                       required: "Description is required",
                     })}
+                    defaultValue={status ? projectupdate.description : ""}
                   ></textarea>
                   <label htmlFor={`input-field`} className={`input-label `}>
                     Description
@@ -139,7 +159,7 @@ export default function ProjectData() {
                   </button>
                   {/* submit button */}
                   <button type="submit" className="main-btn">
-                    {isLoading ? btnloading() : " Save"}
+                    Save
                     {/* Save */}
                   </button>
                 </div>

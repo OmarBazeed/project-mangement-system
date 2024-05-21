@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 // import logo from '../../../../assets/images/PMS 3.png';
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUser } from "../../../../Context/AuthContext";
@@ -59,7 +59,11 @@ export default function Login() {
       setSpinner(false);
     }
   };
-
+  useEffect(() => {
+    if (adminData && localStorage.getItem("token")) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [adminData, navigate]);
   return (
     <>
       <section className="">
@@ -154,7 +158,7 @@ export default function Login() {
                           </div>
                           {/* submit button */}
                           <button className="main-btn" disabled={subBtnCilcked}>
-                            {spinner ?  loader() : " Login"}
+                            {spinner ? loader() : " Login"}
                           </button>
                         </form>
                       </div>

@@ -1,12 +1,12 @@
+import axios from "axios";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
-import { FormData } from "../../../../interfaces/Auth";
-import Images from "../../../ImageModule/components/Images/Images";
-import { baseUrl, loader, loading } from "../../../../utils/Utils";
 import { toast } from "react-toastify";
+import { FormData } from "../../../../interfaces/Auth";
 import { emailValidation } from "../../../../utils/InputsValidation";
+import { baseUrl, handleApiError, loader } from "../../../../utils/Utils";
+import Images from "../../../ImageModule/components/Images/Images";
 
 export default function ForgetPass() {
   const [spinner, setSpinner] = useState(false);
@@ -34,10 +34,7 @@ export default function ForgetPass() {
       );
       navigate("/reset-password");
     } catch (error) {
-      toast.error(
-        error?.response?.data.message || "An Error occurred",
-        toastOption
-      );
+      handleApiError(error);
     } finally {
       setSpinner(false);
     }

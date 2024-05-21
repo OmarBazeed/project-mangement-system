@@ -12,7 +12,7 @@ import {
 import {
   baseUrl,
   handleApiError,
-  requestHeaders,
+  getRequestHeaders,
 } from "../../../../utils/Utils";
 export default function TaskData() {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +37,7 @@ export default function TaskData() {
   const onSubmit: SubmitHandler<TaskSubmitInterface> = async (task) => {
     try {
       await axios.post(`${baseUrl}/Task`, task, {
-        headers: requestHeaders,
+        headers: getRequestHeaders(),
       });
       toast.success("New Task Has Been Added Successfully");
       navigate("/dashboard/tasks");
@@ -52,7 +52,7 @@ export default function TaskData() {
       const { data } = await axios.get(
         `${baseUrl}/Project?pageSize=${pageSize}&pageNumbe=${pageNumber}`,
         {
-          headers: requestHeaders,
+          headers: getRequestHeaders(),
           // params: {
           //   name: name,
           // },
@@ -69,7 +69,7 @@ export default function TaskData() {
   ) => {
     try {
       await axios.put(`${baseUrl}/Task/${taskId}`, data, {
-        headers: requestHeaders,
+        headers: getRequestHeaders(),
       });
       // handleCloseUpdate();
       // getTask(taskName, 10, 1);
@@ -86,7 +86,7 @@ export default function TaskData() {
       const { data } = await axios.get(
         `${baseUrl}/Users?pageSize=${pageSize}&pageNumbe=${pageNumber}`,
         {
-          headers: requestHeaders,
+          headers: getRequestHeaders(),
           // params: {
           //   name: name,
           // },

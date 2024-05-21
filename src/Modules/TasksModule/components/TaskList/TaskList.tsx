@@ -9,7 +9,7 @@ import {
   baseUrl,
   handleApiError,
   loader,
-  requestHeaders,
+  getRequestHeaders,
 } from "../../../../utils/Utils";
 import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
 import NoData from "../../../SharedModule/components/NoData/NoData";
@@ -35,7 +35,7 @@ export default function TasksList() {
         const { data } = await axios.get(
           `${baseUrl}/Task/manager?pageSize=${pageSize}&pageNumber=${pageNumber}`,
           {
-            headers: requestHeaders,
+            headers: getRequestHeaders(),
             params: {
               title: taTitle,
             },
@@ -56,7 +56,7 @@ export default function TasksList() {
     handleCloseDelete();
     try {
       await axios.delete(`${baseUrl}/Task/${taskId}`, {
-        headers: requestHeaders,
+        headers: getRequestHeaders(),
       });
       getTask("", 10);
       toast.success(`Deleted ${taskName} Successfully`);

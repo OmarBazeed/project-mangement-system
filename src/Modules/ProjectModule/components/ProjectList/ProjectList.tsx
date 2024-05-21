@@ -8,80 +8,78 @@ import { toast } from "react-toastify";
 import { ProjectInterface } from "../../../../interfaces/Auth";
 import {
   baseUrl,
+  getRequestHeaders,
   handleApiError,
   loader,
-  requestHeaders,
 } from "../../../../utils/Utils";
 import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
 import NoData from "../../../SharedModule/components/NoData/NoData";
 import style from "../Project.module.css";
+
 export default function ProjectList() {
   const navigate = useNavigate();
 
-  const [projects, setprojects] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  // State for page number
   const [pageNumber, setPageNumber] = useState(0);
-  // State for total number of pages
   const [totalPages, setTotalPages] = useState(0);
-  // State for total number of pages
-  // const [totalProject, setTotalProject] = useState(0);
   const [proName, setProName] = useState("");
   const [proId, setProId] = useState(0);
   const [showDelete, setShowDelete] = useState(false);
-  const [projectTitle, setProjecTitle] = useState("");
+  const [projectTitle, setProjectTitle] = useState("");
 
   const getProject = useCallback(
-    async (proTitle: string, pageSize: number) => {
+    async (proTitle: string, pageSize: number, pageNumber: number) => {
       setIsLoading(true);
       try {
         const { data } = await axios.get(
-          `${baseUrl}/Project/manager?pageSize=${pageSize}&pageNumbe=${pageNumber}`,
+          `${baseUrl}/Project/manager?pageSize=${pageSize}&pageNumber=${pageNumber}`,
           {
-            headers: requestHeaders,
+            headers: getRequestHeaders(),
             params: {
               title: proTitle,
             },
           }
         );
 
-        setprojects(data.data);
         setTotalPages(data.totalNumberOfPages);
-        // setTotalProject(data.totalNumberOfPages);
+        setProjects(data.data);
       } catch (err) {
         handleApiError(err);
       }
       setIsLoading(false);
     },
-    [pageNumber]
+    []
   );
+
   const onDeleteSubmit = async () => {
     handleCloseDelete();
     try {
       await axios.delete(`${baseUrl}/Project/${proId}`, {
-        headers: requestHeaders,
+        headers: getRequestHeaders(),
       });
-      getProject("", 10);
+      // After deletion, we need to fetch the project list again
+      getProject(projectTitle, 10, pageNumber);
       toast.success(`Deleted ${proName} Successfully`);
     } catch (err) {
       handleApiError(err);
     }
   };
+
   const handleCloseDelete = () => {
-    // resetting the values to default after closing the modal
     setShowDelete(false);
     setProId(0);
     setProName("");
   };
+
   const handleShowDelete = (id: number, name: string) => {
-    // set the values to handle  them in the delete process
     setProId(id);
     setProName(name);
     setShowDelete(true);
   };
 
   useEffect(() => {
-    getProject(projectTitle, 10);
+    getProject(projectTitle, 10, pageNumber);
   }, [getProject, projectTitle, pageNumber]);
 
   return (
@@ -125,8 +123,8 @@ export default function ProjectList() {
               className={`input-field input-theme`}
               type="text"
               onChange={(e) => {
-                setProjecTitle(e.target.value);
-                getProject(projectTitle, 10);
+                setProjectTitle(e.target.value);
+                getProject(projectTitle, 10, pageNumber);
               }}
             />
             <label htmlFor="input-field" className={`input-label `}>
@@ -259,7 +257,7 @@ export default function ProjectList() {
             <ResponsivePagination
               current={pageNumber}
               total={totalPages}
-              onPageChange={setPageNumber}
+              onPageChange={(page) => setPageNumber(page)}
             />
           </div>
         </div>

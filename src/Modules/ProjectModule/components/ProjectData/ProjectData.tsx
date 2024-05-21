@@ -8,7 +8,7 @@ import { ProjectSubmitUpdateInterface } from "../../../../interfaces/Auth";
 import {
   baseUrl,
   handleApiError,
-  requestHeaders,
+  getRequestHeaders,
 } from "../../../../utils/Utils";
 
 export default function ProjectData() {
@@ -32,7 +32,7 @@ export default function ProjectData() {
   ) => {
     try {
       await axios.post(`${baseUrl}/Project`, data, {
-        headers: requestHeaders,
+        headers: getRequestHeaders(),
       });
       toast.success("New Project Has Been Added Successfully");
       navigate("/dashboard/projects");
@@ -45,7 +45,7 @@ export default function ProjectData() {
   ) => {
     try {
       await axios.put(`${baseUrl}/Project/${proId}`, data, {
-        headers: requestHeaders,
+        headers: getRequestHeaders(),
       });
       toast.success("Project Has Been Updated Successfully");
       navigate("/dashboard/projects");

@@ -102,6 +102,12 @@ export default function SideBar() {
               >
                 Tasks
               </MenuItem>
+              <MenuItem
+                icon={<i className="fa-solid fa-list-check fs-4"></i>}
+                component={<Link to="/dashboard/tasks-board" />}
+              >
+                Tasks Board
+              </MenuItem>
 
               {/* <MenuItem
               onClick={handleShow}

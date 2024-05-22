@@ -122,3 +122,40 @@
   width: fit-content;
   filter: drop-shadow(0px 0px 4px var(--text));
 }
+
+.taskBody {
+  min-height: 300px;
+  /* max-height: 500px; */
+  /* overflow-y: auto; */
+}
+.cursorGrab {
+  cursor: grab;
+}
+.cursorGrabbing {
+  cursor: grabbing;
+}
+.task {
+  min-height: 50px;
+}
+
+.borderDrag {
+  border: solid #ef9b28 4px;
+}
+.taskBody {
+  min-height: 300px;
+  /* max-height: 500px; */
+  /* overflow-y: auto; */
+}
+.cursorGrab {
+  cursor: grab;
+}
+.cursorGrabbing {
+  cursor: grabbing;
+}
+.task {
+  min-height: 50px;
+}
+
+.borderDrag {
+  border: solid #ef9b28 4px;
+}

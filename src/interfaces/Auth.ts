@@ -26,11 +26,12 @@ export interface UsersInterface {
 }
 //
 export interface TaskInterface {
-  id: number;
+  id: string;
   title: string;
   employee?: { userName: string };
   project?: { title: string };
   status: string;
+  description: string;
 }
 //
 export interface TaskSubmitInterface {
@@ -55,4 +56,23 @@ export interface ProjectInterface {
 export interface ProjectSubmitUpdateInterface {
   title: string;
   description: string;
+}
+
+export interface TasksInterface extends Array<TaskInterface> {}
+
+export type changeTaskStatus = (
+  id: string,
+  prevStateus: string,
+  newStatus: string
+) => void;
+
+export interface TaskProps {
+  task: TaskInterface;
+}
+
+export interface ColumnProps {
+  title: string;
+  tasks: TasksInterface;
+  status: string;
+  changeTaskStatus: changeTaskStatus;
 }

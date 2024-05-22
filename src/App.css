@@ -8,6 +8,7 @@
   --sideBg: #0e382f;
   --tableHdBg: #315951e5;
   --menuItem: #fff;
+  --iconColor: #000;
 }
 [data-theme="dark"] {
   --bg: #22272b;
@@ -17,6 +18,7 @@
   --sideBg: #38414a;
   --tableHdBg: #38414a;
   --menuItem: #ef9b28;
+  --iconColor: #ef9b28;
 }
 
 .nav-theme {

@@ -30,6 +30,7 @@ export interface TaskInterface {
   title: string;
   employee?: { userName: string };
   project?: { title: string };
+  status: string;
 }
 //
 export interface TaskSubmitInterface {

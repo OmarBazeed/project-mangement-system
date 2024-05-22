@@ -1,6 +1,7 @@
 import useLocalStorage from "use-local-storage";
 import { useUser } from "../../../../Context/AuthContext";
 import Images from "../../../ImageModule/components/Images/Images";
+import { Link } from "react-router-dom";
 
 export default function NavBar() {
   const [dark, setDark] = useLocalStorage("dark", false);
@@ -16,14 +17,23 @@ export default function NavBar() {
         <div className="container-fluid">
           <a className="navbar-brand">
             {dark ? (
-              <img height={54} className="w-100" src={Images.logoDark} alt="" />
+              <Link to="/dashboard">
+                <img
+                  height={54}
+                  className="w-100"
+                  src={Images.logoDark}
+                  alt=""
+                />
+              </Link>
             ) : (
-              <img
-                height={50}
-                className="w-100"
-                src={Images.logoLight}
-                alt=""
-              />
+              <Link to="/dashboard">
+                <img
+                  height={50}
+                  className="w-100"
+                  src={Images.logoLight}
+                  alt=""
+                />
+              </Link>
             )}
           </a>
           <button

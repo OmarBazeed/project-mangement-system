@@ -1,3 +1,4 @@
+import React from "react";
 import Images from "../../../ImageModule/components/Images/Images";
 
 export default function DeleteData({ deleteItem }) {

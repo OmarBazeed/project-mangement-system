@@ -1,11 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   ProjectInterface,
-  TaskInterface,
   TaskSubmitInterface,
   TaskUpdateSubmitInterface,
   UsersInterface,
@@ -13,11 +12,11 @@ import {
 import {
   baseUrl,
   handleApiError,
-  requestHeaders,
+  getRequestHeaders,
 } from "../../../../utils/Utils";
 export default function TaskData() {
   const [isLoading, setIsLoading] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber] = useState(1);
   const [projects, setprojects] = useState([]);
   const [users, setUsers] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);
@@ -38,7 +37,7 @@ export default function TaskData() {
   const onSubmit: SubmitHandler<TaskSubmitInterface> = async (task) => {
     try {
       await axios.post(`${baseUrl}/Task`, task, {
-        headers: requestHeaders,
+        headers: getRequestHeaders(),
       });
       toast.success("New Task Has Been Added Successfully");
       navigate("/dashboard/tasks");
@@ -53,7 +52,7 @@ export default function TaskData() {
       const { data } = await axios.get(
         `${baseUrl}/Project?pageSize=${pageSize}&pageNumbe=${pageNumber}`,
         {
-          headers: requestHeaders,
+          headers: getRequestHeaders(),
           // params: {
           //   name: name,
           // },
@@ -65,17 +64,19 @@ export default function TaskData() {
     }
     setIsLoading(false);
   };
-  const onUpdateSubmit:SubmitHandler<TaskUpdateSubmitInterface> = async (data: TaskInterface) => {
+  const onUpdateSubmit: SubmitHandler<TaskUpdateSubmitInterface> = async (
+    data
+  ) => {
     try {
-      const response = await axios.put(`${baseUrl}/Task/${taskId}`, data, {
-        headers: requestHeaders,
+      await axios.put(`${baseUrl}/Task/${taskId}`, data, {
+        headers: getRequestHeaders(),
       });
       // handleCloseUpdate();
       // getTask(taskName, 10, 1);
       toast.success(`Updated Task Successfully`);
       navigate("/dashboard/tasks");
     } catch (error) {
-      toast.error(error.response.data.message);
+      handleApiError(error);
     }
     // console.log(data);
   };
@@ -85,7 +86,7 @@ export default function TaskData() {
       const { data } = await axios.get(
         `${baseUrl}/Users?pageSize=${pageSize}&pageNumbe=${pageNumber}`,
         {
-          headers: requestHeaders,
+          headers: getRequestHeaders(),
           // params: {
           //   name: name,
           // },
@@ -111,7 +112,6 @@ export default function TaskData() {
 
   useEffect(() => {
     if (task) {
-      console.log(task);
       setIsUpdate(true);
       setTaskId(task.id);
       reset({

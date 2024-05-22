@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ModalFooter } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
@@ -8,21 +8,22 @@ import { toast } from "react-toastify";
 import { UsersInterface } from "../../../../interfaces/Auth";
 import {
   baseUrl,
+  getRequestHeaders,
   handleApiError,
   loader,
-  requestHeaders,
 } from "../../../../utils/Utils";
 import Images from "../../../ImageModule/components/Images/Images";
 import NoData from "../../../SharedModule/components/NoData/NoData";
 import style from "./Users.module.css";
 import ResponsivePagination from "react-responsive-pagination";
+
 export default function UsersList() {
   const [isLoading, setIsLoading] = useState(false);
-  const [usersList, setUsersList] = useState<[UsersInterface] | []>([]);
+  const [usersList, setUsersList] = useState<UsersInterface[]>([]);
   const [showView, setShowView] = useState(false);
   const [userUsername, setUserUsername] = useState("");
   const [totalPages, setTotalPages] = useState(0);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1); // Initialize to 1
   const [selectedUser, setSelectedUser] = useState<UsersInterface>({
     country: "",
     email: "",
@@ -44,33 +45,32 @@ export default function UsersList() {
 
   const navigate = useNavigate();
 
-  const getUsersList = async (
-    userUsername: string,
-    pSize: number,
-    pageNumber: number
-  ) => {
-    setIsLoading(true);
-    try {
-      const res = await axios.get(
-        `${baseUrl}/Users/?pageSize=${pSize}&pageNumber=${pageNumber}`,
-        {
-          headers: requestHeaders,
-          params: {
-            userName: userUsername,
-          },
-        }
-      );
-      setUsersList(res.data.data);
-      setTotalPages(res.data.totalNumberOfPages);
-    } catch (err) {
-      const errMsg =
-        axios.isAxiosError(err) && err.response?.data?.message
-          ? err.response.data.message
-          : "An unexpected error occurred";
-      toast.error(errMsg);
-    }
-    setIsLoading(false);
-  };
+  const getUsersList = useCallback(
+    async (userUsername: string, pageNumber: number, pageSize: number) => {
+      setIsLoading(true);
+
+      try {
+        const res = await axios.get(
+          `${baseUrl}/Users/?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+          {
+            headers: getRequestHeaders(),
+            params: { userName: userUsername },
+          }
+        );
+
+        setUsersList(res.data.data);
+        setTotalPages(res.data.totalNumberOfPages);
+      } catch (err) {
+        const errMsg =
+          axios.isAxiosError(err) && err.response?.data?.message
+            ? err.response.data.message
+            : "An unexpected error occurred";
+        toast.error(errMsg);
+      }
+      setIsLoading(false);
+    },
+    []
+  );
 
   const toggleUserStatus = async (
     id: number,
@@ -81,14 +81,10 @@ export default function UsersList() {
       await axios.put(
         `${baseUrl}/Users/${id}`,
         {},
-        {
-          headers: requestHeaders,
-        }
+        { headers: getRequestHeaders() }
       );
-      getUsersList(userUsername, 10, 1);
+      getUsersList(userUsername, pageNumber, 10);
       setIsLoading(false);
-
-      //*** Controlling Toast When You Click To Active/Deactive The User ***//
       !isActivated
         ? toast.success(
             <div
@@ -96,9 +92,7 @@ export default function UsersList() {
                 __html: `You Have Successfully Activated <span class="fw-bold text-success">${userName}</span>`,
               }}
             />,
-            {
-              position: "bottom-right",
-            }
+            { position: "bottom-right" }
           )
         : toast.warning(
             <div
@@ -106,9 +100,7 @@ export default function UsersList() {
                 __html: `You Have Successfully Deactivated <span class="fw-bold text-warning">${userName}</span>`,
               }}
             />,
-            {
-              position: "bottom-right",
-            }
+            { position: "bottom-right" }
           );
     } catch (error) {
       handleApiError(error);
@@ -121,13 +113,20 @@ export default function UsersList() {
   };
 
   useEffect(() => {
-    getUsersList(userUsername, 10, pageNumber);
-  }, [userUsername, pageNumber]);
+    getUsersList(userUsername, pageNumber, 10);
+  }, [userUsername, pageNumber, getUsersList]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setUserUsername(value);
+    setPageNumber(1); // Reset to first page on new search
+  };
+
   return (
     <>
       <section>
         <div
-          className={`project-data-head container-fluid shadow-sm  head-bg py-3 px-5`}
+          className={`project-data-head container-fluid shadow-sm head-bg py-3 px-5`}
         >
           <div className={`row`}>
             <div className="col-md-6">
@@ -158,21 +157,28 @@ export default function UsersList() {
                   <img
                     src={`https://upskilling-egypt.com:3003/${selectedUser.imagePath}`}
                     alt="..."
-                    style={{ width: "150px", height: "150px" }}
-                    className="rounded-5 shadow-sm"
+                    style={{
+                      width: "150px",
+                      height: "150px",
+                      filter: "drop-shadow(2px 2px 2px gray)",
+                    }}
+                    className="shadow-sm"
                   />
                 ) : (
-                  <img style={{ width: "100px" }} src={`${Images.NoData}`} />
+                  <img
+                    style={{ width: "150px" }}
+                    src={`${Images.NoUserImage}`}
+                  />
                 )}
               </p>
               <p>
                 <i className="mx-2 bi bi-people text-success"></i>
-                Name:
+                Name :
                 <span className="fw-bold mx-2">{selectedUser.userName} </span>
               </p>
               <p>
                 <i className="mx-2 bi bi-envelope text-success"></i>
-                Email:
+                Email :
                 <span className="fw-bold mx-2">{selectedUser.email} </span>
               </p>
               <p className="d-flex align-items-center">
@@ -181,18 +187,16 @@ export default function UsersList() {
                 ) : (
                   <i className="mx-2 fa-regular fa-thumbs-down text-danger" />
                 )}
-                Active:
+                Active :
                 <span className="fw-bold mx-2">
                   {selectedUser.isActivated ? "yes" : "no"}
                 </span>
               </p>
               <p>
                 <i className="mx-2 fas fa-tasks text-success"></i>
-                Tasks:
+                Tasks :
                 <span className="fw-bold mx-2">
-                  {selectedUser.task?.length > 0
-                    ? selectedUser.task?.length
-                    : 0}
+                  {selectedUser.task?.length ? selectedUser.task?.length : 0}{" "}
                 </span>
               </p>
             </div>
@@ -214,10 +218,7 @@ export default function UsersList() {
               placeholder="Search By Name "
               className={`input-field input-theme`}
               type="text"
-              onChange={(e) => {
-                setUserUsername(e.target.value);
-                getUsersList(userUsername, 10, pageNumber);
-              }}
+              onChange={handleSearchChange}
             />
             <label htmlFor="input-field" className={`input-label `}>
               Search
@@ -228,7 +229,7 @@ export default function UsersList() {
 
         {/* table */}
         <div
-          className={`project-body head-bg mt-5 container rounded-4 shadow  px-4 py-5`}
+          className={`project-body head-bg mt-5 container rounded-4 shadow px-4 py-5`}
         >
           <ul className={`${style.responsiveTableProjects} text-white`}>
             <li className={`${style.tableHeader}`}>
@@ -253,7 +254,7 @@ export default function UsersList() {
                     className={`${style.tableRow} bg-theme text-theme`}
                   >
                     <div
-                      className={`${style.col}  ${style.col1}`}
+                      className={`${style.col} ${style.col1}`}
                       data-label="ID"
                     >
                       {user.id}
@@ -270,15 +271,15 @@ export default function UsersList() {
                     >
                       {user.imagePath ? (
                         <img
-                          className={`${style.noImg}`}
+                          className={`${style.noImg} rounded-5`}
                           src={`https://upskilling-egypt.com:3003/${user.imagePath}`}
                           alt=""
                         />
                       ) : (
                         <img
-                          className={`${style.noImg}`}
+                          className={`${style.noImg} rounded-5`}
                           alt="no Data Image"
-                          src={`${Images.NoData}`}
+                          src={`${Images.NoUserImage}`}
                         />
                       )}
                     </div>
@@ -286,7 +287,6 @@ export default function UsersList() {
                       className={`${style.col} ${style.col4}`}
                       data-label="Creation Date :"
                     >
-                      {/* {item.modificationDate} */}
                       {moment(user.creationDate).format("LLLL")}
                     </div>
                     <div
@@ -303,32 +303,24 @@ export default function UsersList() {
                             className="fa-solid fa-ellipsis"
                           ></i>
                         )}
-
                         <ul
                           className={`${
                             window.innerWidth < 650
-                              ? "d-flex  align-items-center  justify-content-center "
+                              ? "d-flex align-items-center justify-content-center "
                               : "dropdown-menu dropdown-menu-end"
-                          }  m-0 p-0`}
+                          } m-0 p-0`}
                         >
                           <li
                             role="button"
                             className="px-3 py-1 pt-2 "
-                            onClick={() => {
-                              handleShowUser(user);
-                              console.log(user);
-                            }}
+                            onClick={() => handleShowUser(user)}
                           >
                             <div className="dropdown-div ">
                               <i className="m-2 fa-regular fa-eye"></i>
                               {window.innerWidth < 650 ? "" : <span>View</span>}
                             </div>
                           </li>
-                          <li
-                            role="button"
-                            // onClick={() => handleUpdate(item.id, item.name)}
-                            className="px-3 py-1"
-                          >
+                          <li role="button" className="px-3 py-1">
                             <div role="button" className="dropdown-div">
                               <i className="m-2 fa-regular fa-pen-to-square "></i>
                               {window.innerWidth < 650 ? "" : <span>Edit</span>}
@@ -370,12 +362,13 @@ export default function UsersList() {
             </ul>
           )}
           {/*Pagination*/}
-
           <div className="mt-5">
             <ResponsivePagination
               current={pageNumber}
               total={totalPages}
-              onPageChange={setPageNumber}
+              onPageChange={(page) => {
+                setPageNumber(page);
+              }}
             />
           </div>
         </div>

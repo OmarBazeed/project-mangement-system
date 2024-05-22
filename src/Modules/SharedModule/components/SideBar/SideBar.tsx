@@ -46,7 +46,7 @@ export default function SideBar() {
       // remove event listener when component ummountd
       window.removeEventListener("resize", getSize);
     };
-  }, [windowWidth]);
+  }, [window.innerWidth]);
   return (
     <>
       <section>

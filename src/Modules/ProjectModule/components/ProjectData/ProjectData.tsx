@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ProjectSubmitAndUpdateInterface } from "../../../../interfaces/Auth";
+import { ProjectSubmitUpdateInterface } from "../../../../interfaces/Auth";
+
 import {
   baseUrl,
   handleApiError,
-  requestHeaders,
+  getRequestHeaders,
 } from "../../../../utils/Utils";
+
 export default function ProjectData() {
   const location = useLocation();
   const project = location.state;
@@ -21,16 +23,16 @@ export default function ProjectData() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<ProjectSubmitAndUpdateInterface>({
+  } = useForm<ProjectSubmitUpdateInterface>({
     criteriaMode: "all",
   });
 
-  const onSubmit: SubmitHandler<ProjectSubmitAndUpdateInterface> = async (
+  const onSubmit: SubmitHandler<ProjectSubmitUpdateInterface> = async (
     data
   ) => {
     try {
       await axios.post(`${baseUrl}/Project`, data, {
-        headers: requestHeaders,
+        headers: getRequestHeaders(),
       });
       toast.success("New Project Has Been Added Successfully");
       navigate("/dashboard/projects");
@@ -38,12 +40,12 @@ export default function ProjectData() {
       handleApiError(error);
     }
   };
-  const onEditeSubmit: SubmitHandler<ProjectSubmitAndUpdateInterface> = async (
+  const onEditeSubmit: SubmitHandler<ProjectSubmitUpdateInterface> = async (
     data
   ) => {
     try {
       await axios.put(`${baseUrl}/Project/${proId}`, data, {
-        headers: requestHeaders,
+        headers: getRequestHeaders(),
       });
       toast.success("Project Has Been Updated Successfully");
       navigate("/dashboard/projects");
@@ -135,7 +137,6 @@ export default function ProjectData() {
                     className={`input-field input-theme ${
                       errors.description && "border-danger "
                     }`}
-                    // type="text"
                     {...register("description", {
                       required: "Description is required",
                     })}

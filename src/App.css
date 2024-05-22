@@ -9,6 +9,8 @@
   --tableHdBg: #315951e5;
   --menuItem: #fff;
   --iconColor: #000;
+  --taskBody: #315951;
+  --taskBg: #ef9b28;
 }
 [data-theme="dark"] {
   --bg: #22272b;
@@ -19,8 +21,15 @@
   --tableHdBg: #38414a;
   --menuItem: #ef9b28;
   --iconColor: #ef9b28;
+  --taskBody: #38414a;
+  --taskBg: #22272b;
 }
-
+.task-bg {
+  background-color: var(--taskBg);
+}
+.task-body {
+  background-color: var(--taskBody);
+}
 .nav-theme {
   background-color: var(--navbg) !important;
   transition: 0.3s ease-in;

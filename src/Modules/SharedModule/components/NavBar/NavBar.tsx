@@ -4,15 +4,15 @@ import Images from "../../../ImageModule/components/Images/Images";
 import { useNavigate } from "react-router-dom";
 
 export default function NavBar() {
-  const navigate = useNavigate();
-  const [dark, setDark] = useLocalStorage("dark", false);
-  const { adminData } = useUser();
+	const navigate = useNavigate();
+	const [dark, setDark] = useLocalStorage("dark", false);
+	const { adminData } = useUser();
 
-  document
-    .querySelector("body")
-    ?.setAttribute("data-theme", dark ? "dark" : "light");
+	document
+		.querySelector("body")
+		?.setAttribute("data-theme", dark ? "dark" : "light");
 
-  return (
+	return (
 		<>
 			<nav className="navbar navbar-expand-lg nav-theme shadow fixed-top ">
 				<div className="container-fluid">
@@ -83,12 +83,13 @@ export default function NavBar() {
 											</li>
 											<li>
 												<a
-                        role="button"
+													role="button"
 													className="dropdown-item"
 													onClick={() => {
-                            localStorage.removeItem("token");
-                            localStorage.removeItem("adminToken");
-                            navigate("/login")}}
+														localStorage.removeItem("token");
+														localStorage.removeItem("adminToken");
+														navigate("/login");
+													}}
 												>
 													logOut
 												</a>

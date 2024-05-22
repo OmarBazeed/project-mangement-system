@@ -116,25 +116,22 @@ export default function TasksList() {
         </div>
 
         {/*Filtaration*/}
-        <div
-          className={`filtaration container rounded-4 w-100 mt-3 ${style.inputSearch}`}
-        >
-          <div className="row">
-            <div className="col-md-9 inputSearch">
-              <input
-                type="text"
-                placeholder="Search Fleets"
-                className={`form-control p-3 rounded-5 ${style.filterInput}`}
-                onChange={(e) => {
-                  setTaskTitle(e.target.value);
-                  getTask(taskTitle, 10);
-                }}
-              />
-              <i className={`fa fa-search ${style.userSearchIcon}`}></i>
-            </div>
-            <button className="col-md-1 btn btn-success border-0 rounded-5">
-              <i className="fa fa-filter"></i> Filter
-            </button>
+        
+        <div className="container">
+          <div className="input-container w-25 ">
+            <input
+              placeholder="Search By Name "
+              className={`input-field input-theme`}
+              type="text"
+              onChange={(e) => {
+                setTaskTitle(e.target.value);
+                getTask(taskTitle, 10);
+              }}
+            />
+            <label htmlFor="input-field" className={`input-label `}>
+              Search
+            </label>
+            <span className="input-highlight"></span>
           </div>
         </div>
 

@@ -31,10 +31,10 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
   const [adminData, setAdminData] = useState<DecodedToken | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
 
-  const Token = localStorage.getItem("adminToken");
+  const Token = localStorage.getItem("token");
 
   const saveAdminData = () => {
-    const encodedToken = localStorage.getItem("adminToken");
+    const encodedToken = localStorage.getItem("token");
     if (encodedToken) {
       const decodedToken = jwtDecode<DecodedToken>(encodedToken);
       setAdminData(decodedToken);

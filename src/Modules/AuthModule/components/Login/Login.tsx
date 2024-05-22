@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 // import logo from '../../../../assets/images/PMS 3.png';
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUser } from "../../../../Context/AuthContext";
@@ -11,7 +11,7 @@ import {
   emailValidation,
   passwordValidation,
 } from "../../../../utils/InputsValidation";
-import { BaseUrl } from "../../../../utils/Utils";
+import { baseUrl, loader } from "../../../../utils/Utils";
 import Images from "../../../ImageModule/components/Images/Images";
 export default function Login() {
   // All states here on the top
@@ -37,23 +37,13 @@ export default function Login() {
     setShowPassword((prevState: boolean) => !prevState);
   };
 
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
-  };
-
   // senD Data to Api
   const onSubmit = async (data: FormData) => {
     setSpinner(true);
     setSubBtnCilcked(true);
     try {
-      const response = await axios.post(`${BaseUrl}/Users/Login`, data);
-      localStorage.setItem("adminToken", response?.data?.token);
+      const response = await axios.post(`${baseUrl}/Users/Login`, data);
+      // localStorage.setItem("adminToken", response?.data?.token);
       toast.success(response.data.message || "Login successfully");
       localStorage.setItem("token", response.data.token);
       navigate("/dashboard");
@@ -69,7 +59,11 @@ export default function Login() {
       setSpinner(false);
     }
   };
-
+  useEffect(() => {
+    if (adminData && localStorage.getItem("token")) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [adminData, navigate]);
   return (
     <>
       <section className="">
@@ -164,7 +158,7 @@ export default function Login() {
                           </div>
                           {/* submit button */}
                           <button className="main-btn" disabled={subBtnCilcked}>
-                            {spinner ? btnloading() : " Login"}
+                            {spinner ? loader() : " Login"}
                           </button>
                         </form>
                       </div>

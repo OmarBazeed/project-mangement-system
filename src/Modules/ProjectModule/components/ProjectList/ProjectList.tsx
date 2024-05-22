@@ -1,90 +1,86 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import style from "../Project.module.css";
 import moment from "moment";
-import NoData from "../../../SharedModule/components/NoData/NoData";
-import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
+import { useCallback, useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import ResponsivePagination from "react-responsive-pagination";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ProjectInterface } from "../../../../interfaces/Auth";
+import {
+  baseUrl,
+  getRequestHeaders,
+  handleApiError,
+  loader,
+} from "../../../../utils/Utils";
+import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
+import NoData from "../../../SharedModule/components/NoData/NoData";
+import style from "../Project.module.css";
 
 export default function ProjectList() {
   const navigate = useNavigate();
-  const requestHeaders = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
-  const baseUrl = `https://upskilling-egypt.com:3003/api/v1`;
-  const [projects, setprojects] = useState([]);
+
+  const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  // State for page number
-  const [pageNumber, setPageNumber] = useState(1);
-  // State for total number of pages
+  const [pageNumber, setPageNumber] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  // State for total number of pages
-  const [totalProject, setTotalProject] = useState(0);
-  const [proName, setProName] = useState(null);
-  const [proId, setProId] = useState(null);
+  const [proName, setProName] = useState("");
+  const [proId, setProId] = useState(0);
   const [showDelete, setShowDelete] = useState(false);
+  const [projectTitle, setProjectTitle] = useState("");
 
-  const getProject = async (pageSize: any) => {
-    setIsLoading(true);
-    try {
-      const { data } = await axios.get(
-        `${baseUrl}/Project/manager?pageSize=${pageSize}&pageNumbe=${pageNumber}`,
-        {
-          headers: requestHeaders,
-          // params: {
-          //   name: name,
-          // },
-        }
-      );
+  const getProject = useCallback(
+    async (proTitle: string, pageSize: number, pageNumber: number) => {
+      setIsLoading(true);
+      try {
+        const { data } = await axios.get(
+          `${baseUrl}/Project/manager?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+          {
+            headers: getRequestHeaders(),
+            params: {
+              title: proTitle,
+            },
+          }
+        );
 
-      setprojects(data.data);
-      console.log(data.data);
-      setTotalPages(data.totalNumberOfPages);
-      setTotalProject(data.totalNumberOfPages);
-    } catch (err) {
-      console.log(err);
-    }
-    setIsLoading(false);
-  };
+        setTotalPages(data.totalNumberOfPages);
+        setProjects(data.data);
+      } catch (err) {
+        handleApiError(err);
+      }
+      setIsLoading(false);
+    },
+    []
+  );
+
   const onDeleteSubmit = async () => {
     handleCloseDelete();
     try {
-      const response = await axios.delete(`${baseUrl}/Project/${proId}`, {
-        headers: requestHeaders,
+      await axios.delete(`${baseUrl}/Project/${proId}`, {
+        headers: getRequestHeaders(),
       });
-      getProject(10);
+      // After deletion, we need to fetch the project list again
+      getProject(projectTitle, 10, pageNumber);
       toast.success(`Deleted ${proName} Successfully`);
     } catch (err) {
-      console.log(err);
+      handleApiError(err);
     }
   };
+
   const handleCloseDelete = () => {
-    // resetting the values to default after closing the modal
     setShowDelete(false);
-    setProId(null);
-    setProName(null);
+    setProId(0);
+    setProName("");
   };
-  const handleShowDelete = (id, name) => {
-    // set the values to handle  them in the delete process
+
+  const handleShowDelete = (id: number, name: string) => {
     setProId(id);
     setProName(name);
     setShowDelete(true);
   };
 
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
-  };
   useEffect(() => {
-    getProject(20);
-  }, []);
+    getProject(projectTitle, 10, pageNumber);
+  }, [getProject, projectTitle, pageNumber]);
 
   return (
     <>
@@ -118,7 +114,25 @@ export default function ProjectList() {
             </div>
           </div>
         </div>
+        {/*Filtaration*/}
 
+        <div className="container">
+          <div className="input-container w-25 ">
+            <input
+              placeholder="Search By Name "
+              className={`input-field input-theme`}
+              type="text"
+              onChange={(e) => {
+                setProjectTitle(e.target.value);
+                getProject(projectTitle, 10, pageNumber);
+              }}
+            />
+            <label htmlFor="input-field" className={`input-label `}>
+              Search
+            </label>
+            <span className="input-highlight"></span>
+          </div>
+        </div>
         <div
           className={`project-body head-bg mt-5 container rounded-4 shadow  px-4 py-5`}
         >
@@ -132,13 +146,13 @@ export default function ProjectList() {
             </li>
           </ul>
           {isLoading ? (
-            <div className="container text-center mt-5 pt-5 text-theme">
-              {btnloading()}
+            <div className="container pt-5 mt-5 d-flex justify-content-center ">
+              {loader()}
             </div>
           ) : (
             <ul className={`${style.responsiveTableProjects}`}>
               {projects.length > 0 ? (
-                projects.map((pro) => (
+                projects.map((pro: ProjectInterface) => (
                   <li
                     key={pro.id}
                     className={`${style.tableRow} bg-theme text-theme`}
@@ -159,7 +173,7 @@ export default function ProjectList() {
                       className={`${style.col} ${style.col3}`}
                       data-label="No of tasks :"
                     >
-                      {pro.task?.lenngth > 0 ? pro.task?.lenngth : 0}
+                      {pro.task?.length > 0 ? pro.task?.length : 0}
                     </div>
                     <div
                       className={`${style.col} ${style.col4}`}
@@ -202,7 +216,11 @@ export default function ProjectList() {
                           </li>
                           <li
                             role="button"
-                            // onClick={() => handleUpdate(item.id, item.name)}
+                            onClick={() => {
+                              navigate("/dashboard/projects-data", {
+                                state: pro,
+                              });
+                            }}
                             className="px-3 py-1"
                           >
                             <div role="button" className="dropdown-div">
@@ -234,6 +252,14 @@ export default function ProjectList() {
               )}
             </ul>
           )}
+
+          <div className="mt-5">
+            <ResponsivePagination
+              current={pageNumber}
+              total={totalPages}
+              onPageChange={(page) => setPageNumber(page)}
+            />
+          </div>
         </div>
 
         {/* modal handle delete  */}

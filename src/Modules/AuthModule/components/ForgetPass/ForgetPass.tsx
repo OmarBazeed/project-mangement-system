@@ -1,27 +1,18 @@
+import axios from "axios";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
-import { FormData } from "../../../../interfaces/Auth";
-import Images from "../../../ImageModule/components/Images/Images";
-import { BaseUrl } from "../../../../utils/Utils";
 import { toast } from "react-toastify";
+import { FormData } from "../../../../interfaces/Auth";
 import { emailValidation } from "../../../../utils/InputsValidation";
+import { baseUrl, handleApiError, loader } from "../../../../utils/Utils";
+import Images from "../../../ImageModule/components/Images/Images";
 
 export default function ForgetPass() {
   const [spinner, setSpinner] = useState(false);
   const [subBtnCilcked, setSubBtnCilcked] = useState(false);
   const toastOption = {
     onClose: () => setSubBtnCilcked(false),
-  };
-  const btnloading = () => {
-    return (
-      <div className="loader">
-        <i>&lt;</i>
-        <span>LOADING</span>
-        <i>/&gt;</i>
-      </div>
-    );
   };
 
   const {
@@ -35,7 +26,7 @@ export default function ForgetPass() {
     setSpinner(true);
     setSubBtnCilcked(true);
     try {
-      const response = await axios.post(`${BaseUrl}/Users/Reset/Request`, data);
+      const response = await axios.post(`${baseUrl}/Users/Reset/Request`, data);
       toast.success(
         response.data.message ||
           "Your request is being processed, please check your Email",
@@ -43,10 +34,7 @@ export default function ForgetPass() {
       );
       navigate("/reset-password");
     } catch (error) {
-      toast.error(
-        error?.response?.data.message || "An Error occurred",
-        toastOption
-      );
+      handleApiError(error);
     } finally {
       setSpinner(false);
     }
@@ -103,7 +91,7 @@ export default function ForgetPass() {
                             className="main-btn"
                             disabled={subBtnCilcked}
                           >
-                            {spinner ? btnloading() : "Go Now"}
+                            {spinner ? loader() : "Go Now"}
                           </button>
                           <button
                             onClick={() => {

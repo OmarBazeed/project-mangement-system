@@ -1,0 +1,27 @@
+.titles {
+  position: relative;
+}
+.titles::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: -16px;
+  width: 5px;
+  height: 100%;
+  display: block;
+  background-color: #ef9b28;
+}
+.iconss {
+  color: var(--iconColor) !important;
+}
+.chartBg {
+  background-color: var(--bg) !important;
+}
+
+.chartText {
+  color: var(--text) !important;
+}
+
+.ChartBg {
+  background-color: var(--headerBg) !important;
+}

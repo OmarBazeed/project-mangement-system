@@ -78,3 +78,47 @@
     }
   }
 }
+
+.noImg {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+/*Filtaration*/
+.filterInput:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  filter: drop-shadow(2px 2px 2px #466a63);
+}
+
+.filterInput::placeholder {
+  padding-left: 30px;
+  margin-left: 30px !important;
+}
+.inputSearch {
+  position: relative;
+}
+.userSearchIcon {
+  position: absolute;
+  top: 22px;
+  left: 25px;
+}
+/*******************************************************/
+.todo {
+  background-color: #0097e6;
+}
+.inProgress {
+  background-color: #fbc531;
+}
+.done {
+  background-color: #44bd32;
+}
+.todo,
+.inProgress,
+.done {
+  border-radius: 35%;
+  padding: 10px;
+  width: fit-content;
+  filter: drop-shadow(0px 0px 4px var(--text));
+}

@@ -60,12 +60,6 @@ export interface ProjectSubmitUpdateInterface {
 
 export interface TasksInterface extends Array<TaskInterface> {}
 
-export type changeTaskStatus = (
-  id: string,
-  prevStateus: string,
-  newStatus: string
-) => void;
-
 export interface TaskProps {
   task: TaskInterface;
 }
@@ -76,3 +70,9 @@ export interface ColumnProps {
   status: string;
   changeTaskStatus: changeTaskStatus;
 }
+
+export type changeTaskStatus = (
+id: string,
+    prevStateus: string,
+    newStatus: string
+  ) => void;

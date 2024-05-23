@@ -57,13 +57,13 @@ export interface ProjectSubmitUpdateInterface {
   title: string;
   description: string;
 }
-
+//
 export interface TasksInterface extends Array<TaskInterface> {}
 
 export interface TaskProps {
   task: TaskInterface;
 }
-
+//
 export interface ColumnProps {
   title: string;
   tasks: TasksInterface;
@@ -72,7 +72,18 @@ export interface ColumnProps {
 }
 
 export type changeTaskStatus = (
-id: string,
-    prevStateus: string,
-    newStatus: string
-  ) => void;
+  id: string,
+  prevStateus: string,
+  newStatus: string
+) => void;
+//
+
+export interface StatusCountInterface {
+  done: number;
+  inProgress: number;
+  toDo: number;
+}
+export interface UsersCountInterface {
+  activatedEmployeeCount: number;
+  deactivatedEmployeeCount: number;
+}

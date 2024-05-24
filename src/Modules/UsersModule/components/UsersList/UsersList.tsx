@@ -213,10 +213,10 @@ export default function UsersList() {
 
         {/*Filtaration*/}
         <div className="container">
-          <div className="input-container w-25 ">
+          <div className="input-container w-75 ">
             <input
               placeholder="Search By Name "
-              className={`input-field input-theme`}
+className={`input-field input-theme`}
               type="text"
               onChange={handleSearchChange}
             />

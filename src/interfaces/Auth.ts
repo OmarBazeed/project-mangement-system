@@ -57,13 +57,13 @@ export interface ProjectSubmitUpdateInterface {
   title: string;
   description: string;
 }
-
+//
 export interface TasksInterface extends Array<TaskInterface> {}
 
 export interface TaskProps {
   task: TaskInterface;
 }
-
+//
 export interface ColumnProps {
   title: string;
   tasks: TasksInterface;

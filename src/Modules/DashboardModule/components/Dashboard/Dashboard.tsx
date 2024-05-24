@@ -1,5 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import {
+  ArcElement,
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  DoughnutController,
+  Legend,
+  LinearScale,
+  Title,
+  Tooltip,
+} from "chart.js";
+import { useCallback, useEffect, useState } from "react";
 import { Bar, Doughnut } from "react-chartjs-2";
 import { useUser } from "../../../../Context/AuthContext";
 import {
@@ -8,19 +19,12 @@ import {
   handleApiError,
 } from "../../../../utils/Utils";
 import Header from "../../../SharedModule/components/Header";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  DoughnutController,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
 
-import "./Dashboard.Moule.css";
+import {
+  StatusCountInterface,
+  UsersCountInterface,
+} from "../../../../interfaces/Auth";
+import "./Dashboard.modules.css";
 
 ChartJS.register(
   CategoryScale,
@@ -35,51 +39,50 @@ ChartJS.register(
 
 export default function Dashboard() {
   const { userRole } = useUser();
-  const [todoCount, settodoCount] = useState<number>(0);
-  const [progressCount, setprogressCount] = useState<number>(0);
-  const [doneCount, setdoneCount] = useState<number>(0);
-  const [activatedEmployeeCount, setactivatedEmployeeCount] =
-    useState<number>(0);
-  const [deactivatedEmployeeCount, setdeactivatedEmployeeCount] =
-    useState<number>(0);
+  const [statusObj, setStatusObj] = useState<StatusCountInterface>({
+    done: 0,
+    inProgress: 0,
+    toDo: 0,
+  });
+  const [usersObj, setUsersObj] = useState<UsersCountInterface>({
+    activatedEmployeeCount: 0,
+    deactivatedEmployeeCount: 0,
+  });
 
-  const getTasksCount = async () => {
+  const getTasksCount = useCallback(async () => {
     try {
       const response = await axios.get(`${baseUrl}/Task/count`, {
         headers: getRequestHeaders(),
       });
-
-      settodoCount(response.data.done);
-      setprogressCount(response.data.inProgress);
-      setdoneCount(response.data.toDo);
+      setStatusObj(response.data);
     } catch (error) {
       handleApiError(error);
     }
-  };
+  }, []);
 
-  const getUserCount = async () => {
+  const getUserCount = useCallback(async () => {
     try {
       const response = await axios.get(`${baseUrl}/Users/count`, {
         headers: getRequestHeaders(),
       });
-      setactivatedEmployeeCount(response.data.activatedEmployeeCount);
-      setdeactivatedEmployeeCount(response.data.deactivatedEmployeeCount);
+
+      setUsersObj(response.data);
     } catch (error) {
       handleApiError(error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     getTasksCount();
     getUserCount();
-  }, []);
+  }, [getTasksCount, getUserCount]);
 
   const tasksData = {
     labels: ["To Do", "In Progress", "Done"],
     datasets: [
       {
         label: "Tasks",
-        data: [todoCount, progressCount, doneCount],
+        data: [statusObj.toDo, statusObj.inProgress, statusObj.done],
         backgroundColor: ["#FF6384", "#36A2EB", "#4BC0C0"],
       },
     ],
@@ -90,7 +93,10 @@ export default function Dashboard() {
     datasets: [
       {
         label: "Users",
-        data: [activatedEmployeeCount, deactivatedEmployeeCount],
+        data: [
+          usersObj.activatedEmployeeCount,
+          usersObj.deactivatedEmployeeCount,
+        ],
         backgroundColor: ["#FFCE56", "#9966FF"],
       },
     ],
@@ -122,7 +128,7 @@ export default function Dashboard() {
                       To do
                     </span>
                     <h3 className="ps-1 text-dark-light chartText">
-                      {todoCount}
+                      {statusObj.toDo}
                     </h3>
                   </div>
                 </div>
@@ -133,7 +139,7 @@ export default function Dashboard() {
                       In-progress
                     </span>
                     <h3 className="ps-1 text-dark-light chartText">
-                      {progressCount}
+                      {statusObj.inProgress}
                     </h3>
                   </div>
                 </div>
@@ -144,7 +150,7 @@ export default function Dashboard() {
                       Done
                     </span>
                     <h3 className="ps-1 text-dark-light chartText">
-                      {doneCount}
+                      {statusObj.done}
                     </h3>
                   </div>
                 </div>
@@ -174,7 +180,7 @@ export default function Dashboard() {
                       Active users
                     </span>
                     <h3 className="ps-1 text-dark-light chartText">
-                      {activatedEmployeeCount}
+                      {usersObj.activatedEmployeeCount}
                     </h3>
                   </div>
 
@@ -185,7 +191,7 @@ export default function Dashboard() {
                         De-active users
                       </span>
                       <h3 className="ps-1 text-dark-light chartText">
-                        {deactivatedEmployeeCount}
+                        {usersObj.deactivatedEmployeeCount}
                       </h3>
                     </div>
                   </div>

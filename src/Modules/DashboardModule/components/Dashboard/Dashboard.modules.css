@@ -12,16 +12,16 @@
   background-color: #ef9b28;
 }
 .iconss {
-  color: var(--iconColor) !important;
+  color: var(--iconColor);
 }
 .chartBg {
-  background-color: var(--bg) !important;
+  background-color: var(--bg);
 }
 
 .chartText {
-  color: var(--text) !important;
+  color: var(--text);
 }
 
 .ChartBg {
-  background-color: var(--headerBg) !important;
+  background-color: var(--headerBg);
 }

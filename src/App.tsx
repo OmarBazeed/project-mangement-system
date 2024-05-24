@@ -19,6 +19,10 @@ import {
 import ProjectData from "./Modules/ProjectModule/components/ProjectData/ProjectData";
 import TaskData from "./Modules/TasksModule/components/TaskData/TaskData";
 import TaskBoard from "./Modules/TasksModule/components/TaskBoard/TaskBoard";
+import Profile from "./Modules/UserProfileModule/components/Profile/Profile";
+import AccountInfo from "./Modules/UserProfileModule/components/AccountInfo/AccountInfo";
+import AccountSetting from "./Modules/UserProfileModule/components/AccountSetting/AccountSetting";
+import ChangePassword from "./Modules/UserProfileModule/components/ChangePassword/ChangePassword";
 
 function App() {
   const routes = createBrowserRouter([
@@ -93,6 +97,29 @@ function App() {
         {
           path: "users",
           element: <UsersList />,
+        },
+        {
+          path: "profile",
+          element: <Profile />,
+          errorElement: <Notfound />,
+          children: [
+            {
+              index: true,
+              element: <AccountInfo />,
+            },
+            {
+              path: "account-info",
+              element: <AccountInfo />,
+            },
+            {
+              path: "account-setting",
+              element: <AccountSetting />,
+            },
+            {
+              path: "change-password",
+              element: <ChangePassword />,
+            },
+          ],
         },
       ],
     },

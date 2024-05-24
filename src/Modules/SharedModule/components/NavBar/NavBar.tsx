@@ -1,11 +1,12 @@
 import useLocalStorage from "use-local-storage";
 import { useUser } from "../../../../Context/AuthContext";
 import Images from "../../../ImageModule/components/Images/Images";
-import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import style from "../../../UserProfileModule/components/UserProfile.module.css";
 export default function NavBar() {
   const [dark, setDark] = useLocalStorage("dark", false);
-  const { adminData } = useUser();
+  const { currentUser } = useUser();
+  const navigate = useNavigate();
 
   document
     .querySelector("body")
@@ -15,25 +16,22 @@ export default function NavBar() {
     <>
       <nav className="navbar navbar-expand-lg nav-theme shadow fixed-top ">
         <div className="container-fluid">
-          <a className="navbar-brand">
+          <a
+            role="button"
+            className="navbar-brand"
+            onClick={() => {
+              navigate("/dashboard");
+            }}
+          >
             {dark ? (
-              <Link to="/dashboard">
-                <img
-                  height={54}
-                  className="w-100"
-                  src={Images.logoDark}
-                  alt=""
-                />
-              </Link>
+              <img height={54} className="w-100" src={Images.logoDark} alt="" />
             ) : (
-              <Link to="/dashboard">
-                <img
-                  height={50}
-                  className="w-100"
-                  src={Images.logoLight}
-                  alt=""
-                />
-              </Link>
+              <img
+                height={50}
+                className="w-100"
+                src={Images.logoLight}
+                alt=""
+              />
             )}
           </a>
           <button
@@ -60,18 +58,28 @@ export default function NavBar() {
                     >
                       <div className="user-data d-flex  align-items-center ">
                         <div className="user-img rounded-circle me-3">
-                          <img
-                            className="w-100 rounded-circle me-1"
-                            src={Images.test}
-                            alt=""
-                          />
+                          {currentUser?.imagePath ? (
+                            <div className={`${style.navUserImg} text-white `}>
+                              <img
+                                className="w-100 "
+                                src={`https://upskilling-egypt.com:3003/${currentUser.imagePath}`}
+                                alt=""
+                              />
+                            </div>
+                          ) : (
+                            <div className={`${style.navUserImg} text-white `}>
+                              <h1>
+                                {currentUser?.userName.charAt(0).toUpperCase()}
+                              </h1>
+                            </div>
+                          )}
                         </div>
                         <div className="user-info me-2 pt-2">
                           <h6 className="text-theme mb-0 pb-0">
-                            {adminData?.userName}
+                            {currentUser?.userName}
                           </h6>
                           <p className="text-theme mb-0 pb-0">
-                            {adminData?.userEmail}
+                            {currentUser?.email}
                           </p>
                         </div>
                         <div>
@@ -81,14 +89,17 @@ export default function NavBar() {
                     </button>
                     <ul className="dropdown-menu">
                       <li>
-                        <a className="dropdown-item" href="#">
+                        <a
+                          className="dropdown-item"
+                          onClick={() => {
+                            navigate("/dashboard/profile");
+                          }}
+                        >
                           Profile
                         </a>
                       </li>
                       <li>
-                        <a className="dropdown-item" href="#">
-                          logOut
-                        </a>
+                        <a className="dropdown-item">logOut</a>
                       </li>
                     </ul>
                   </div>

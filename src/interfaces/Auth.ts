@@ -72,7 +72,7 @@ export interface ColumnProps {
 }
 
 export type changeTaskStatus = (
-id: string,
-    prevStateus: string,
-    newStatus: string
-  ) => void;
+  id: string,
+  prevStateus: string,
+  newStatus: string
+) => void;

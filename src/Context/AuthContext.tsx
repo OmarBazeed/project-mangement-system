@@ -1,3 +1,4 @@
+import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import {
   ReactNode,
@@ -6,6 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { baseUrl, getRequestHeaders, handleApiError } from "../utils/Utils";
 
 // Define the type of the decoded token
 interface DecodedToken {
@@ -21,6 +23,18 @@ interface AuthContextType {
   userRole: string | null;
   Token: string | null;
   logout: () => void;
+  currentUser: currentUser | null;
+  getCurrentUser: () => void;
+}
+
+interface currentUser {
+  id: number;
+  userName: string;
+  email: string;
+  country: string;
+  phoneNumber: string;
+  imagePath: string;
+  creationDate: string;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -30,7 +44,7 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [adminData, setAdminData] = useState<DecodedToken | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
-
+  const [currentUser, setCurrentUser] = useState<currentUser | null>(null);
   const Token = localStorage.getItem("token");
 
   const saveAdminData = () => {
@@ -39,9 +53,20 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
       const decodedToken = jwtDecode<DecodedToken>(encodedToken);
       setAdminData(decodedToken);
       setUserRole(decodedToken?.userGroup);
+      getCurrentUser();
     }
   };
-
+  const getCurrentUser = async () => {
+    try {
+      const { data } = await axios.get(`${baseUrl}/Users/currentUser`, {
+        headers: getRequestHeaders(),
+      });
+      // console.log(data);
+      setCurrentUser(data);
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
   const logout = () => {
     localStorage.removeItem("token");
     setAdminData(null);
@@ -57,6 +82,8 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
     saveAdminData,
     Token,
     logout,
+    currentUser,
+    getCurrentUser,
   };
 
   return (

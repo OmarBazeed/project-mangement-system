@@ -117,7 +117,7 @@ export default function ProjectList() {
         {/*Filtaration*/}
 
         <div className="container">
-          <div className="input-container w-25 ">
+<div className="input-container w-75 ">
             <input
               placeholder="Search By Name "
               className={`input-field input-theme`}

@@ -137,7 +137,7 @@ export default function TasksList() {
           className={`filtaration container rounded-4 w-100 mt-3 ${style.inputSearch}`}
         >
           <div className="container">
-            <div className="input-container w-25">
+<div className="input-container w-75">
               <input
                 placeholder="Search By Name"
                 className={`input-field input-theme`}

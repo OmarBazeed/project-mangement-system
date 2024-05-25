@@ -39,7 +39,7 @@ export default function NavBar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <div className="me-2">
+                <div className="me-2 user-box text-md-start">
                   <div className="btn-group dropstart">
                     <button
                       type="button"
@@ -47,7 +47,7 @@ export default function NavBar() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <div className="user-data d-flex align-items-center align-items-center text-center">
+                      <div className="user-data d-flex align-items-center align-items-center">
                         <div className="user-img rounded-circle me-3">
                           {currentUser?.imagePath ? (
                             <div className={`${style.navUserImg} text-white `}>

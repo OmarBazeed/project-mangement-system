@@ -154,8 +154,23 @@
 }
 .task {
   min-height: 50px;
+  position: relative;
 }
 
 .borderDrag {
   border: solid #ef9b28 4px;
+}
+
+.task:hover::before {
+  content: attr(data-description);
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--tooltipBg);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  z-index: 9999;
 }

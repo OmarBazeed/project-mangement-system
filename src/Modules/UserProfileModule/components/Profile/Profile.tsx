@@ -9,7 +9,7 @@ export default function Profile() {
   const navigate = useNavigate();
   return (
     <>
-      <section className="">
+      <section className="pb-5">
         <div
           className={`text-theme container-fluid shadow-sm  head-bg pt-5 pb-4 px-5`}
         >

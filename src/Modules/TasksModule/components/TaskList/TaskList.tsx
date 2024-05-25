@@ -14,8 +14,11 @@ import {
 import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
 import NoData from "../../../SharedModule/components/NoData/NoData";
 import style from "../Tasks.module.css";
+import { useUser } from "../../../../Context/AuthContext";
 
 export default function TasksList() {
+  const { adminData } = useUser();
+  console.log(adminData);
   const navigate = useNavigate();
   const [tasks, setTasks] = useState<[TaskInterface] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -97,7 +100,7 @@ export default function TasksList() {
 
   useEffect(() => {
     getTask(taskTitle, 10);
-  }, [taskTitle, pageNumber, getTask]);
+  }, [taskTitle, pageNumber, getTask, window.innerWidth]);
 
   return (
     <>
@@ -137,7 +140,7 @@ export default function TasksList() {
           className={`filtaration container rounded-4 w-100 mt-3 ${style.inputSearch}`}
         >
           <div className="container">
-<div className="input-container w-75">
+            <div className="input-container w-75">
               <input
                 placeholder="Search By Name"
                 className={`input-field input-theme`}

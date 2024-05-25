@@ -1,15 +1,19 @@
 import { ErrorMessage } from "@hookform/error-message";
 import axios from "axios";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { passwordValidation } from "../../../../utils/InputsValidation";
-import { baseUrl, getRequestHeaders, loader } from "../../../../utils/Utils";
-import { useUser } from "../../../../Context/AuthContext";
+import {
+  baseUrl,
+  getRequestHeaders,
+  handleApiError,
+  loader,
+} from "../../../../utils/Utils";
+import { AccountChangePassInterface } from "../../../../interfaces/Auth";
 
 export default function ChangePassword() {
-  const { logout } = useUser();
   const navigate = useNavigate();
   // image input state
 
@@ -27,12 +31,11 @@ export default function ChangePassword() {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm({
+  } = useForm<AccountChangePassInterface>({
     criteriaMode: "all",
   });
 
-  const onSubmit = async (data: any) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<AccountChangePassInterface> = async (data) => {
     setIsLoading(true);
 
     try {
@@ -46,8 +49,8 @@ export default function ChangePassword() {
       toast.success(response.data.message);
       navigate("/dashboard/profile/account-info");
       console.log(response.data.message);
-    } catch (err: any) {
-      toast.error(err.response.data.message);
+    } catch (err) {
+      handleApiError(err);
     }
     setIsLoading(false);
   };

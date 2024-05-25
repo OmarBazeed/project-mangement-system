@@ -1,11 +1,8 @@
-import React from "react";
-import Images from "../../../ImageModule/components/Images/Images";
-import { Outlet, useNavigate, Link } from "react-router-dom";
-import style from "../UserProfile.module.css";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useUser } from "../../../../Context/AuthContext";
+import style from "../UserProfile.module.css";
 export default function Profile() {
   const { currentUser } = useUser();
-  console.log(currentUser?.userName);
   const navigate = useNavigate();
   return (
     <>
@@ -64,8 +61,8 @@ export default function Profile() {
             </div>
           </div>
           <div className={`profile-links w-100  mx-auto`}>
-            <ul className="nav justify-content-center ">
-              <li className="nav-item ">
+            <ul className="nav justify-content-center gap-1">
+              <li className="nav-item">
                 <Link
                   className={`nav-link ${style.linkBtn}`}
                   aria-current="page"

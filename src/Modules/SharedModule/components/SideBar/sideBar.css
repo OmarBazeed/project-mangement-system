@@ -92,12 +92,11 @@
   transform: translateX(-50%);
   background-color: var(--tooltipBg);
   color: white;
-  padding: 5px 10px;
+  padding: 3px 8px;
   border-radius: 5px;
   white-space: nowrap;
   z-index: 9999;
 }
-
 
 @media screen and (max-width: 576px) {
   .ps-sidebar-container {

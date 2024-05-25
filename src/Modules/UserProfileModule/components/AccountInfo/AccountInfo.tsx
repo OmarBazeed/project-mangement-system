@@ -1,6 +1,5 @@
-import React from "react";
-import { useUser } from "../../../../Context/AuthContext";
 import moment from "moment";
+import { useUser } from "../../../../Context/AuthContext";
 
 export default function AccountInfo() {
   const { currentUser } = useUser();

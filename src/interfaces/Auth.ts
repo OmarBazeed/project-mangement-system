@@ -87,3 +87,26 @@ export interface UsersCountInterface {
   activatedEmployeeCount: number;
   deactivatedEmployeeCount: number;
 }
+//
+export interface FormDataForUserProfile {
+  userName: string;
+  password: string;
+  message?: string;
+  confirmPassword?: string;
+  seed?: string;
+}
+
+//
+export interface AccountSettingsInterface {
+  userName: string;
+  country: string;
+  email: string;
+  phoneNumber: string;
+  confirmPassword: string;
+  profileImage: FileList;
+}
+export interface AccountChangePassInterface {
+  oldPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}

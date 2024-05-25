@@ -18,7 +18,7 @@ import {
   getRequestHeaders,
   handleApiError,
 } from "../../../../utils/Utils";
-import Header from "../../../SharedModule/components/Header";
+import Header from "../../../SharedModule/components/Header/Header";
 
 import {
   StatusCountInterface,
@@ -48,6 +48,9 @@ export default function Dashboard() {
     activatedEmployeeCount: 0,
     deactivatedEmployeeCount: 0,
   });
+  // const [themeMode, setThemeMode] = useState(
+  //   localStorage.getItem("dark") === "true"
+  // );
 
   const getTasksCount = useCallback(async () => {
     try {
@@ -74,9 +77,21 @@ export default function Dashboard() {
 
   useEffect(() => {
     getTasksCount();
+    userRole === "Manager" && getUserCount();
+  }, [getTasksCount, getUserCount, userRole]);
 
-    userRole === "Manager" ? getUserCount() : null;
-  }, [getTasksCount, getUserCount]);
+  // Listen for changes in localStorage
+  // useEffect(() => {
+  //   const handleStorageChange = () => {
+  //     setThemeMode(localStorage.getItem("dark") === "true");
+  //   };
+
+  //   window.addEventListener("storage", handleStorageChange);
+
+  //   return () => {
+  //     window.removeEventListener("storage", handleStorageChange);
+  //   };
+  // }, []);
 
   const tasksData = {
     labels: ["To Do", "In Progress", "Done"],
@@ -106,6 +121,13 @@ export default function Dashboard() {
   const chartOptions = {
     maintainAspectRatio: false,
     responsive: true,
+    // plugins: {
+    //   legend: {
+    //     labels: {
+    //       color: themeMode ? "white" : "black",
+    //     },
+    //   },
+    // },
   };
 
   return (

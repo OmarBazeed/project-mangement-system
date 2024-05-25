@@ -1,8 +1,8 @@
 import axios from "axios";
 import moment from "moment";
 import { useCallback, useEffect, useState } from "react";
-import { ModalFooter } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
+import ResponsivePagination from "react-responsive-pagination";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UsersInterface } from "../../../../interfaces/Auth";
@@ -15,7 +15,6 @@ import {
 import Images from "../../../ImageModule/components/Images/Images";
 import NoData from "../../../SharedModule/components/NoData/NoData";
 import style from "./Users.module.css";
-import ResponsivePagination from "react-responsive-pagination";
 
 export default function UsersList() {
   const [isLoading, setIsLoading] = useState(false);

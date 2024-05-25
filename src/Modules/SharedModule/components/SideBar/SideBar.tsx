@@ -50,7 +50,7 @@ export default function SideBar() {
           collapsedWidth="65px"
           collapsed={isCollapse}
         >
-          <Menu>
+          <Menu className="mt-sm-3">
             {window.innerWidth < 576 ? (
               ""
             ) : (
@@ -70,6 +70,7 @@ export default function SideBar() {
               data-title="Home"
               icon={<i className="bi bi-house-door fs-4"></i>}
               component={<Link to="/dashboard" />}
+              className="mt-sm-2"
             >
               Home
             </MenuItem>
@@ -78,6 +79,7 @@ export default function SideBar() {
                 data-title="Users"
                 icon={<i className="bi bi-people fs-4"></i>}
                 component={<Link to="/dashboard/users" />}
+                className="mt-sm-2"
               >
                 Users
               </MenuItem>
@@ -89,6 +91,7 @@ export default function SideBar() {
               data-title="Projects"
               icon={<i className="bi bi-columns-gap fs-4"></i>}
               component={<Link to="/dashboard/projects" />}
+              className="mt-sm-2"
             >
               Projects
             </MenuItem>
@@ -97,6 +100,7 @@ export default function SideBar() {
                 data-title="Tasks"
                 icon={<i className="fa-solid fa-list-check fs-4"></i>}
                 component={<Link to="/dashboard/tasks" />}
+                className="mt-sm-2"
               >
                 Tasks
               </MenuItem>
@@ -110,6 +114,7 @@ export default function SideBar() {
                 data-title="Tasks"
                 icon={<i className="fa-solid fa-list-check fs-4"></i>}
                 component={<Link to="/dashboard/tasks-board" />}
+                className="mt-sm-2"
               >
                 Tasks Board
               </MenuItem>

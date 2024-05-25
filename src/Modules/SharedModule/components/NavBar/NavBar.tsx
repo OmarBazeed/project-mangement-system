@@ -3,6 +3,7 @@ import { useUser } from "../../../../Context/AuthContext";
 import { useLocalStorage } from "../../../../utils/Utils";
 import Images from "../../../ImageModule/components/Images/Images";
 import style from "../../../UserProfileModule/components/UserProfile.module.css";
+import "./Navbar.modules.css";
 
 export default function NavBar() {
   const { currentUser, logout } = useUser();
@@ -46,7 +47,7 @@ export default function NavBar() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <div className="user-data d-flex align-items-center align-items-center ">
+                      <div className="user-data d-flex align-items-center align-items-center text-center">
                         <div className="user-img rounded-circle me-3">
                           {currentUser?.imagePath ? (
                             <div className={`${style.navUserImg} text-white `}>
@@ -99,7 +100,7 @@ export default function NavBar() {
               </li>
             </ul>
           </div>
-          <div className="mx-lg-3">
+          <div className="mx-lg-3 ms-sm-auto">
             <label
               data-tooltip={dark ? "Switch to light" : "Switch to dark"}
               htmlFor={`switch-dark-theme`}

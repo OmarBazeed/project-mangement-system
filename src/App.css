@@ -10,7 +10,8 @@
   --menuItem: #fff;
   --iconColor: #000;
   --taskBody: #315951;
-  --taskBg: #ef9b28;
+  --taskBg: #cf913a;
+  --tooltipBg: #f3a83ee1;
 }
 [data-theme="dark"] {
   --bg: #22272b;
@@ -23,6 +24,7 @@
   --iconColor: #ef9b28;
   --taskBody: #38414a;
   --taskBg: #22272b;
+  --tooltipBg: #808080c9;
 }
 .task-bg {
   background-color: var(--taskBg);
@@ -271,6 +273,7 @@
   overflow: hidden;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .user-data {
   position: relative;
@@ -290,7 +293,6 @@
   }
 }
 
-
 .toggle-dark-theme {
   background-color: #0e382f;
   width: 35px;
@@ -301,6 +303,7 @@
   cursor: pointer;
   box-shadow: 0 0 50px 20px rgba(0, 0, 0, 0.1);
   line-height: 1;
+  position: relative;
 }
 
 .input-dark-theme {
@@ -354,4 +357,28 @@ input:-webkit-autofill:active {
 .dropstart .dropdown-menu[data-bs-popper] {
   right: 45% !important;
   top: 120% !important;
+}
+
+.Done {
+  color: #44bd32;
+}
+.InProgress {
+  color: #fbc531;
+}
+.ToDo {
+  color: #0097e6;
+}
+
+.toggle-dark-theme:hover::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: -18px;
+  left: -35px;
+  transform: translateX(-50%);
+  background-color: var(--tooltipBg);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  z-index: 9999;
 }

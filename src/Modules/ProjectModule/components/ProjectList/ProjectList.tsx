@@ -15,8 +15,10 @@ import {
 import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
 import NoData from "../../../SharedModule/components/NoData/NoData";
 import style from "../Project.module.css";
+import { useUser } from "../../../../Context/AuthContext";
 
 export default function ProjectList() {
+  const { userRole } = useUser();
   const navigate = useNavigate();
 
   const [projects, setProjects] = useState([]);
@@ -33,7 +35,9 @@ export default function ProjectList() {
       setIsLoading(true);
       try {
         const { data } = await axios.get(
-          `${baseUrl}/Project/manager?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+          `${baseUrl}/Project/${
+            userRole === "Manager" ? "manager" : "employee"
+          }?pageSize=${pageSize}&pageNumber=${pageNumber}`,
           {
             headers: getRequestHeaders(),
             params: {
@@ -98,26 +102,32 @@ export default function ProjectList() {
                 </h2>
               </div>
             </div>
-            <div className={`col-md-6 text-lg-end text-sm-center text-center `}>
-              <div>
-                <div className={``}>
-                  <button
-                    onClick={() => {
-                      navigate("/dashboard/projects-data");
-                    }}
-                    className={`main-btn`}
-                  >
-                    Add New Project
-                  </button>
+            {userRole === "Manager" ? (
+              <div
+                className={`col-md-6 text-lg-end text-sm-center text-center `}
+              >
+                <div>
+                  <div className={``}>
+                    <button
+                      onClick={() => {
+                        navigate("/dashboard/projects-data");
+                      }}
+                      className={`main-btn`}
+                    >
+                      Add New Project
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
         {/*Filtaration*/}
 
         <div className="container">
-<div className="input-container w-75 ">
+          <div className="input-container w-75 ">
             <input
               placeholder="Search By Name "
               className={`input-field input-theme`}
@@ -142,7 +152,11 @@ export default function ProjectList() {
               <div className={`${style.col} ${style.col2}`}>Title</div>
               <div className={`${style.col} ${style.col3}`}>No of tasks</div>
               <div className={`${style.col} ${style.col4}`}>Creation Date</div>
-              <div className={`${style.col} ${style.col5}`}>Actions</div>
+              {userRole === "Manager" ? (
+                <div className={`${style.col} ${style.col5}`}>Actions</div>
+              ) : (
+                ""
+              )}
             </li>
           </ul>
           {isLoading ? (
@@ -182,69 +196,83 @@ export default function ProjectList() {
                       {/* {item.modificationDate} */}
                       {moment(pro.creationDate).format("LLLL")}
                     </div>
-                    <div
-                      className={`${style.col} ${style.col5}`}
-                      data-label="Actions :"
-                    >
-                      <div className="btn-group">
-                        {window.innerWidth < 650 ? (
-                          ""
-                        ) : (
-                          <i
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                            className="fa-solid fa-ellipsis"
-                          ></i>
-                        )}
+                    {userRole === "Manager" ? (
+                      <div
+                        className={`${style.col} ${style.col5}`}
+                        data-label="Actions :"
+                      >
+                        <div className="btn-group">
+                          {window.innerWidth < 650 ? (
+                            ""
+                          ) : (
+                            <i
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                              className="fa-solid fa-ellipsis"
+                            ></i>
+                          )}
 
-                        <ul
-                          className={`  ${
-                            window.innerWidth < 650
-                              ? "d-flex  align-items-center  justify-content-center "
-                              : "dropdown-menu dropdown-menu-end"
-                          }  m-0 p-0`}
-                        >
-                          <li
-                            role="button"
-                            // onClick={() => handleShowShowItem(pro)}
-                            className="px-3 py-1 pt-2  "
+                          <ul
+                            className={`  ${
+                              window.innerWidth < 650
+                                ? "d-flex  align-items-center  justify-content-center "
+                                : "dropdown-menu dropdown-menu-end"
+                            }  m-0 p-0`}
                           >
-                            <div className="dropdown-div ">
-                              <i className="fa-regular fa-eye me-2"></i>
-                              {window.innerWidth < 650 ? "" : <span>View</span>}
-                            </div>
-                          </li>
-                          <li
-                            role="button"
-                            onClick={() => {
-                              navigate("/dashboard/projects-data", {
-                                state: pro,
-                              });
-                            }}
-                            className="px-3 py-1"
-                          >
-                            <div role="button" className="dropdown-div">
-                              <i className="fa-regular fa-pen-to-square me-2 "></i>
-                              {window.innerWidth < 650 ? "" : <span>Edit</span>}
-                            </div>
-                          </li>
-                          <li
-                            role="button"
-                            onClick={() => handleShowDelete(pro.id, pro.title)}
-                            className="px-3 py-1 "
-                          >
-                            <div className="dropdown-div">
-                              <i className="fa-solid fa-trash-can me-2"></i>
-                              {window.innerWidth < 650 ? (
-                                ""
-                              ) : (
-                                <span>Delelte</span>
-                              )}
-                            </div>
-                          </li>
-                        </ul>
+                            <li
+                              role="button"
+                              // onClick={() => handleShowShowItem(pro)}
+                              className="px-3 py-1 pt-2  "
+                            >
+                              <div className="dropdown-div ">
+                                <i className="fa-regular fa-eye me-2"></i>
+                                {window.innerWidth < 650 ? (
+                                  ""
+                                ) : (
+                                  <span>View</span>
+                                )}
+                              </div>
+                            </li>
+                            <li
+                              role="button"
+                              onClick={() => {
+                                navigate("/dashboard/projects-data", {
+                                  state: pro,
+                                });
+                              }}
+                              className="px-3 py-1"
+                            >
+                              <div role="button" className="dropdown-div">
+                                <i className="fa-regular fa-pen-to-square me-2 "></i>
+                                {window.innerWidth < 650 ? (
+                                  ""
+                                ) : (
+                                  <span>Edit</span>
+                                )}
+                              </div>
+                            </li>
+                            <li
+                              role="button"
+                              onClick={() =>
+                                handleShowDelete(pro.id, pro.title)
+                              }
+                              className="px-3 py-1 "
+                            >
+                              <div className="dropdown-div">
+                                <i className="fa-solid fa-trash-can me-2"></i>
+                                {window.innerWidth < 650 ? (
+                                  ""
+                                ) : (
+                                  <span>Delelte</span>
+                                )}
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      ""
+                    )}
                   </li>
                 ))
               ) : (

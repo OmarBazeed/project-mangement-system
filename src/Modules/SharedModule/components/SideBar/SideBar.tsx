@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
-import "./sideBar.css";
 import { useUser } from "../../../../Context/AuthContext";
+import "./sideBar.css";
 
 export default function SideBar() {
-  const { logout } = useUser();
+  const { userRole } = useUser();
   let [breakPoint, setBreakpoint] = useState("no");
   const [isCollapse, setIsCollapse] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
@@ -67,47 +67,53 @@ export default function SideBar() {
             )}
 
             <MenuItem
+              data-title="Home"
               icon={<i className="bi bi-house-door fs-4"></i>}
               component={<Link to="/dashboard" />}
             >
               Home
             </MenuItem>
+            {userRole === "Manager" ? (
+              <MenuItem
+                data-title="Users"
+                icon={<i className="bi bi-people fs-4"></i>}
+                component={<Link to="/dashboard/users" />}
+              >
+                Users
+              </MenuItem>
+            ) : (
+              ""
+            )}
+
             <MenuItem
-              icon={<i className="bi bi-people fs-4"></i>}
-              component={<Link to="/dashboard/users" />}
-              data-title="Users"
-            >
-              Users
-            </MenuItem>
-            <MenuItem
+              data-title="Projects"
               icon={<i className="bi bi-columns-gap fs-4"></i>}
               component={<Link to="/dashboard/projects" />}
-              data-title="Projects"
             >
               Projects
             </MenuItem>
-            <MenuItem
-              icon={<i className="fa-solid fa-list-check fs-4"></i>}
-              component={<Link to="/dashboard/tasks" />}
-              data-title="Tasks"
-            >
-              Tasks
-            </MenuItem>
-            <MenuItem
-              icon={<i className="fa-solid fa-list-check fs-4"></i>}
-              component={<Link to="/dashboard/tasks-board" />}
-              data-title="Tasks Board"
-            >
-              Tasks Board
-            </MenuItem>
-            <MenuItem
-              className="mt-5"
-              icon={<i className="fa fa-right-from-bracket fs-4"></i>}
-              onClick={() => logout()}
-              data-title="Logout"
-            >
-              Logout
-            </MenuItem>
+            {userRole === "Manager" ? (
+              <MenuItem
+                data-title="Tasks"
+                icon={<i className="fa-solid fa-list-check fs-4"></i>}
+                component={<Link to="/dashboard/tasks" />}
+              >
+                Tasks
+              </MenuItem>
+            ) : (
+              ""
+            )}
+            {userRole === "Manager" ? (
+              ""
+            ) : (
+              <MenuItem
+                data-title="Tasks"
+                icon={<i className="fa-solid fa-list-check fs-4"></i>}
+                component={<Link to="/dashboard/tasks-board" />}
+              >
+                Tasks Board
+              </MenuItem>
+            )}
           </Menu>
         </Sidebar>
         {window.innerWidth > 576 ? (

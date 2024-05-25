@@ -9,9 +9,9 @@ import {
 import { baseUrl, getRequestHeaders } from "../../../../utils/Utils";
 import axios from "axios";
 import { motion } from "framer-motion";
+import Images from "../../../ImageModule/components/Images/Images";
 
 export default function TaskBoard() {
-  baseUrl;
   const [tasks, setTasks] = useState<TasksInterface>([]);
   const [fetchcount, refetch] = useState(0);
 
@@ -22,7 +22,6 @@ export default function TaskBoard() {
       });
 
       setTasks(response.data.data);
-      console.log(response.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -50,9 +49,7 @@ export default function TaskBoard() {
         );
       }
       refetch((prev) => prev + 1);
-    } catch (error) {
-      // refetch((prev) => prev + 1);
-    }
+    } catch (error) {}
   };
   useEffect(() => {
     getAllTasks();
@@ -74,11 +71,6 @@ export default function TaskBoard() {
                 </h2>
               </div>
             </div>
-            {/* <div
-              className={`col-md-6 text-lg-end text-sm-center text-center text-theme`}
-            >
-              <h2>test</h2>
-            </div> */}
           </div>
         </div>
         <div className="task-board-body head-bg mt-5 container rounded-4 shadow  px-4 py-5">
@@ -115,26 +107,39 @@ const Task = ({ task }: TaskProps) => {
       layout={true}
       layoutId={task.id}
       draggable={true}
-      onDrag={(e) => {
-        console.log(task.id);
-      }}
       onDragStart={(e) => {
-        console.log("dragStart");
-        console.log(task.id);
         e.dataTransfer.setData("id", task.id);
         e.dataTransfer.setData("status", task.status);
         setIsDragging(true);
       }}
       onDragEnd={() => {
-        console.log("dragEnd");
         setIsDragging(false);
       }}
-      className={`${style.task} task-bg mb-3 rounded-4 px-5 py-3  ${
+      className={`${style.task} ${
+        task.status
+      } task-bg mb-3 rounded-4 px-5 py-3 text-white shadow ${
         isDragging ? style.cursorGrabbing : style.cursorGrab
       }  `}
-      // className="bg-info"
+      data-description={task.description}
     >
-      {task.title}
+      <div className="d-flex justify-content-between align-items-center">
+        <div>{task.title}</div>
+        {task.status === "ToDo" ? (
+          <img height={50} width={50} src={Images.todo} alt="" />
+        ) : (
+          ""
+        )}
+        {task.status === "InProgress" ? (
+          <img height={50} width={50} src={Images.progress} alt="" />
+        ) : (
+          ""
+        )}
+        {task.status === "Done" ? (
+          <img height={50} width={50} src={Images.done} alt="" />
+        ) : (
+          ""
+        )}
+      </div>
     </motion.div>
   );
 };
@@ -147,34 +152,30 @@ const Column = ({ title, status, tasks, changeTaskStatus }: ColumnProps) => {
       <div className={``}>
         <h4 className="px-4 mb-4 text-theme">
           <span>{title}</span>
-          <span className="fs-6 ms-2">({filteredCards?.length})</span>
+          <span className={`fs-6 ms-2 ${status}`}>
+            ({filteredCards?.length})
+          </span>
         </h4>
         <motion.div
           layout={true}
           layoutId={status}
           onDrop={(e) => {
             e.preventDefault();
-            console.log("drop");
             const id = e.dataTransfer.getData("id");
             const prevStaus = e.dataTransfer.getData("status");
-            console.log({ id, status, prevStaus });
             setIsDraggingOver(false);
-
             changeTaskStatus(id, prevStaus, status);
           }}
           onDragOver={(e) => {
             e.preventDefault();
-            console.log("dragover");
             setIsDraggingOver(true);
           }}
           onDragLeave={(e) => {
             e.preventDefault();
-            // console.log("dragLeave");
             setIsDraggingOver(false);
           }}
           onDragEnter={(e) => {
             e.preventDefault();
-            // console.log("dragEnter");
           }}
           className={`task-body g-5 p-4 rounded-4 ${style.taskBody} ${
             isDraggingOver ? style.borderDrag : ""

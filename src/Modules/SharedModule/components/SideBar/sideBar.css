@@ -7,7 +7,7 @@
   background-color: var(--sideBg) !important;
   color: #fff;
   height: 100vh !important;
-  padding-top: 130px;
+  padding-top: 140px;
 }
 
 .ps-menu-button {
@@ -49,26 +49,8 @@
 }
 
 .ps-collapsed .ps-menu-button {
-  padding-right: 12px !important;
-  flex-direction: column;
-}
-
-.ps-collapsed .ps-menu-button .ps-menu-label {
-  font-size: 11px;
-  font-weight: 600;
-  padding-right: 10px;
-}
-
-.ps-collapsed .ps-menu-button .ps-menu-label .changePass {
-  font-size: 7px !important;
-}
-
-.headerSidbar .ps-menu-button:hover {
-  background-color: transparent !important;
-}
-
-.changePassModal {
-  top: 15% !important;
+  padding-left: 15px !important;
+  position: relative;
 }
 
 .btn-collapse {
@@ -102,67 +84,23 @@
   background-color: transparent;
 }
 
-@media screen and (max-width: 576px) {
-  .ps-sidebar-container {
-    padding-top: 90px;
-  }
-  .ps-collapsed .ps-menu-button .ps-menu-label {
-    display: none;
-  }
-}
-
-/* Tooltip CSS */
-.ps-menuitem-root {
-  position: relative;
-  margin: 7px auto;
-}
-.ps-menuitem-root:first-of-type {
-  margin-top: 30px !important;
-}
-
-.ps-menuitem-root:hover::before {
-  content: "Home";
+.ps-collapsed .ps-menu-button:hover::before {
+  content: attr(data-title);
   position: absolute;
-  top: -40px;
+  top: -30px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(128, 128, 128, 0.788);
+  background-color: var(--tooltipBg);
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
   white-space: nowrap;
   z-index: 9999;
 }
-.ps-menuitem-root:nth-of-type(2):hover::before {
-  content: "User";
-}
-.ps-menuitem-root:nth-of-type(3):hover::before {
-  content: "Projects";
-}
-.ps-menuitem-root:nth-of-type(4):hover::before {
-  content: "Tasks";
-}
-.ps-menuitem-root:nth-of-type(5):hover::before {
-  content: "Board";
-}
-.ps-menuitem-root:nth-of-type(6):hover::before {
-  content: "Logout";
-}
 
-.ps-menuitem-root:hover::after {
-  content: "";
-  position: absolute;
-  top: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 5px;
-  border-style: solid;
-  border-color: gray transparent transparent transparent;
-  z-index: 9999;
-}
-@media screen and (min-width: 576px) {
-  .ps-menuitem-root:hover::before,
-  .ps-menuitem-root:hover::after {
-    display: none;
+
+@media screen and (max-width: 576px) {
+  .ps-sidebar-container {
+    padding-top: 115px;
   }
 }

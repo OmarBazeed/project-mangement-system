@@ -74,7 +74,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     getTasksCount();
-    getUserCount();
+
+    userRole === "Manager" ? getUserCount() : null;
   }, [getTasksCount, getUserCount]);
 
   const tasksData = {

@@ -145,78 +145,86 @@ export default function UsersList() {
           </div>
         </div>
 
-        {/* Modal for View */}
-        <Modal show={showView} onHide={handleViewClose}>
-          <Modal.Header closeButton>
-            <h3>User Details</h3>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="">
-              <p className="text-center">
-                {selectedUser.imagePath ? (
-                  <img
-                    src={`https://upskilling-egypt.com:3003/${selectedUser.imagePath}`}
-                    alt="..."
-                    style={{
-                      width: "150px",
-                      height: "150px",
-                      filter: "drop-shadow(2px 2px 2px gray)",
-                    }}
-                    className="shadow-sm"
-                  />
-                ) : (
-                  <img
-                    style={{ width: "150px" }}
-                    src={`${Images.NoUserImage}`}
-                  />
-                )}
-              </p>
-              <p>
-                <i className="mx-2 bi bi-people text-success"></i>
-                Name :
-                <span className="fw-bold mx-2">{selectedUser.userName} </span>
-              </p>
-              <p>
-                <i className="mx-2 bi bi-envelope text-success"></i>
-                Email :
-                <span className="fw-bold mx-2">{selectedUser.email} </span>
-              </p>
-              <p className="d-flex align-items-center">
-                {selectedUser.isActivated ? (
-                  <i className="mx-2 fa-regular fa-thumbs-up text-success" />
-                ) : (
-                  <i className="mx-2 fa-regular fa-thumbs-down text-danger" />
-                )}
-                Active :
-                <span className="fw-bold mx-2">
-                  {selectedUser.isActivated ? "yes" : "no"}
-                </span>
-              </p>
-              <p>
-                <i className="mx-2 fas fa-tasks text-success"></i>
-                Tasks :
-                <span className="fw-bold mx-2">
-                  {selectedUser.task?.length ? selectedUser.task?.length : 0}{" "}
-                </span>
-              </p>
+        {/* modal handle delete  */}
+        <Modal
+          className="posModalDelete mt-5"
+          show={showView}
+          onHide={handleViewClose}
+        >
+          <Modal.Body className="p-4 bg-theme">
+            <div className="addCatModalHead text-end d-flex justify-content-between mb-5">
+              <h3 className="text-theme">User Details</h3>
+              <div className="addCatModalHeadClose ">
+                <i
+                  onClick={() => handleViewClose()}
+                  className="fa-solid fa-close btn border-danger py-1 px-2 rounded-circle   text-danger "
+                ></i>
+              </div>
+            </div>
+
+            {/* ------------  */}
+            <div className="addCatModalBody text-theme ">
+              <div className="">
+                <p className="text-center">
+                  {selectedUser.imagePath ? (
+                    <img
+                      src={`https://upskilling-egypt.com:3003/${selectedUser.imagePath}`}
+                      alt="..."
+                      className=" w-100 "
+                    />
+                  ) : (
+                    <img className="w-100" src={`${Images.NoUserImage}`} />
+                  )}
+                </p>
+                <p>
+                  <i className="mx-2 bi bi-people text-success"></i>
+                  Name :
+                  <span className="fw-bold mx-2">{selectedUser.userName} </span>
+                </p>
+                <p>
+                  <i className="mx-2 bi bi-envelope text-success"></i>
+                  Email :
+                  <span className="fw-bold mx-2">{selectedUser.email} </span>
+                </p>
+                <p className="d-flex align-items-center">
+                  {selectedUser.isActivated ? (
+                    <i className="mx-2 fa-regular fa-thumbs-up text-success" />
+                  ) : (
+                    <i className="mx-2 fa-regular fa-thumbs-down text-danger" />
+                  )}
+                  Active :
+                  <span className="fw-bold mx-2">
+                    {selectedUser.isActivated ? "yes" : "no"}
+                  </span>
+                </p>
+                <p>
+                  <i className="mx-2 fas fa-tasks text-success"></i>
+                  Tasks :
+                  <span className="fw-bold mx-2">
+                    {selectedUser.task?.length ? selectedUser.task?.length : 0}{" "}
+                  </span>
+                </p>
+              </div>
+            </div>
+            {/* ------------- */}
+            <div className="addCatModalFooter"></div>
+
+            <div className=" text-end">
+              <button
+                onClick={handleCloseShowUser}
+                className={`btn py-1 px-3 fs-6 fw-medium btn btn-outline-success`}
+              >
+                Back
+              </button>
             </div>
           </Modal.Body>
-          <ModalFooter className="py-3">
-            <button
-              onClick={handleCloseShowUser}
-              className={`btn py-1 px-3 fs-6 fw-medium btn btn-outline-success `}
-            >
-              Back
-            </button>
-          </ModalFooter>
         </Modal>
-
         {/*Filtaration*/}
         <div className="container">
           <div className="input-container w-75 ">
             <input
               placeholder="Search By Name "
-className={`input-field input-theme`}
+              className={`input-field input-theme`}
               type="text"
               onChange={handleSearchChange}
             />

@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { useUser } from "../../../../Context/AuthContext";
-import Images from "../../../ImageModule/components/Images/Images";
 import { Link, useNavigate } from "react-router-dom";
-import style from "../../../UserProfileModule/components/UserProfile.module.css";
+import { useUser } from "../../../../Context/AuthContext";
 import { useLocalStorage } from "../../../../utils/Utils";
+import Images from "../../../ImageModule/components/Images/Images";
+import style from "../../../UserProfileModule/components/UserProfile.module.css";
 
 export default function NavBar() {
   const { currentUser, logout } = useUser();
+  // Fetching localStorage Value For Dark-Light Mode From A Custom Hook...
   const [dark, setDark] = useLocalStorage("dark", false);
   const navigate = useNavigate();
   document.body.setAttribute("data-theme", dark ? "dark" : "light");

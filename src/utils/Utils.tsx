@@ -19,7 +19,10 @@ export const loader = () => {
   return <div className="custom-loader"></div>;
 };
 
-export const useLocalStorage = (key: any, initialValue: any) => {
+export const useLocalStorage = (
+  key: string,
+  initialValue: string | boolean
+) => {
   const [storedValue, setStoredValue] = useState(() => {
     if (typeof window === "undefined") {
       return initialValue;
@@ -33,7 +36,7 @@ export const useLocalStorage = (key: any, initialValue: any) => {
     }
   });
 
-  const setValue = (value:any) => {
+  const setValue = (value: string) => {
     try {
       setStoredValue(value);
 
@@ -46,4 +49,3 @@ export const useLocalStorage = (key: any, initialValue: any) => {
   };
   return [storedValue, setValue];
 };
-

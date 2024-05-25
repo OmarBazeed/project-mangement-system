@@ -76,8 +76,8 @@ export type changeTaskStatus = (
   prevStateus: string,
   newStatus: string
 ) => void;
-//
 
+//
 export interface StatusCountInterface {
   done: number;
   inProgress: number;

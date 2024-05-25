@@ -76,3 +76,14 @@ export type changeTaskStatus = (
   prevStateus: string,
   newStatus: string
 ) => void;
+
+//
+export interface StatusCountInterface {
+  done: number;
+  inProgress: number;
+  toDo: number;
+}
+export interface UsersCountInterface {
+  activatedEmployeeCount: number;
+  deactivatedEmployeeCount: number;
+}

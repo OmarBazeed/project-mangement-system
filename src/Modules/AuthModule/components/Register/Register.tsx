@@ -1,19 +1,20 @@
 import { ErrorMessage } from "@hookform/error-message";
 import axios from "axios";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import Images from "../../../ImageModule/components/Images/Images";
 
-import { baseUrl, loader } from "../../../../utils/Utils";
+import { RegisterFormData } from "../../../../interfaces/Auth";
 import {
   emailValidation,
   passwordValidation,
   phoneNumberValidation,
   userNameValidation,
 } from "../../../../utils/InputsValidation";
+import { baseUrl, handleApiError, loader } from "../../../../utils/Utils";
 
 export default function Register() {
   // instance from use navigate
@@ -21,12 +22,17 @@ export default function Register() {
   // image input state
   const [image, setImage] = useState(null);
   // hide pass or show state
-  let [hidePassInInpt, setHidePassInInpt] = useState(true);
+  const [hidePassInInpt, setHidePassInInpt] = useState(true);
   // check loading state
   const [isLoading, setIsLoading] = useState(false);
   // function for change password input type
   const changePassInputType = () => {
-    setHidePassInInpt((hidePassInInpt = !hidePassInInpt ? true : false));
+    setHidePassInInpt((prev) => !prev);
+  };
+
+  const [subBtnClicked, setSubBtnClicked] = useState(false);
+  const toastOption = {
+    onClose: () => setSubBtnClicked(false),
   };
 
   const {
@@ -34,10 +40,10 @@ export default function Register() {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm({
+  } = useForm<RegisterFormData>({
     criteriaMode: "all",
   });
-  const onSubmit = async (data: any) => {
+  const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
     setIsLoading(true);
     const registerFormData = appendToFormData(data);
     try {
@@ -47,13 +53,12 @@ export default function Register() {
       );
       toast.success(response.data.message);
       navigate("/verifyaccount");
-      console.log(response.data.message);
-    } catch (err: any) {
-      toast.error(err.response.data.message);
+    } catch (err) {
+      handleApiError(err, toastOption);
     }
     setIsLoading(false);
   };
-  const appendToFormData = (data: any) => {
+  const appendToFormData = (data: RegisterFormData) => {
     const formData = new FormData();
     formData.append("userName", data.userName);
     formData.append("country", data.country);
@@ -61,7 +66,9 @@ export default function Register() {
     formData.append("email", data.email);
     formData.append("phoneNumber", data.phoneNumber);
     formData.append("confirmPassword", data.confirmPassword);
-    formData.append("profileImage", data.profileImage);
+    if (data.profileImage && data.profileImage[0]) {
+      formData.append("profileImage", data.profileImage[0]);
+    }
     return formData;
   };
   return (
@@ -96,7 +103,7 @@ export default function Register() {
                                   placeholder="Recipe Price"
                                   {...register("profileImage")}
                                   onChange={({ target: { files } }) => {
-                                    if (files) {
+                                    if (files && files[0]) {
                                       setImage(URL.createObjectURL(files[0]));
                                     }
                                   }}
@@ -355,7 +362,7 @@ export default function Register() {
                             </Link>
                           </div>
                           {/* submit button */}
-                          <button className="main-btn">
+                          <button className="main-btn" disabled={subBtnClicked}>
                             {isLoading ? loader() : " Register Now"}
                           </button>
                         </form>
@@ -372,5 +379,3 @@ export default function Register() {
     </>
   );
 }
-
-// ${errors.recipeImage && "border-danger " }

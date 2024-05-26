@@ -117,10 +117,10 @@
 .todo,
 .inProgress,
 .done {
-  border-radius: 35%;
+  border-radius: 15%;
   padding: 10px;
   width: fit-content;
-  filter: drop-shadow(0px 0px 4px var(--text));
+  filter: drop-shadow(0px 0px 1px var(--text));
 }
 
 .taskBody {
@@ -167,10 +167,13 @@
   top: -30px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--tooltipBg);
+  background-color: var(--taskTooltip);
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
   white-space: nowrap;
-  z-index: 9999;
+  z-index: 2;
+}
+.oneTask {
+  box-shadow: inset -2px -2px 2px gray !important;
 }

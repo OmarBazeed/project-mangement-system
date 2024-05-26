@@ -15,6 +15,7 @@ import {
   baseUrl,
   getRequestHeaders,
   handleApiError,
+  imagesURL,
   loader,
 } from "../../../../utils/Utils";
 import { AccountSettingsInterface } from "../../../../interfaces/Auth";
@@ -23,7 +24,7 @@ export default function AccountSetting() {
   const { currentUser, getCurrentUser } = useUser();
   const navigate = useNavigate();
   const [image, setImage] = useState<string | null>(
-    `https://upskilling-egypt.com:3003/${currentUser?.imagePath}`
+    `${imagesURL}/${currentUser?.imagePath}`
   );
   const [hidePassInInpt, setHidePassInInpt] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -159,7 +160,7 @@ export default function AccountSetting() {
                     className={`input-field input-theme ${
                       errors.phoneNumber && "border-danger"
                     }`}
-                    type="text"
+                    type="tel"
                     {...register("phoneNumber", phoneNumberValidation)}
                   />
                   <label className="input-label">Phone</label>

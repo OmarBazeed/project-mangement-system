@@ -5,6 +5,15 @@ export interface FormData {
   confirmPassword?: string;
   seed?: string;
 }
+export interface RegisterFormData {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  userName: string;
+  country: string;
+  phoneNumber: string;
+  profileImage: FileList;
+}
 export interface ToastContextType {
   showToast: (message: string) => void;
   showSuccessToast: (message: string) => void;

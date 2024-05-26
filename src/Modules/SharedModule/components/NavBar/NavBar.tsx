@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useUser } from "../../../../Context/AuthContext";
-import { useLocalStorage } from "../../../../utils/Utils";
+import { imagesURL, useLocalStorage } from "../../../../utils/Utils";
 import Images from "../../../ImageModule/components/Images/Images";
 import style from "../../../UserProfileModule/components/UserProfile.module.css";
 import "./Navbar.modules.css";
@@ -9,7 +9,7 @@ export default function NavBar() {
   const { currentUser, logout } = useUser();
   // Fetching localStorage Value For Dark-Light Mode From A Custom Hook...
   const [dark, setDark] = useLocalStorage("dark", false);
-  const navigate = useNavigate();
+
   document.body.setAttribute("data-theme", dark ? "dark" : "light");
 
   return (
@@ -53,8 +53,8 @@ export default function NavBar() {
                             <div className={`${style.navUserImg} text-white `}>
                               <img
                                 className="w-100 "
-                                src={`https://upskilling-egypt.com:3003/${currentUser.imagePath}`}
-                                alt=""
+                                src={`${imagesURL}/${currentUser.imagePath}`}
+                                alt="User's avatar"
                               />
                             </div>
                           ) : (
@@ -80,19 +80,17 @@ export default function NavBar() {
                     </button>
                     <ul className="dropdown-menu">
                       <li>
-                        <a
-                          className="dropdown-item"
-                          onClick={() => {
-                            navigate("/dashboard/profile");
-                          }}
-                        >
+                        <Link className="dropdown-item" to="/dashboard/profile">
                           Profile
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a onClick={() => logout()} className="dropdown-item">
+                        <button
+                          onClick={() => logout()}
+                          className="dropdown-item"
+                        >
                           logOut
-                        </a>
+                        </button>
                       </li>
                     </ul>
                   </div>

@@ -10,6 +10,7 @@ import {
   baseUrl,
   getRequestHeaders,
   handleApiError,
+  imagesURL,
   loader,
 } from "../../../../utils/Utils";
 import Images from "../../../ImageModule/components/Images/Images";
@@ -36,7 +37,7 @@ export default function UsersList() {
     task: [],
   });
 
-  const handleViewClose = () => setShowView(false);
+  const closeModal = () => setShowView(false);
 
   const handleCloseShowUser = () => {
     setShowView(false);
@@ -148,16 +149,16 @@ export default function UsersList() {
         <Modal
           className="posModalDelete mt-5"
           show={showView}
-          onHide={handleViewClose}
+          onHide={closeModal}
         >
           <Modal.Body className="p-4 bg-theme">
             <div className="addCatModalHead text-end d-flex justify-content-between mb-5">
               <h3 className="text-theme">User Details</h3>
               <div className="addCatModalHeadClose ">
-                <i
-                  onClick={() => handleViewClose()}
-                  className="fa-solid fa-close btn border-danger py-1 px-2 rounded-circle   text-danger "
-                ></i>
+                <button
+                  onClick={() => closeModal()}
+                  className="fa-solid fa-close btn border-danger px-2 rounded-circle text-danger"
+                ></button>
               </div>
             </div>
 
@@ -167,7 +168,7 @@ export default function UsersList() {
                 <p className="text-center">
                   {selectedUser.imagePath ? (
                     <img
-                      src={`https://upskilling-egypt.com:3003/${selectedUser.imagePath}`}
+                      src={`${imagesURL}/${selectedUser.imagePath}`}
                       alt="..."
                       className=" w-100 "
                     />
@@ -279,7 +280,7 @@ export default function UsersList() {
                       {user.imagePath ? (
                         <img
                           className={`${style.noImg} rounded-5`}
-                          src={`https://upskilling-egypt.com:3003/${user.imagePath}`}
+                          src={`${imagesURL}/${user.imagePath}`}
                           alt=""
                         />
                       ) : (

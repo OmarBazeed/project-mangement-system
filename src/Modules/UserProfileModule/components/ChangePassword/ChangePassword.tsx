@@ -18,12 +18,12 @@ export default function ChangePassword() {
   // image input state
 
   // hide pass or show state
-  let [hidePassInInpt, setHidePassInInpt] = useState(true);
+  const [showPassword, setShowPassword] = useState(true);
   // check loading state
   const [isLoading, setIsLoading] = useState(false);
   // function for change password input type
   const changePassInputType = () => {
-    setHidePassInInpt((hidePassInInpt = !hidePassInInpt ? true : false));
+    setShowPassword((prev) => !prev);
   };
 
   const {
@@ -70,7 +70,7 @@ export default function ChangePassword() {
                       className={`input-field input-theme ${
                         errors.oldPassword && "border-danger "
                       }`}
-                      type={hidePassInInpt ? "password" : "text"}
+                      type={showPassword ? "password" : "text"}
                       {...register("oldPassword", {
                         required: "Current password is required",
                       })}
@@ -87,7 +87,7 @@ export default function ChangePassword() {
                   >
                     <i
                       className={`fa-regular  ${
-                        hidePassInInpt ? "fa-eye-slash" : "fa-eye"
+                        showPassword ? "fa-eye-slash" : "fa-eye"
                       }`}
                     ></i>
                   </button>
@@ -105,7 +105,7 @@ export default function ChangePassword() {
                       className={`input-field input-theme ${
                         errors.newPassword && "border-danger "
                       }`}
-                      type={hidePassInInpt ? "password" : "text"}
+                      type={showPassword ? "password" : "text"}
                       {...register("newPassword", passwordValidation)}
                     />
                     <label htmlFor="input-field" className="input-label">
@@ -116,7 +116,7 @@ export default function ChangePassword() {
                   <button onClick={changePassInputType} className="icon">
                     <i
                       className={`fa-regular  ${
-                        hidePassInInpt ? "fa-eye-slash" : "fa-eye"
+                        showPassword ? "fa-eye-slash" : "fa-eye"
                       }`}
                     ></i>
                   </button>
@@ -142,7 +142,7 @@ export default function ChangePassword() {
                       className={`input-field input-theme ${
                         errors.confirmNewPassword && "border-danger "
                       }`}
-                      type={hidePassInInpt ? "password" : "text"}
+                      type={showPassword ? "password" : "text"}
                       {...register("confirmNewPassword", {
                         required: "Confirm Password is required",
                         validate: (value) =>
@@ -160,7 +160,7 @@ export default function ChangePassword() {
                   <i
                     onClick={changePassInputType}
                     className={`icon fa-regular  ${
-                      hidePassInInpt ? "fa-eye-slash" : "fa-eye"
+                      showPassword ? "fa-eye-slash" : "fa-eye"
                     }`}
                   ></i>
                 </div>

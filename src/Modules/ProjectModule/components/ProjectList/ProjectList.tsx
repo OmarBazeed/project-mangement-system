@@ -215,14 +215,14 @@ export default function ProjectList() {
                           <ul
                             className={`  ${
                               window.innerWidth < 650
-                                ? "d-flex  align-items-center  justify-content-center "
+                                ? "d-flex align-items-center justify-content-center"
                                 : "dropdown-menu dropdown-menu-end"
                             }  m-0 p-0`}
                           >
-                            <li
+                            <button
                               role="button"
                               // onClick={() => handleShowShowItem(pro)}
-                              className="px-3 py-1 pt-2  "
+                              className="px-3 py-2 border-0 bg-transparent"
                             >
                               <div className="dropdown-div ">
                                 <i className="fa-regular fa-eye me-2"></i>
@@ -232,15 +232,15 @@ export default function ProjectList() {
                                   <span>View</span>
                                 )}
                               </div>
-                            </li>
-                            <li
+                            </button>
+                            <button
                               role="button"
                               onClick={() => {
                                 navigate("/dashboard/projects-data", {
                                   state: pro,
                                 });
                               }}
-                              className="px-3 py-1"
+                              className="px-3 py-2 border-0 bg-transparent"
                             >
                               <div role="button" className="dropdown-div">
                                 <i className="fa-regular fa-pen-to-square me-2 "></i>
@@ -250,13 +250,13 @@ export default function ProjectList() {
                                   <span>Edit</span>
                                 )}
                               </div>
-                            </li>
-                            <li
+                            </button>
+                            <button
                               role="button"
                               onClick={() =>
                                 handleShowDelete(pro.id, pro.title)
                               }
-                              className="px-3 py-1 "
+                              className="px-3 py-2 border-0 mb-1 bg-transparent"
                             >
                               <div className="dropdown-div">
                                 <i className="fa-solid fa-trash-can me-2"></i>
@@ -266,7 +266,7 @@ export default function ProjectList() {
                                   <span>Delelte</span>
                                 )}
                               </div>
-                            </li>
+                            </button>
                           </ul>
                         </div>
                       </div>
@@ -301,7 +301,7 @@ export default function ProjectList() {
               <div className="addCatModalHeadClose ">
                 <i
                   onClick={() => handleCloseDelete()}
-                  className="fa-solid fa-close btn border-danger py-1 px-2 rounded-circle   text-danger "
+                  className="fa-solid fa-close btn border-danger px-2 rounded-circle text-danger"
                 ></i>
               </div>
             </div>

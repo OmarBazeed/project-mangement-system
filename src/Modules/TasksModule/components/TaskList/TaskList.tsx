@@ -86,13 +86,13 @@ export default function TasksList() {
   const getTaskStatus = (status: string) => {
     switch (status) {
       case "ToDo":
-        return <p className={`${style.status} ${style.todo}`}>{status}</p>;
+        return <p className={`${style.status} ${style.todo}`}>To Do</p>;
       case "InProgress":
         return (
-          <p className={`${style.status} ${style.inProgress}`}>{status}</p>
+          <p className={`${style.status} ${style.inProgress}`}>In Progress</p>
         );
       case "Done":
-        return <p className={`${style.status} ${style.done}`}>{status}</p>;
+        return <p className={`${style.status} ${style.done}`}>Done</p>;
       default:
         return <p className={`${style.status}`}>Unknown</p>;
     }
@@ -300,7 +300,7 @@ export default function TasksList() {
               <div className="addCatModalHeadClose">
                 <i
                   onClick={() => handleCloseDelete()}
-                  className="fa-solid fa-close btn border-danger py-1 px-2 rounded-circle text-danger"
+                  className="fa-solid fa-close btn border-danger px-2 rounded-circle text-danger"
                 ></i>
               </div>
             </div>

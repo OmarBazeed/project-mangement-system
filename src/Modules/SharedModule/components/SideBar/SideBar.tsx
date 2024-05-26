@@ -10,6 +10,7 @@ export default function SideBar() {
   const [isCollapse, setIsCollapse] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const [toggleIcon, setToggleIcon] = useState(false);
+  const [activeSideBar, setActiveSideBar] = useState("Home");
 
   const BreakPoint = () => {
     setBreakpoint(breakPoint === "sm" ? "no" : "sm");
@@ -22,6 +23,10 @@ export default function SideBar() {
 
   const toggelCollapse = () => {
     setIsCollapse(!isCollapse);
+  };
+
+  const handleActiveItem = (item: string) => {
+    setActiveSideBar(item);
   };
 
   useEffect(() => {
@@ -71,6 +76,8 @@ export default function SideBar() {
               icon={<i className="bi bi-house-door fs-4"></i>}
               component={<Link to="/dashboard" />}
               className="mt-sm-2"
+              onClick={() => handleActiveItem("Home")}
+              active={activeSideBar === "Home"}
             >
               Home
             </MenuItem>
@@ -80,6 +87,8 @@ export default function SideBar() {
                 icon={<i className="bi bi-people fs-4"></i>}
                 component={<Link to="/dashboard/users" />}
                 className="mt-sm-2"
+                onClick={() => handleActiveItem("Users")}
+                active={activeSideBar === "Users"}
               >
                 Users
               </MenuItem>
@@ -92,6 +101,8 @@ export default function SideBar() {
               icon={<i className="bi bi-columns-gap fs-4"></i>}
               component={<Link to="/dashboard/projects" />}
               className="mt-sm-2"
+              onClick={() => handleActiveItem("Projects")}
+              active={activeSideBar === "Projects"}
             >
               Projects
             </MenuItem>
@@ -101,6 +112,8 @@ export default function SideBar() {
                 icon={<i className="fa-solid fa-list-check fs-4"></i>}
                 component={<Link to="/dashboard/tasks" />}
                 className="mt-sm-2"
+                onClick={() => handleActiveItem("Tasks")}
+                active={activeSideBar === "Tasks"}
               >
                 Tasks
               </MenuItem>
@@ -115,6 +128,8 @@ export default function SideBar() {
                 icon={<i className="fa-solid fa-list-check fs-4"></i>}
                 component={<Link to="/dashboard/tasks-board" />}
                 className="mt-sm-2"
+                onClick={() => handleActiveItem("Tasks Board")}
+                active={activeSideBar === "Tasks Board"}
               >
                 Tasks Board
               </MenuItem>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import style from "../Tasks.module.css";
 import {
   ColumnProps,
@@ -6,10 +6,14 @@ import {
   TasksInterface,
   changeTaskStatus,
 } from "../../../../interfaces/Auth";
-import { baseUrl, getRequestHeaders } from "../../../../utils/Utils";
+import {
+  baseUrl,
+  getRequestHeaders,
+  handleApiError,
+} from "../../../../utils/Utils";
 import axios from "axios";
 import { motion } from "framer-motion";
-import Images from "../../../ImageModule/components/Images/Images";
+// import Images from "../../../ImageModule/components/Images/Images";
 
 export default function TaskBoard() {
   const [tasks, setTasks] = useState<TasksInterface>([]);
@@ -23,7 +27,7 @@ export default function TaskBoard() {
 
       setTasks(response.data.data);
     } catch (error) {
-      console.log(error);
+      handleApiError(error);
     }
   };
   const changeTaskStatus: changeTaskStatus = async (
@@ -40,7 +44,7 @@ export default function TaskBoard() {
       if (prevStatus == newStatus) {
         return;
       } else {
-        const response = await axios.put(
+        await axios.put(
           `${baseUrl}/Task/${id}/change-status`,
           { status: newStatus },
           {
@@ -49,8 +53,11 @@ export default function TaskBoard() {
         );
       }
       refetch((prev) => prev + 1);
-    } catch (error) {}
+    } catch (error) {
+      handleApiError(error);
+    }
   };
+
   useEffect(() => {
     getAllTasks();
   }, [fetchcount]);
@@ -115,16 +122,16 @@ const Task = ({ task }: TaskProps) => {
       onDragEnd={() => {
         setIsDragging(false);
       }}
-      className={`${style.task} ${
+      className={`${style.task} ${style.oneTask} ${
         task.status
-      } task-bg mb-3 rounded-4 px-5 py-3 text-white shadow ${
+      } task-bg mb-3 rounded-4 px-5 py-3 text-white ${
         isDragging ? style.cursorGrabbing : style.cursorGrab
       }  `}
       data-description={task.description}
     >
       <div className="d-flex justify-content-between align-items-center">
         <div>{task.title}</div>
-        {task.status === "ToDo" ? (
+        {/* {task.status === "ToDo" ? (
           <img height={50} width={50} src={Images.todo} alt="" />
         ) : (
           ""
@@ -138,7 +145,7 @@ const Task = ({ task }: TaskProps) => {
           <img height={50} width={50} src={Images.done} alt="" />
         ) : (
           ""
-        )}
+        )} */}
       </div>
     </motion.div>
   );
@@ -148,7 +155,7 @@ const Column = ({ title, status, tasks, changeTaskStatus }: ColumnProps) => {
   const filteredCards = tasks?.filter((task) => task.status === status);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   return (
-    <div className={`col-md-6 col-lg-4 text-white `}>
+    <div className={`col-md-6 col-lg-4 text-white`}>
       <div className={``}>
         <h4 className="px-4 mb-4 text-theme">
           <span>{title}</span>

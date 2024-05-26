@@ -3,16 +3,20 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 export const baseUrl: string = "https://upskilling-egypt.com:3003/api/v1";
+export const imagesURL: string = "https://upskilling-egypt.com:3003";
 
 export const getRequestHeaders = () => {
   return { Authorization: `Bearer ${localStorage.getItem("token")}` };
 };
-export const handleApiError = (error: unknown) => {
+export const handleApiError = (
+  error: unknown,
+  toastOption?: { onClose: () => void }
+) => {
   const errMsg =
     axios.isAxiosError(error) && error.response?.data?.message
       ? error.response.data.message
       : "An unexpected error occurred";
-  toast.error(errMsg);
+  toast.error(errMsg, toastOption);
 };
 
 export const loader = () => {

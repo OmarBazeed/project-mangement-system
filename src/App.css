@@ -12,6 +12,8 @@
   --taskBody: #315951;
   --taskBg: #cf913a;
   --tooltipBg: #f3a83ee1;
+  --activeLinkBg: #195146;
+  --taskTooltip: #195146;
 }
 [data-theme="dark"] {
   --bg: #22272b;
@@ -25,6 +27,8 @@
   --taskBody: #38414a;
   --taskBg: #22272b;
   --tooltipBg: #808080c9;
+  --activeLinkBg: #142f29;
+  --taskTooltip: #ef9b28;
 }
 .task-bg {
   background-color: var(--taskBg);

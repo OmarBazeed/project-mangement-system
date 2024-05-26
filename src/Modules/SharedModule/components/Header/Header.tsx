@@ -6,7 +6,7 @@ export default function Header() {
     <div className="container-fluid pt-4">
       <div className="header-container d-flex align-items-center   ">
         <div className="">
-          <div className="header-content ps-5 typewriter">
+          <div className="header-content ps-2 ps-sm-5 typewriter">
             <h2 className="mb-4">
               Welcome
               <span className="fw-bold mx-2" style={{ color: "#EE9A28" }}>

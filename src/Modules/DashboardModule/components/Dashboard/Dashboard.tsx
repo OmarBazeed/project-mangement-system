@@ -48,9 +48,11 @@ export default function Dashboard() {
     activatedEmployeeCount: 0,
     deactivatedEmployeeCount: 0,
   });
-  // const [themeMode, setThemeMode] = useState(
-  //   localStorage.getItem("dark") === "true"
-  // );
+
+  // Add state for theme mode
+  const [themeMode, setThemeMode] = useState(
+    localStorage.getItem("dark") === "true"
+  );
 
   const getTasksCount = useCallback(async () => {
     try {
@@ -81,17 +83,17 @@ export default function Dashboard() {
   }, [getTasksCount, getUserCount, userRole]);
 
   // Listen for changes in localStorage
-  // useEffect(() => {
-  //   const handleStorageChange = () => {
-  //     setThemeMode(localStorage.getItem("dark") === "true");
-  //   };
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setThemeMode(localStorage.getItem("dark") === "true");
+    };
 
-  //   window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
 
-  //   return () => {
-  //     window.removeEventListener("storage", handleStorageChange);
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   const tasksData = {
     labels: ["To Do", "In Progress", "Done"],
@@ -113,21 +115,24 @@ export default function Dashboard() {
           usersObj.activatedEmployeeCount,
           usersObj.deactivatedEmployeeCount,
         ],
-        backgroundColor: ["#4cd137", "#e84118"],
+        backgroundColor: themeMode
+          ? ["#4cd137", "#e84118"]
+          : ["green", "yellow"],
       },
     ],
   };
 
   const chartOptions = {
+    color: themeMode ? "white" : "black",
     maintainAspectRatio: false,
     responsive: true,
-    // plugins: {
-    //   legend: {
-    //     labels: {
-    //       color: themeMode ? "white" : "black",
-    //     },
-    //   },
-    // },
+    plugins: {
+      legend: {
+        labels: {
+          color: themeMode ? "white" : "black",
+        },
+      },
+    },
   };
 
   return (
@@ -145,8 +150,8 @@ export default function Dashboard() {
 
               <div className="d-flex tasks-count my-5">
                 <div className="col-md-4 mb-1">
-                  <div className="tasks p-3 rounded-4">
-                    <i className="iconss fa fa-tasks my-3"></i>
+                  <div className="tasks p-3 rounded-4 text-center">
+                    <i className="iconss mx-2 fa fa-tasks my-3"></i>
                     <span className="py-1 ps-1 text-dark-light chartText">
                       To do
                     </span>
@@ -156,8 +161,8 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="col-md-4 mb-1">
-                  <div className="tasks1 p-3 rounded-4">
-                    <i className="iconss fa-solid fa-group-arrows-rotate my-3"></i>
+                  <div className="tasks1 p-3 rounded-4 text-center text-center">
+                    <i className="iconss mx-2 fa-solid fa-group-arrows-rotate my-3"></i>
                     <span className="py-1 ps-1 text-dark-light chartText">
                       In-progress
                     </span>
@@ -167,8 +172,8 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="col-md-4">
-                  <div className="tasks2 p-3 rounded-4">
-                    <i className="iconss fa-solid fa-calendar-check my-3"></i>
+                  <div className="tasks2 p-3 rounded-4 text-center text-center">
+                    <i className="iconss mx-2 fa-solid fa-calendar-check my-3"></i>
                     <span className="py-1 ps-1 text-dark-light chartText">
                       Done
                     </span>
@@ -198,22 +203,22 @@ export default function Dashboard() {
 
                 <div className="d-flex justify-content-between align-items-center users-count my-5">
                   <div className="user rounded-4 p-3">
-                    <i className="iconss fa-solid fa-user-large my-2"></i>
+                    <i className="iconss mx-2 fa-solid fa-user-large my-2"></i>
                     <span className="py-1 ps-1 text-dark-light chartText">
                       Active users
                     </span>
-                    <h3 className="ps-1 text-dark-light chartText">
+                    <h3 className="ps-1 text-dark-light chartText text-center">
                       {usersObj.activatedEmployeeCount}
                     </h3>
                   </div>
 
                   <div className="mb-1">
                     <div className="user1 rounded-4 p-3">
-                      <i className="iconss fa-solid fa-user-slash my-2"></i>
+                      <i className="iconss mx-2 fa-solid fa-user-slash my-2"></i>
                       <span className="py-1 ps-1 text-dark-light chartText">
                         De-active users
                       </span>
-                      <h3 className="ps-1 text-dark-light chartText">
+                      <h3 className="ps-1 text-dark-light chartText text-center">
                         {usersObj.deactivatedEmployeeCount}
                       </h3>
                     </div>

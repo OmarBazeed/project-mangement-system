@@ -93,7 +93,6 @@ export default function TaskData() {
         }
       );
       setUsers(data.data);
-      console.log(data.data);
     } catch (err) {
       handleApiError(err);
     }
@@ -121,7 +120,7 @@ export default function TaskData() {
       });
     }
     getProject(10);
-    getUsers(10);
+    getUsers(50);
   }, []);
 
   return (

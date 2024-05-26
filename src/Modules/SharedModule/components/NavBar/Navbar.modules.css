@@ -6,4 +6,7 @@
   .user-box {
     text-align: center !important;
   }
+  .darkLightBtn {
+    margin-left: auto !important;
+  }
 }

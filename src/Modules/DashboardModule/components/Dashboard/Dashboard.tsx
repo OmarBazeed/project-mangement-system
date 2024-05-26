@@ -99,7 +99,7 @@ export default function Dashboard() {
       {
         label: "Tasks",
         data: [statusObj.toDo, statusObj.inProgress, statusObj.done],
-        backgroundColor: ["#FF6384", "#36A2EB", "#4BC0C0"],
+        backgroundColor: ["#e84393", "#0097e6", "#44bd32"],
       },
     ],
   };
@@ -113,7 +113,7 @@ export default function Dashboard() {
           usersObj.activatedEmployeeCount,
           usersObj.deactivatedEmployeeCount,
         ],
-        backgroundColor: ["#FFCE56", "#9966FF"],
+        backgroundColor: ["#4cd137", "#e84118"],
       },
     ],
   };

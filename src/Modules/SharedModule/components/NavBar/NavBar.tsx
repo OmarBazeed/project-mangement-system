@@ -100,7 +100,7 @@ export default function NavBar() {
               </li>
             </ul>
           </div>
-          <div className="mx-lg-3 ms-sm-auto">
+          <div className="mx-lg-3 darkLightBtn">
             <label
               data-tooltip={dark ? "Switch to light" : "Switch to dark"}
               htmlFor={`switch-dark-theme`}

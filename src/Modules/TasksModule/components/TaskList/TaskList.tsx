@@ -98,9 +98,11 @@ export default function TasksList() {
   // Update the useEffect to include taskTitle and reset pageNumber on search
   useEffect(() => {
     getTask(taskTitle, pageNumber, 10);
+  }, [taskTitle, pageNumber, getTask]);
+  useEffect(() => {
     // Reset page number when taskTitle changes /** Important Note **/
     setPageNumber(1);
-  }, [taskTitle, pageNumber, getTask]);
+  }, [taskTitle]);
 
   return (
     <>

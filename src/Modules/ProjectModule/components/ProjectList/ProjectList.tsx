@@ -84,9 +84,12 @@ export default function ProjectList() {
 
   useEffect(() => {
     getProject(projectTitle, 10, pageNumber);
-    setPageNumber(1);
   }, [getProject, projectTitle, pageNumber]);
 
+  useEffect(() => {
+    // Reset page number when taskTitle changes /** Important Note **/
+    setPageNumber(1);
+  }, [projectTitle]);
   return (
     <>
       <section>

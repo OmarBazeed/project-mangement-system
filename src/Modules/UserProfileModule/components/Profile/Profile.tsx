@@ -1,9 +1,11 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useUser } from "../../../../Context/AuthContext";
 import style from "../UserProfile.module.css";
+import { useState } from "react";
 export default function Profile() {
   const { currentUser } = useUser();
   const navigate = useNavigate();
+  const [activeLink, setActiveLink] = useState<string>("");
   return (
     <>
       <section className="pb-5">
@@ -61,34 +63,49 @@ export default function Profile() {
             </div>
           </div>
           <div className={`profile-links w-100  mx-auto`}>
-            <ul className="nav justify-content-center gap-1">
-              <li className="nav-item">
+            <ul className="nav justify-content-center gap-1 row-gap-2">
+              <button
+                className={`nav-item linkBtn ${style.linkBtn} ${
+                  activeLink == "Account Info" ? style.activeLink : ""
+                }`}
+                onClick={() => setActiveLink("Account Info")}
+              >
                 <Link
-                  className={`nav-link ${style.linkBtn}`}
+                  className={`nav-link ${style.navLink}`}
                   aria-current="page"
                   to="/dashboard/profile/account-info"
                 >
                   Account Info
                 </Link>
-              </li>
-              <li className="nav-item mx-3">
+              </button>
+              <button
+                className={`nav-item linkBtn mx-3 ${style.linkBtn} ${
+                  activeLink == "Account Setting" ? style.activeLink : ""
+                }`}
+                onClick={() => setActiveLink("Account Setting")}
+              >
                 <Link
-                  className={`nav-link ${style.linkBtn}`}
+                  className={`nav-link ${style.navLink}`}
                   aria-current="page"
                   to="/dashboard/profile/account-setting"
                 >
                   Account Setting
                 </Link>
-              </li>
-              <li className="nav-item">
+              </button>
+              <button
+                className={`nav-item linkBtn ${style.linkBtn} ${
+                  activeLink == "Password" ? style.activeLink : ""
+                }`}
+                onClick={() => setActiveLink("Password")}
+              >
                 <Link
-                  className={`nav-link ${style.linkBtn}`}
+                  className={`nav-link ${style.navLink}`}
                   aria-current="page"
                   to="/dashboard/profile/change-password"
                 >
                   Password
                 </Link>
-              </li>
+              </button>
             </ul>
           </div>
           <div className="text-center mt-5">

@@ -7,18 +7,15 @@ import { toast } from "react-toastify";
 import { TaskInterface } from "../../../../interfaces/Auth";
 import {
   baseUrl,
+  getRequestHeaders,
   handleApiError,
   loader,
-  getRequestHeaders,
 } from "../../../../utils/Utils";
 import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
 import NoData from "../../../SharedModule/components/NoData/NoData";
 import style from "../Tasks.module.css";
-import { useUser } from "../../../../Context/AuthContext";
 
 export default function TasksList() {
-  const { adminData } = useUser();
-  console.log(adminData);
   const navigate = useNavigate();
   const [tasks, setTasks] = useState<[TaskInterface] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,14 +23,14 @@ export default function TasksList() {
   const [pageNumber, setPageNumber] = useState(1);
   // State for total number of pages
   const [totalPages, setTotalPages] = useState(0);
-  // State for total number of pages
-  const [taskName, setTaskName] = useState("");
+  // State for task name used in search
+  const [taskTitle, setTaskTitle] = useState("");
   const [taskId, setTaskId] = useState(0);
   const [showDelete, setShowDelete] = useState(false);
-  const [taskTitle, setTaskTitle] = useState("");
+  const [taskName, setTaskName] = useState("");
 
   const getTask = useCallback(
-    async (taTitle: string, pageSize: number) => {
+    async (taTitle: string, pageNumber: number, pageSize: number) => {
       setIsLoading(true);
       try {
         const { data } = await axios.get(
@@ -53,7 +50,7 @@ export default function TasksList() {
       }
       setIsLoading(false);
     },
-    [pageNumber]
+    []
   );
 
   const onDeleteSubmit = async () => {
@@ -62,7 +59,7 @@ export default function TasksList() {
       await axios.delete(`${baseUrl}/Task/${taskId}`, {
         headers: getRequestHeaders(),
       });
-      getTask("", 10);
+      getTask(taskTitle, pageNumber, 10);
       toast.success(`Deleted ${taskName} Successfully`);
     } catch (err) {
       handleApiError(err);
@@ -98,9 +95,12 @@ export default function TasksList() {
     }
   };
 
+  // Update the useEffect to include taskTitle and reset pageNumber on search
   useEffect(() => {
-    getTask(taskTitle, 10);
-  }, [taskTitle, pageNumber, getTask, window.innerWidth]);
+    getTask(taskTitle, pageNumber, 10);
+    // Reset page number when taskTitle changes /** Important Note **/
+    setPageNumber(1);
+  }, [taskTitle, pageNumber, getTask]);
 
   return (
     <>
@@ -145,10 +145,7 @@ export default function TasksList() {
                 placeholder="Search By Name"
                 className={`input-field input-theme`}
                 type="text"
-                onChange={(e) => {
-                  setTaskTitle(e.target.value);
-                  getTask(taskTitle, 10);
-                }}
+                onChange={(e) => setTaskTitle(e.target.value)}
               />
               <label htmlFor="input-field" className={`input-label`}>
                 Search
@@ -284,7 +281,7 @@ export default function TasksList() {
             <ResponsivePagination
               current={pageNumber}
               total={totalPages}
-              onPageChange={setPageNumber}
+              onPageChange={(page) => setPageNumber(page)}
             />
           </div>
         </div>

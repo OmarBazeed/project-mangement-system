@@ -84,6 +84,7 @@ export default function ProjectList() {
 
   useEffect(() => {
     getProject(projectTitle, 10, pageNumber);
+    setPageNumber(1);
   }, [getProject, projectTitle, pageNumber]);
 
   return (

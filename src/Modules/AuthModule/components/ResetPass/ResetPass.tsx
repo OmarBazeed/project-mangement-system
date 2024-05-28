@@ -37,7 +37,9 @@ export default function Login() {
     setShowConfirmPassword((prevState: boolean) => !prevState);
   };
 
-  const validateConfirmPassword = (value: string) => {
+  const validateConfirmPassword = (
+    value: string | undefined
+  ): true | string => {
     const newPassword = getValues("password");
     return value === newPassword || "Passwords do not match";
   };

@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createHashRouter } from "react-router-dom";
 import "./App.css";
 import ForgetPass from "./Modules/AuthModule/components/ForgetPass/ForgetPass";
 import Login from "./Modules/AuthModule/components/Login/Login";
@@ -6,26 +6,26 @@ import Register from "./Modules/AuthModule/components/Register/Register";
 import ResetPass from "./Modules/AuthModule/components/ResetPass/ResetPass";
 import VerifyAccount from "./Modules/AuthModule/components/VerifyAccount/VerifyAccount";
 import Dashboard from "./Modules/DashboardModule/components/Dashboard/Dashboard";
+import ProjectData from "./Modules/ProjectModule/components/ProjectData/ProjectData";
 import ProjectList from "./Modules/ProjectModule/components/ProjectList/ProjectList";
 import AuthLayout from "./Modules/SharedModule/components/AuthLayout/AuthLayout";
 import MasterLayout from "./Modules/SharedModule/components/MasterLayout/MasterLayout";
 import Notfound from "./Modules/SharedModule/components/Notfound/Notfound";
-import TaskList from "./Modules/TasksModule/components/TaskList/TaskList";
-import UsersList from "./Modules/UsersModule/components/UsersList/UsersList";
 import {
-  ProtectedRoute,
   LoginProtectedRoute,
+  ProtectedRoute,
 } from "./Modules/SharedModule/components/ProtectedRoute/ProtectedRoute";
-import ProjectData from "./Modules/ProjectModule/components/ProjectData/ProjectData";
-import TaskData from "./Modules/TasksModule/components/TaskData/TaskData";
 import TaskBoard from "./Modules/TasksModule/components/TaskBoard/TaskBoard";
-import Profile from "./Modules/UserProfileModule/components/Profile/Profile";
+import TaskData from "./Modules/TasksModule/components/TaskData/TaskData";
+import TaskList from "./Modules/TasksModule/components/TaskList/TaskList";
 import AccountInfo from "./Modules/UserProfileModule/components/AccountInfo/AccountInfo";
 import AccountSetting from "./Modules/UserProfileModule/components/AccountSetting/AccountSetting";
 import ChangePassword from "./Modules/UserProfileModule/components/ChangePassword/ChangePassword";
+import Profile from "./Modules/UserProfileModule/components/Profile/Profile";
+import UsersList from "./Modules/UsersModule/components/UsersList/UsersList";
 
 function App() {
-  const routes = createBrowserRouter([
+  const routes = createHashRouter([
     {
       path: "/",
       element: (

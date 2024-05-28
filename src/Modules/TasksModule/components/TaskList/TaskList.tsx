@@ -86,7 +86,12 @@ export default function TasksList() {
         return <p className={`${style.status} ${style.todo}`}>To Do</p>;
       case "InProgress":
         return (
-          <p className={`${style.status} ${style.inProgress}`}>In Progress</p>
+          <p
+            className={`${style.status} ${style.inProgress}`}
+            style={{ fontSize: "13px" }}
+          >
+            Progress
+          </p>
         );
       case "Done":
         return <p className={`${style.status} ${style.done}`}>Done</p>;

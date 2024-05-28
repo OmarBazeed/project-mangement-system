@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function Profile() {
   const { currentUser } = useUser();
   const navigate = useNavigate();
-  const [activeLink, setActiveLink] = useState<string>("");
+  const [activeLink, setActiveLink] = useState<string>("Account Info");
   return (
     <>
       <section className="pb-5">

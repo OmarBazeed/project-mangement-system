@@ -27,6 +27,9 @@ export default function SideBar() {
 
   const handleActiveItem = (item: string) => {
     setActiveSideBar(item);
+    setTimeout(() => {
+      BreakPoint();
+    }, 1000);
   };
 
   useEffect(() => {

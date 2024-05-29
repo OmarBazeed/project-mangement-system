@@ -1,12 +1,23 @@
 .dropdown-item {
   cursor: pointer;
 }
-
+.darkLightBtn {
+  margin-left: auto !important;
+}
 @media (max-width: 575px) {
   .user-box {
     text-align: center !important;
   }
-  .darkLightBtn {
-    margin-left: auto !important;
+  .dropdown-menu {
+    --bs-dropdown-min-width: 6rem !important;
+  }
+  .navLogo {
+    width: 85%;
+    height: 50px;
+  }
+}
+@media (max-width: 425px) {
+  .user-info {
+    font-size: 10px !important;
   }
 }

@@ -10,6 +10,7 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import { useCallback, useEffect, useState } from "react";
 import { Bar, Doughnut } from "react-chartjs-2";
 import { useUser } from "../../../../Context/AuthContext";
@@ -19,7 +20,6 @@ import {
   handleApiError,
 } from "../../../../utils/Utils";
 import Header from "../../../SharedModule/components/Header/Header";
-
 import {
   StatusCountInterface,
   UsersCountInterface,
@@ -34,7 +34,8 @@ ChartJS.register(
   ArcElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels
 );
 
 export default function Dashboard() {
@@ -101,7 +102,7 @@ export default function Dashboard() {
       {
         label: "Tasks",
         data: [statusObj.toDo, statusObj.inProgress, statusObj.done],
-        backgroundColor: ["#e84393", "#0097e6", "#44bd32"],
+        backgroundColor: ["#fb923c", "#f59e0b", "#d97706"],
       },
     ],
   };
@@ -115,9 +116,7 @@ export default function Dashboard() {
           usersObj.activatedEmployeeCount,
           usersObj.deactivatedEmployeeCount,
         ],
-        backgroundColor: themeMode
-          ? ["#4cd137", "#e84118"]
-          : ["green", "yellow"],
+        backgroundColor: ["#22d3ee", "#0e7490"],
       },
     ],
   };
@@ -127,10 +126,8 @@ export default function Dashboard() {
     maintainAspectRatio: false,
     responsive: true,
     plugins: {
-      legend: {
-        labels: {
-          color: themeMode ? "white" : "black",
-        },
+      datalabels: {
+        display: true,
       },
     },
   };

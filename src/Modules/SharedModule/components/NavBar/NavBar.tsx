@@ -19,7 +19,7 @@ export default function NavBar() {
           <Link className="navbar-brand" to="/dashboard">
             <img
               height={54}
-              className="w-100"
+              className="w-100 navLogo"
               src={dark ? Images.logoDark : Images.logoLight}
               alt=""
             />
@@ -65,7 +65,7 @@ export default function NavBar() {
                             </div>
                           )}
                         </div>
-                        <div className="user-info me-2 pt-2">
+                        <div className={`user-info me-2 pt-2`}>
                           <h6 className="text-theme mb-0 pb-0">
                             {currentUser?.userName}
                           </h6>

@@ -19,7 +19,7 @@ export default function NavBar() {
           <Link className="navbar-brand" to="/dashboard">
             <img
               height={54}
-              className="w-100 navLogo"
+              className="navLogo"
               src={dark ? Images.logoDark : Images.logoLight}
               alt=""
             />

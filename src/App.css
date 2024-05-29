@@ -131,10 +131,10 @@
 }
 .input-label {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: -20px;
+  left: 0px;
   font-size: 16px;
-  color: rgba(204, 204, 204, 0);
+  color: #ef9b28;
   pointer-events: none;
   transition: all 0.3s ease;
 }
@@ -148,7 +148,7 @@
   transition: all 0.3s ease;
 }
 
-.input-field:focus + .input-label,
+/* .input-field:focus + .input-label,
 .input-field:not(:placeholder-shown) + .input-label {
   font-family: Inter;
   font-weight: 400;
@@ -157,7 +157,7 @@
   top: -20px;
   font-size: 16px;
   color: #ef9b28;
-}
+} */
 
 .input-field:focus + .input-label + .input-highlight {
   width: 100%;

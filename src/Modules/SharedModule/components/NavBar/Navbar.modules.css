@@ -15,6 +15,9 @@
     width: 85%;
     height: 50px;
   }
+  .navbar-brand {
+    margin-left: 32px !important;
+  }
 }
 @media (max-width: 425px) {
   .user-info {

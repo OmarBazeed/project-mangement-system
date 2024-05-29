@@ -148,7 +148,7 @@ export default function Dashboard() {
               <div className="d-flex tasks-count my-5">
                 <div className="col-md-4 mb-1">
                   <div className="tasks p-3 rounded-4 text-center">
-                    <i className="iconss mx-2 fa fa-tasks my-3"></i>
+                    <i className="iconss me-2 fa fa-tasks my-3"></i>
                     <span className="py-1 ps-1 text-dark-light chartText">
                       To do
                     </span>
@@ -159,7 +159,7 @@ export default function Dashboard() {
                 </div>
                 <div className="col-md-4 mb-1">
                   <div className="tasks1 p-3 rounded-4 text-center text-center">
-                    <i className="iconss mx-2 fa-solid fa-group-arrows-rotate my-3"></i>
+                    <i className="iconss me-2 fa-solid fa-group-arrows-rotate my-3"></i>
                     <span className="py-1 ps-1 text-dark-light chartText">
                       In-progress
                     </span>
@@ -170,7 +170,7 @@ export default function Dashboard() {
                 </div>
                 <div className="col-md-4">
                   <div className="tasks2 p-3 rounded-4 text-center text-center">
-                    <i className="iconss mx-2 fa-solid fa-calendar-check my-3"></i>
+                    <i className="iconss me-2 fa-solid fa-calendar-check my-3"></i>
                     <span className="py-1 ps-1 text-dark-light chartText">
                       Done
                     </span>
@@ -200,7 +200,7 @@ export default function Dashboard() {
 
                 <div className="d-flex justify-content-between align-items-center users-count my-5">
                   <div className="user rounded-4 p-3">
-                    <i className="iconss mx-2 fa-solid fa-user-large my-2"></i>
+                    <i className="iconss me-2 fa-solid fa-user-large my-2"></i>
                     <span className="py-1 ps-1 text-dark-light chartText">
                       Active users
                     </span>
@@ -211,7 +211,7 @@ export default function Dashboard() {
 
                   <div className="mb-1">
                     <div className="user1 rounded-4 p-3">
-                      <i className="iconss mx-2 fa-solid fa-user-slash my-2"></i>
+                      <i className="iconss me-2 fa-solid fa-user-slash my-2"></i>
                       <span className="py-1 ps-1 text-dark-light chartText">
                         De-active users
                       </span>

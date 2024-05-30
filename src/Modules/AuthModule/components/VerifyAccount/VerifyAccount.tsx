@@ -98,7 +98,7 @@ export default function VerifyAccount() {
                               htmlFor="input-field"
                               className={`input-label `}
                             >
-															Verification Code
+                              Verification Code
                             </label>
                             <span className="input-highlight"></span>
                           </div>

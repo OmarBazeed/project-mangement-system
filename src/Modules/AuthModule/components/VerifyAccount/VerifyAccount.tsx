@@ -84,27 +84,27 @@ export default function VerifyAccount() {
                               {errors.email.message}
                             </p>
                           )}
-                          {/* opt input */}
+                          {/* otp input */}
                           <div className="input-container">
                             <input
                               placeholder="Enter Verification"
                               className={`input-field ${
-                                errors.code && "border-danger "
+                                errors.seed && "border-danger "
                               }`}
                               type="text"
-                              {...register("code", OTPValidation)}
+                              {...register("seed", OTPValidation)}
                             />
                             <label
                               htmlFor="input-field"
                               className={`input-label `}
                             >
-                              E-mail
+															Verification Code
                             </label>
                             <span className="input-highlight"></span>
                           </div>
-                          {errors.code && (
+                          {errors.seed && (
                             <p className="text-start text-danger ps-3">
-                              {errors.code.message}
+                              {errors.seed.message}
                             </p>
                           )}
 

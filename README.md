@@ -7,44 +7,94 @@ Welcome to the Project Management System! This project represents a combination 
 2. [Business Features](#business-features)
 3. [Live Demo](#live-demo)
 4. [Getting Started](#getting-started)
-5. [Usage](#usage)
-6. [Demo Videos](#Demo-Videos)
+5. [Demo Videos](#demo-videos)
 
 ## Used Packages
 
 This project utilizes a variety of packages to enhance functionality and improve user experience:
 
 - **Vite**: Fast, opinionated web build tool.
-- **React-Donut-Chart**: Simple donut chart component for React.
-- **React-Bar-Chart**: Bar chart component for React.
-- **FontAwesome**: Icon toolkit based on CSS and LESS.
-- **Axios**: Promise-based HTTP client for making requests.
-- **Bootstrap**: CSS framework for developing responsive and mobile-first websites.
-- **React-Router-Dom**: DOM bindings for React Router.
+- **TypeScript**: Typed superset of JavaScript that compiles to plain JavaScript.
 - **React-Hook-Form**: Performant, flexible, and extensible forms with easy-to-use validation.
 - **React-Pro-Sidebar**: Sidebar component for React.
-- **React-Toastify**: Notification library to add toast messages.
 - **JWT-Decode**: Library to decode JSON Web Tokens.
-- **TypeScript**: Typed superset of JavaScript that compiles to plain JavaScript.
+- **React-Router-Dom**: DOM bindings for React Router.
+- **Axios**: Promise-based HTTP client for making requests.
+- **Bootstrap**: CSS framework for developing responsive and mobile-first websites.
+- **FontAwesome**: Icon toolkit based on CSS and LESS.
+- **React-Toastify**: Notification library to add toast messages.
+- **React-Chart-Doughnut**: Simple donut chart component for React.
+- **React-Chart-Bar**: Bar chart component for React.
 - **Netlify**: Cloud platform for deploying and hosting web applications.
+
 
 ## Business Features
 
-The system includes a variety of business features designed to enhance productivity and ensure a smooth user experience:
+Our Project Management System includes a variety of business features designed to enhance productivity, ensure secure access, and provide a smooth user experience. Here are the detailed features:
 
-- **Authentication**: Ensure secure access with a robust authentication system.
-- **User Management Roles (Manager/Employee)**: Distinguish between managers and employees for effective user control.
-- **Users CRUD**: Easily manage user information with create, read, update, and delete operations.
-- **Dashboard with Charts**: Visualize project data with intuitive charts for actionable insights.
-- **Projects CRUD**: Easily manage projects with create, read, update, and delete operations.
-- **Tasks CRUD**: Easily manage various user tasks with create, read, update, and delete operations.
-- **Drag and Drop**: Implement drag-and-drop functionality for intuitive task management.
-- **Dark and Light Theme**: Customize the user experience with dynamic theme options.
-- **Shared Module & Context**: Facilitate code reuse and maintainability with shared modules and common context.
-- **TypeScript**: Enhance code quality and maintainability using TypeScript.
-- **Forms with Validation**: Ensure data integrity with form validations for a smooth user experience.
-- **CRUD Operations API Calling with Axios**: Seamlessly interact with the backend using Axios for CRUD operations.
-- **Auth/Master Layout**: Create a consistent and user-friendly layout for the application.
+- **Authentication**: 
+  - **Login**: Secure user login functionality with JWT token-based authentication.
+  - **Register**: User registration with validation and email confirmation.
+  - **Verify**: Email verification to activate user accounts.
+  - **Reset Password**: Secure process for users to reset their password.
+  - **Forget Password**: Functionality to handle forgotten passwords and send recovery emails.
+
+- **User Management Roles (Manager/Employee)**: 
+  - **Role-based Access Control**: Distinguish between managers and employees.
+  - **Permissions**: Assign specific permissions based on user roles to ensure effective user control and data security.
+  - **Role-Specific Views**: Different views and functionalities accessible to managers versus employees to streamline workflows.
+
+- **Users CRUD**:
+  - **Create**: Add new users with role assignments.
+  - **Read**: View detailed user information including roles and activity status.
+  - **Update**: Modify user details and roles.
+  - **Delete**: Remove users securely from the system.
+
+- **Dashboard with Charts**:
+  - **Data Visualization**: Use Doughnut and Bar charts to represent project data and user statistics.
+  - **Insights**: Provide actionable insights by visualizing tasks and user statuses.
+  - **Interactivity**: Interactive charts to facilitate better understanding and analysis of data trends.
+
+- **Projects CRUD**:
+  - **Create**: Initiate new projects with detailed information and assigned team members.
+  - **Read**: View comprehensive project details and status.
+  - **Update**: Edit project information and progress.
+  - **Delete**: Securely remove projects from the system.
+
+- **Tasks CRUD**:
+  - **Create**: Assign new tasks to users with deadlines and priorities.
+  - **Read**: Monitor task progress and details.
+  - **Update**: Update task statuses and details.
+  - **Delete**: Remove completed or obsolete tasks.
+
+- **Drag and Drop**:
+  - **Task Management**: Implement intuitive drag-and-drop functionality for task assignments and project management.
+  - **User-Friendly Interface**: Enhance user experience by allowing easy reordering and prioritization of tasks.
+
+- **Dark and Light Theme**:
+  - **Customization**: Switch between dark and light themes to suit user preferences.
+  - **Dynamic Updates**: Instantly apply theme changes without reloading the application.
+
+- **Shared Module & Context**:
+  - **Code Reusability**: Facilitate code reuse across different parts of the application.
+  - **Maintainability**: Use shared modules and common context to improve code maintainability and scalability.
+
+- **TypeScript**:
+  - **Type Safety**: Use TypeScript to ensure type safety and reduce runtime errors.
+  - **Code Quality**: Improve code quality and readability with strong typing.
+
+- **Forms with Validation**:
+  - **Data Integrity**: Implement form validations to ensure data integrity and consistency.
+  - **User Experience**: Provide a smooth and error-free user experience with real-time validation feedback.
+
+- **CRUD Operations API Calling with Axios**:
+  - **Backend Interaction**: Seamlessly interact with the backend using Axios for all CRUD operations.
+  - **Error Handling**: Implement robust error handling to manage API request failures.
+
+- **Auth/Master Layout**:
+  - **Consistent Layout**: Create a consistent and user-friendly layout for the entire application.
+  - **Navigation**: Provide intuitive navigation and access to different features based on user roles and permissions.
+
 
 ## Live-Demo
 
@@ -72,24 +122,8 @@ To get a local copy up and running, follow these simple steps:
     npm run dev
    ```
 
-## Usage
 
-+ Authentication
-  - Ensure secure access with a robust authentication system.
-+ User Management
-  - Differentiate between manager and employee roles for effective user control.
-  - Manage user information with create, read, update, and delete operations.
-+ Projects and Tasks
-  - Manage projects and tasks with CRUD operations.
-  - Use drag+and+drop functionality for intuitive task management.
-+ Theming
-  - Customize the user experience with dark and light theme options.
-+ Forms
-  - Ensure data integrity with form validations.
-+ API Interactions
-  - Seamlessly interact with the backend using Axios for CRUD operations.
-
-# Demo Videos
+## Demo Videos
 + ***Authentication*** :
 
   

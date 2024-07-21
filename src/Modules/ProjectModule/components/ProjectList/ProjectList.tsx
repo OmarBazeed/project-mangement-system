@@ -53,7 +53,7 @@ export default function ProjectList() {
       }
       setIsLoading(false);
     },
-    []
+    [userRole]
   );
 
   const onDeleteSubmit = async () => {
@@ -83,8 +83,8 @@ export default function ProjectList() {
   };
 
   useEffect(() => {
-    getProject(projectTitle, 10, pageNumber);
-  }, [getProject, projectTitle, pageNumber]);
+    userRole && getProject(projectTitle, 10, pageNumber);
+  }, [userRole, getProject, projectTitle, pageNumber]);
 
   useEffect(() => {
     // Reset page number when taskTitle changes /** Important Note **/

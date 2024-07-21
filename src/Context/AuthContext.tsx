@@ -42,9 +42,9 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const [currentUser, setCurrentUser] = useState<currentUser | null>(null);
   const [adminData, setAdminData] = useState<DecodedToken | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
-  const [currentUser, setCurrentUser] = useState<currentUser | null>(null);
   const Token = localStorage.getItem("token");
 
   const saveAdminData = () => {
@@ -61,8 +61,8 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
       const { data } = await axios.get(`${baseUrl}/Users/currentUser`, {
         headers: getRequestHeaders(),
       });
-      // console.log(data);
       setCurrentUser(data);
+      setUserRole(data.group.name);
     } catch (error) {
       handleApiError(error);
     }

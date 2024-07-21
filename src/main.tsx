@@ -23,6 +23,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         draggable
         pauseOnHover
         theme="light"
+        style={{ zIndex: 999999 }}
       />
       <App />
     </AuthContextProvider>

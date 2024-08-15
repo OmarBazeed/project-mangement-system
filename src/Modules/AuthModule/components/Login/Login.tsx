@@ -80,6 +80,7 @@ export default function Login() {
                               }`}
                               type="text"
                               {...register("email", emailValidation)}
+                              defaultValue={"techteam8989@gmail.com"}
                             />
                             <label
                               htmlFor="input-field"
@@ -103,6 +104,7 @@ export default function Login() {
                                 }`}
                                 type={showPassword ? "text" : "password"}
                                 {...register("password", passwordValidation)}
+                                defaultValue={"Omar010@@"}
                               />
                               <label
                                 htmlFor="input-field"
